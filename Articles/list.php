@@ -2,6 +2,7 @@
   /*
    * Article List
    * Note the various CSS classes are included only for the sake of example.
+   * http://developers.monkcms.com/article/articles-api/
    */
   getContent(
   "article",

@@ -2,6 +2,7 @@
 
   /*
    * Display Article Detail 
+   * http://developers.monkcms.com/article/articles-api/
    */
 	  
   getContent(

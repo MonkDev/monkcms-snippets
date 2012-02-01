@@ -112,6 +112,43 @@
 
   */
 
+   $list_raw = getContent(
+    "linklist",
+    "display:links",
+    "find:my-link-list",
+    "level1:</ul></li>", //close previous list
+    "level1:<li class='level1'>",
+    "level1:<a ", 
+    "level1: href='__url__'",
+    "level1: __ifnewwindow__target='_blank'",
+    "level1:>",
+    "level1:__name__",
+    "level1:</a>",
+    "level1:<ul>",
+    "level2:<li>",
+    "level2:<a ", 
+    "level2: href='__url__'",
+    "level2: __ifnewwindow__target='_blank'",
+    "level2:>",
+    "level2:__name__",
+    "level2:</a>",                
+    "level2:</li>",
+    "noecho"
+  );
+
+  $list = preg_replace("~</ul></li>~", "", $list_raw, 1);
+  $list .= "</ul></li>";
+  $list = "<ul>" . $list . "</ul>";
+  $output = $list;  
+  
+  /* The above option is not very bulletproof. The list must end with a child element in order
+    for it to work correctly. If that's not the case, the markup will get messed up.
+    There is also the possibility of empty ULs. You could probably strip that out though.
+    
+    Another option is the code below. It's less efficient as it requires more post processing and requires
+    multiple api calls, but it's a little less hacky and more predictable.
+  */
+  
   //get and store the top level links
   $list_raw = getContent(
     "linklist",

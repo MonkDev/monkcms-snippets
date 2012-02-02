@@ -153,7 +153,7 @@
   $list_raw = getContent(
     "linklist",
     "display:links",
-    "find:killearn-list",
+    "find:my-link-list",
     "level1:__slug__",
     "level1:|~", //separator flag
     "level1:<a ", 

@@ -13,16 +13,18 @@
 	
 	*/
 	
-	// Link list ID's (accepts multiple with commas)
-	$linklist_id = trim($_GET['id'],',');
 	
+	// Link list IDs
+	$linklist_id = trim($_GET['id'],',');
 	$filename = "linklist-" . str_replace(",","-",$linklist_id);
+	
 	
 	// Header
 	header("Content-type: text/csv");
 	header("Content-Disposition: attachment; filename=" . $filename . ".csv");
 	header("Pragma: no-cache");
 	header("Expires: 0");
+	
 	
 	// MonkCMS
 	require($_SERVER['DOCUMENT_ROOT'] . '/monkcms.php');

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * We rencetly had a request to show"
+ * We recently had a request to show:
  *    - All single day events
  *    - All recurring events
  *    - Just the first day of multi-day events

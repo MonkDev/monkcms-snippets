@@ -10,13 +10,14 @@
 	
 	*/
 	
-	$howmany = $_GET['howmany'];
 	
+	$filename = "sermons-export";
+	
+	$howmany = $_GET['howmany'];
 	if($howmany == ''){
 		$howmany = '9999';
 	}
-	
-	$filename = "sermons-export";
+
 	
 	// Header
 	header("Content-type: text/csv");

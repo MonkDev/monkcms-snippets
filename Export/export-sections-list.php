@@ -17,9 +17,7 @@
 	
 	$sections = 
 	array(
-		'Sidebar 1',
-		'Sidebar 2 Ad',
-		'Sidebar 3'
+		'masthead-flash'
 	);
 	
 	// Header
@@ -80,7 +78,7 @@
 			$section_selection = $get_section;
 			
 			if($section_selection != ''){
-				$section_list .= $section_label . ":\t" . $section_selection . "\n";
+				$section_list .= $section_label . ":\t\t" . $section_selection . "\n";
 			}
 
 		}
@@ -89,7 +87,7 @@
 			$count++;
 			$list .= $count . "\n";
 			$list .= $page_header . "\n";
-			$list .= $section_list . "\n\n";
+			$list .= $section_list . "\n\n\n";
 		}
 						
 	}

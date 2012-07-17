@@ -17,7 +17,9 @@
 	
 	$sections = 
 	array(
-		'masthead-flash'
+		'Sidebar 1',
+		'Sidebar 2',
+		'Sidebar 3'
 	);
 	
 	// Header

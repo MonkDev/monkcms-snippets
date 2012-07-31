@@ -1,5 +1,9 @@
 <?php
 	
+	// CHECKBOX CUSTOM FIELD
+	// If the checkbox is checked in the CMS,
+	// the custom API tag will allow the "show" tag to produce content.
+	
 	$custom_checkbox = 
 	getContent(
 	"page",

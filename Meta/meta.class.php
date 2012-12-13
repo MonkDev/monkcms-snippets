@@ -1,28 +1,25 @@
-<?php 
+<?php
 /* ===================================================================== //
-	
+
 	META INFORMATION OUTPUT
-		
+
 	1. Initialize class in your template to set the module type.
-	
+
 		$meta = new pageMeta("module name", "default title");
-		
+
 		"module name" - the module in use:
 		page  |  blog  |  article  |  event  |  sermon
-		
+
 		"default title" - the title in case other methods fail
-	
+
 	2. Call variables.
-		
+
 		Default variables:
 		$meta->page_title
 		$meta->page_description
 		$meta->page_keywords
 		$meta->page_group
-		
-		Custom variables:
-		Blogs - $meta->page_rss
-		
+		$meta->page_image
 
 // ===================================================================== */
 
@@ -31,24 +28,24 @@ class pageMeta {
   public $page_description = "";
   public $page_keywords = "";
   public $page_group = "";
-  public $page_rss = "";
-  public $blog_title = "";
+  public $page_image = "";
   public $debug = "";
-  
+
   function pageMeta($modid,$def){
-    
+
     //set default page title
     if($def){
       $this->page_title = $def;
     }
-    
+
     //get wildcard
     $ifdetail = explode("://",$_GET['wildcard']);
-    
+
     //debug text output of wildcard
     //$this->debug = $ifdetail;
-    
-    //if page/module uses display:auto will return $ifdetail[1] else just display page.  
+
+    // PAGES
+    // if page/module uses display:auto will return $ifdetail[1] else just display page.
     if($ifdetail[1]!==""){
       if(strtolower($modid) == "page" || strtolower($modid) == "pages"){
         $pmeta = getContent(
@@ -62,43 +59,48 @@ class pageMeta {
           "show:__tags__",
           "show:|~",
           "show:__group__",
+          "show:|~",
           "noecho"
         );
+        $pmeta .= getContent("media","display:detail","find:".$_GET['nav'],"label:header","show:__imageurl maxWidth='300' maxHeight='300'__",'noecho');
         $this->assignMeta($pmeta);
+
+      // BLOGS
       }else if(strtolower($modid) == "blog" || strtolower($modid) == "blogs"){
-        //blogs
         $pmeta = getContent(
           "blog",
           "display:auto",
           "before_show_postlist:__blogtitle__",
           "before_show_postlist:|~",
-          "before_show_postlist:__blogtitle__",
-          "before_show_postlist:|~",
           "before_show_postlist:__blogdescription__",
+          "before_show_postlist:|~",
           "before_show_postlist:|~",
           "before_show_postlist:__group__",
           "before_show_postlist:|~",
-          "before_show_postlist:__blogrss__",
+          "before_show_postlist:---headerimage---",
           "show_detail:__blogtitle__",
           "show_detail:|~",
           "show_detail:__blogtitle__ - __blogposttitle__",
           "show_detail:|~",
           "show_detail:__blogsummary__",
           "show_detail:|~",
+          "show_detail:__tags__",
+          "show_detail:|~",
           "show_detail:__group__",
           "show_detail:|~",
-          "show_detail:__blogrss__",
-          "show_detail:|~",          
-          "show_detail:__tags__",
+          "show_detail:__imageurl maxWidth='300' maxHeight='300'__",
           "noecho"
           );
-          $this->assignBlogMeta($pmeta);
+          $blog_header_image = getContent("media","display:detail","find:".$_GET['nav'],"label:header","show:__imageurl maxWidth='300' maxHeight='300'__",'noecho');
+          $pmeta = str_replace('---headerimage---',$blog_header_image,$pmeta);
+          $this->assignMeta($pmeta);
+
+		// ARTICLES
       }else if(strtolower($modid) == "article" || strtolower($modid) == "articles"){
-        //articles
         $pmeta = getContent(
           "article",
           "display:detail",
-          "find:".$_GET['sermonslug'],
+          "find:".$_GET['slug'],
           "show:__title__",
           "show:|~",
           "show:__summary__",
@@ -106,6 +108,8 @@ class pageMeta {
           "show:__tags__",
           "show:|~",
           "show:__group__",
+          "show:|~",
+          "show:__imageurl maxWidth='300' maxHeight='300'__",
           "noecho"
           );
           $this->assignMeta($pmeta);
@@ -121,6 +125,8 @@ class pageMeta {
           "show:__category__",
           "show:|~",
           "show:__group__",
+          "show:|~",
+          "show:__imageurl maxWidth='300' maxHeight='300'__",
           "noecho"
           );
           $this->assignMeta($pmeta);
@@ -136,14 +142,17 @@ class pageMeta {
           "show_detail:__producttags__",
           "show_detail:|~",
           "show_detail:__group__",
+          "show_detail:|~",
+          "show_detail:__productimageURL maxWidth='300' maxHeight='300'__",
           "noecho"
           );
           $this->assignMeta($pmeta);
+
+      // SERMONS
       }else if(strtolower($modid) == "sermon" || strtolower($modid) == "sermons"){
         $pmeta = getContent(
           "sermon",
           "display:auto",
-          "find:".$_GET['sermonslug'],
           "show_detail:__title__",
           "show_detail:|~",
           "show_detail:__summary__",
@@ -151,8 +160,27 @@ class pageMeta {
           "show_detail:__tags__",
           "show_detail:|~",
           "show_detail:__group__",
+          "show_detail:|~",
+          "show_detail:__imageurl maxWidth='300' maxHeight='300'__",
           "noecho"
           );
+        if(trim($pmeta)==''){
+	        $pmeta = getContent(
+	          "sermon",
+	          "display:detail",
+	          "find:".$_GET['sermonslug'],
+	          "show:__title__",
+	          "show:|~",
+	          "show:__summary__",
+	          "show:|~",
+	          "show:__tags__",
+	          "show:|~",
+	          "show:__group__",
+	          "show:|~",
+	          "show:__imageurl maxWidth='300' maxHeight='300'__",
+	          "noecho"
+	          );
+	        }
           $this->assignMeta($pmeta);
       }
     }else{
@@ -169,28 +197,25 @@ class pageMeta {
           "show:__group__",
           "noecho"
           );
+        $pmeta .= getContent("media","display:detail","find:".$_GET['nav'],"label:header","show:__imageurl maxWidth='300' maxHeight='300'__",'noecho');
         $this->assignMeta($pmeta);
     }
   }
+
   // assigns module data to class variables for output
   private function assignMeta($value){
-      list($ptitle,$pdes,$ptag,$pgroup) = explode("|~", $value);
-      //if use display:auto sermons on the list page it doesn't output page data so we check if ptitle if not default is used
-      if($ptitle){ 
-        $this->page_title = $ptitle; 
+      list($ptitle,$pdes,$ptag,$pgroup,$pimage) = explode("|~", $value);
+      if($ptitle=='INDEX'){
+	      $ptitle = 'Metro East Baptist Church';
       }
-      $this->page_description = $pdes; 
-      $this->page_keywords = $ptag;
-      $this->page_group = $pgroup;
-  }
-  private function assignBlogMeta($value){
-      list($blogtitle,$ptitle,$pdes,$pgroup,$prss,$ptags) = explode("|~", $value);
-      $this->blog_title = $blogtitle;
-      $this->page_title = $ptitle;
-	  $this->page_description = $pdes; 
-	  $this->page_group = $pgroup;
-	  $this->page_rss = $prss;
-	  $this->page_keywords = $ptags;
+      function processMetaItem($meta_input){
+	  		return trim(strip_tags($meta_input));
+	   }
+      $this->page_title = processMetaItem($ptitle);
+      $this->page_description = processMetaItem($pdes);
+      $this->page_keywords = processMetaItem($ptag);
+      $this->page_group = processMetaItem($pgroup);
+      $this->page_image = processMetaItem($pimage);
   }
 }
 ?>

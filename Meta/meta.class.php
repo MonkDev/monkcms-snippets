@@ -53,13 +53,13 @@ class pageMeta {
           "display:detail",
           "find:".$_GET['nav'],
           "show:__title__",
-          "show:|~",
+          "show:~|~",
           "show:__description__",
-          "show:|~",
+          "show:~|~",
           "show:__tags__",
-          "show:|~",
+          "show:~|~",
           "show:__group__",
-          "show:|~",
+          "show:~|~",
           "noecho"
         );
         $pmeta .= getContent("media","display:detail","find:".$_GET['nav'],"label:header","show:__imageurl maxWidth='300' maxHeight='300'__",'noecho');
@@ -71,23 +71,21 @@ class pageMeta {
           "blog",
           "display:auto",
           "before_show_postlist:__blogtitle__",
-          "before_show_postlist:|~",
+          "before_show_postlist:~|~",
           "before_show_postlist:__blogdescription__",
-          "before_show_postlist:|~",
-          "before_show_postlist:|~",
+          "before_show_postlist:~|~",
+          "before_show_postlist:~|~",
           "before_show_postlist:__group__",
-          "before_show_postlist:|~",
+          "before_show_postlist:~|~",
           "before_show_postlist:---headerimage---",
-          "show_detail:__blogtitle__",
-          "show_detail:|~",
           "show_detail:__blogtitle__ - __blogposttitle__",
-          "show_detail:|~",
+          "show_detail:~|~",
           "show_detail:__blogsummary__",
-          "show_detail:|~",
+          "show_detail:~|~",
           "show_detail:__tags__",
-          "show_detail:|~",
+          "show_detail:~|~",
           "show_detail:__group__",
-          "show_detail:|~",
+          "show_detail:~|~",
           "show_detail:__imageurl maxWidth='300' maxHeight='300'__",
           "noecho"
           );
@@ -102,47 +100,51 @@ class pageMeta {
           "display:detail",
           "find:".$_GET['slug'],
           "show:__title__",
-          "show:|~",
+          "show:~|~",
           "show:__summary__",
-          "show:|~",
+          "show:~|~",
           "show:__tags__",
-          "show:|~",
+          "show:~|~",
           "show:__group__",
-          "show:|~",
+          "show:~|~",
           "show:__imageurl maxWidth='300' maxHeight='300'__",
           "noecho"
           );
           $this->assignMeta($pmeta);
+
+      // EVENTS
       }else if(strtolower($modid) == "event" || strtolower($modid) == "events"){
         $pmeta = getContent(
           "event",
           "display:detail",
           "find:".$_GET['slug'],
           "show:__title__",
-          "show:|~",
+          "show:~|~",
           "show:__summary__",
-          "show:|~",
+          "show:~|~",
           "show:__category__",
-          "show:|~",
+          "show:~|~",
           "show:__group__",
-          "show:|~",
+          "show:~|~",
           "show:__imageurl maxWidth='300' maxHeight='300'__",
           "noecho"
           );
           $this->assignMeta($pmeta);
+
+      // PRODUCTS
       }else if(strtolower($modid) == "product" || strtolower($modid) == "products"){
         $pmeta = getContent(
           "products",
           "display:auto",
           "before_show_productlist:__familytitle__",
           "show_detail:__familytitle__ - __producttitle__",
-          "show_detail:|~",
+          "show_detail:~|~",
           "show_detail:__productdescription__",
-          "show_detail:|~",
+          "show_detail:~|~",
           "show_detail:__producttags__",
-          "show_detail:|~",
+          "show_detail:~|~",
           "show_detail:__group__",
-          "show_detail:|~",
+          "show_detail:~|~",
           "show_detail:__productimageURL maxWidth='300' maxHeight='300'__",
           "noecho"
           );
@@ -154,13 +156,13 @@ class pageMeta {
           "sermon",
           "display:auto",
           "show_detail:__title__",
-          "show_detail:|~",
+          "show_detail:~|~",
           "show_detail:__summary__",
-          "show_detail:|~",
+          "show_detail:~|~",
           "show_detail:__tags__",
-          "show_detail:|~",
+          "show_detail:~|~",
           "show_detail:__group__",
-          "show_detail:|~",
+          "show_detail:~|~",
           "show_detail:__imageurl maxWidth='300' maxHeight='300'__",
           "noecho"
           );
@@ -170,13 +172,13 @@ class pageMeta {
 	          "display:detail",
 	          "find:".$_GET['sermonslug'],
 	          "show:__title__",
-	          "show:|~",
+	          "show:~|~",
 	          "show:__summary__",
-	          "show:|~",
+	          "show:~|~",
 	          "show:__tags__",
-	          "show:|~",
+	          "show:~|~",
 	          "show:__group__",
-	          "show:|~",
+	          "show:~|~",
 	          "show:__imageurl maxWidth='300' maxHeight='300'__",
 	          "noecho"
 	          );
@@ -189,11 +191,11 @@ class pageMeta {
           "display:detail",
           "find:".$_GET['nav'],
           "show:__title__",
-          "show:|~",
+          "show:~|~",
           "show:__description__",
-          "show:|~",
+          "show:~|~",
           "show:__tags__",
-          "show:|~",
+          "show:~|~",
           "show:__group__",
           "noecho"
           );
@@ -204,9 +206,10 @@ class pageMeta {
 
   // assigns module data to class variables for output
   private function assignMeta($value){
-      list($ptitle,$pdes,$ptag,$pgroup,$pimage) = explode("|~", $value);
+      list($ptitle,$pdes,$ptag,$pgroup,$pimage) = explode("~|~",$value);
       if($ptitle=='INDEX'){
-	      $ptitle = 'Metro East Baptist Church';
+      	global $MCMS_SITENAME;
+	      $ptitle = $MCMS_SITENAME;
       }
       function processMetaItem($meta_input){
 	  		return trim(strip_tags($meta_input));

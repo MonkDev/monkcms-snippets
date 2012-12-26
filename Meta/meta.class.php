@@ -31,11 +31,11 @@ class pageMeta {
   public $page_image = "";
   public $debug = "";
 
-  function pageMeta($modid,$def){
+  function pageMeta($modid,$default){
 
     //set default page title
-    if($def){
-      $this->page_title = $def;
+    if($default){
+      $this->page_title = $default;
     }
 
     //get wildcard
@@ -207,14 +207,16 @@ class pageMeta {
   // assigns module data to class variables for output
   private function assignMeta($value){
       list($ptitle,$pdes,$ptag,$pgroup,$pimage) = explode("~|~",$value);
-      if($ptitle=='INDEX'){
-      	global $MCMS_SITENAME;
-	      $ptitle = $MCMS_SITENAME;
-      }
       function processMetaItem($meta_input){
 	  		return trim(strip_tags($meta_input));
 	   }
-      $this->page_title = processMetaItem($ptitle);
+	   if($ptitle=='INDEX'){
+      	global $MCMS_SITENAME;
+	      $ptitle = $MCMS_SITENAME;
+      }
+      if($ptitle!=''){
+      	$this->page_title = processMetaItem($ptitle);
+      }
       $this->page_description = processMetaItem($pdes);
       $this->page_keywords = processMetaItem($ptag);
       $this->page_group = processMetaItem($pgroup);

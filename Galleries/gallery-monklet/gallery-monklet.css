@@ -1,0 +1,44 @@
+/* =Gallery Monklet
+---------------------------------------------------------------------
+*/
+#sub #content .galleryMonklet {
+	margin:30px auto;
+}
+
+#sub #content .galleryMonklet,#sub #content .galleryMonklet ul.gM-photos {
+	width:100%;
+	padding:0;
+	margin-left:auto;
+	margin-right:auto;
+	float:none;
+	clear:both;
+}
+
+#sub #content .galleryMonklet li.gM-photo {
+	display:block;
+	float:left;
+	list-style:none;
+	max-width:20%;/* five images per row */
+	padding:0;
+	margin:0 0 2%;
+}
+
+#sub #content .galleryMonklet li.gM-photo a {
+	max-width:85%;
+	margin:auto;
+	display:block;
+	height:auto;
+	padding:2px;
+	border:1px solid #c5c5c5;
+}
+
+#sub #content .galleryMonklet li.gM-photo a:hover {
+	border-color:#999;
+}
+
+#sub #content .galleryMonklet li.gM-photo a img {
+	display:block;
+	max-width:100%;
+	height:auto;
+	min-height:auto;
+}

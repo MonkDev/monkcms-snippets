@@ -1,0 +1,22 @@
+/* =Gallery Monklet
+---------------------------------------------------------------------
+*/
+
+{{
+tag="gallery"
+display="list"
+find_gallery=""
+before_show_gallery="<div class='galleryMonklet'>"
+before_show_gallery="<ul class='gM-photos clearfix'>"
+show_gallery="<li class='gM-photo'><a class='slideshow' rel='gallery___numberofimages__' href='__imageurl maxWidth='850' maxHeight='850'__'><img src='__imageurl2 width='250' height='170'__' alt='__title__'/></a></li>"
+after_show_gallery="</ul>"
+after_show_gallery="</div><!-- .galleryMonklet -->"
+}}
+
+
+
+/* =Gallery Monklet Call (WYSIWYG Content Editor)
+---------------------------------------------------------------------
+*/
+
+<div>{{the-monklet-name|find_gallery="the-gallery-name-slug"}}</div>

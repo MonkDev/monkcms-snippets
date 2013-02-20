@@ -28,13 +28,6 @@
 
 
 	// Functions
-	function processItem($in){
-		$out = trim($in);
-		$out = str_replace('"','""',$out);
-		$out = str_replace('&amp;','&',$out);
-		$out = '"' . $out . '"';
-		return $out;
-	}
 	function getFileType($file_name){
 		$types_image = array('jpg','jpeg','png','gif','bmp','tiff');
 		$types_video = array('m4v','mov','flv','mp4','wmv','webm');
@@ -107,6 +100,13 @@
 			}
 	    }
 	}
+	function processItem($in){
+		$out = trim($in);
+		$out = str_replace('"','""',$out);
+		$out = str_replace('&amp;','&',$out);
+		$out = '"' . $out . '"';
+		return $out;
+	}
 
 	// Headers
 	$headers .= '"ID",';
@@ -115,7 +115,7 @@
 	$headers .= '"Source",';
 	$headers .= '"Modified",';
 	$headers .= '"Size",';
-	$headers .= '"Size (Bytes)",';
+	$headers .= '"Bytes",';
 	$headers .= '"Name",';
 	$headers .= '"Description",';
 	$headers .= '"Tags"';
@@ -171,7 +171,7 @@
 		if($embed_code!=''){
 			$media_url = '';
 			$media_mtime = '';
-			$media_type = 'embed code';
+			$media_type = 'embed';
 			$media_size_b = '0';
 			$media_size_f = '0';
 			$media_source = $embed_code;
@@ -190,16 +190,16 @@
 		$media_tags = trim($media_array[6]);
 
 		$line =
-		processItem($media_id)		. "," .
-		processItem($media_type)	. "," .
-		processItem($media_filename). "," .
-		processItem($media_source)	. "," .
-		processItem($media_mtime)	. "," .
-		processItem($media_size_f)	. "," .
-		processItem($media_size_b)	. "," .
-		processItem($media_name)	. "," .
-		processItem($media_desc)	. "," .
-		processItem($media_tags)	. "\n";
+		processItem($media_id)			. "," .
+		processItem($media_type)		. "," .
+		processItem($media_filename)	. "," .
+		processItem($media_source)		. "," .
+		processItem($media_mtime)		. "," .
+		processItem($media_size_f)		. "," .
+		processItem($media_size_b)		. "," .
+		processItem($media_name)		. "," .
+		processItem($media_desc)		. "," .
+		processItem($media_tags)		. "\n";
 
 		$lines .= $line;
 

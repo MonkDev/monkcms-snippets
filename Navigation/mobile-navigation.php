@@ -1,6 +1,6 @@
 <?php /*
 
-	CUSTOM NAVIGATION OUTPUT
+	MOBILE-OPTIMIZED NAVIGATION OUTPUT
 
 	Splits up the output from Navigation API in order
 	to produce two navigation elements - in this case,

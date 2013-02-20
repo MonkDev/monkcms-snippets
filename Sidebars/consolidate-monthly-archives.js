@@ -6,8 +6,10 @@
 
 $(document).ready(function() {
 
-	var first_archive_array = $('ul#blog_list_archive li:last').text().split(' ');
-	var last_archive_array = $('ul#blog_list_archive li:first').text().split(' ');
+	var ul = 'ul#sermon_list_archive';
+
+	var first_archive_array = $(ul + ' li:last').text().split(' ');
+	var last_archive_array = $(ul + ' li:first').text().split(' ');
 	var first_year = first_archive_array[1];
 	var last_year = last_archive_array[1];
 	var year_array = [];
@@ -16,11 +18,11 @@ $(document).ready(function() {
 		year_array.push(year_item.toString());
 	}
 	$.each(year_array, function(i, val) {
-		$('ul#blog_list_archive li:contains(' + val + ')')
+		$(ul + ' li:contains(' + val + ')')
 		.wrapAll('<div class="archive-group" data-rel="' + val + '"/>')
 		.wrapAll('<div class="archive-group-list" style="display:none;"/>');
 	});
-	$('ul#blog_list_archive .archive-group').each(function() {
+	$(ul + ' .archive-group').each(function() {
 		var year = $(this).attr('data-rel');
 		$(this).prepend('<li class="group-toggle"><a href="#">' + year + '</a></li>');
 	});

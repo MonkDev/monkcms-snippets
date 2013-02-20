@@ -1,3 +1,5 @@
+STAFF PAGE MONKLET - NO CSS REQUIRED.
+
 {{
 tag="member"
 display="list"

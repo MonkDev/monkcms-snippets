@@ -4,10 +4,9 @@
 #formErrorNotice {
 	display:none;
 	position:fixed;
-	z-index:9999;
 	top:0;
-	padding:12px 50px;
-	padding-left:22px;
+	z-index:9999;
+	padding:12px 50px 12px 22px;
 	font-size:13px;
 	color:#111;
 	background:#f96a6a;
@@ -29,23 +28,5 @@
 	height:15px;
 	font-size:14px;
 	text-indent:-9999px;
-	background:url(/_img/exit-x-light.png) no-repeat 0 0;
+	background:url(/_img/close-x-light.png) no-repeat 0 0;
 }
-
-
-<script type="text/javascript">
-//<![CDATA[
-$(document).ready(function(){
-
-	<?php if(isset($_GET['ferr']) && $_GET['ferr']!=''){ ?>
-	$('body').append('<div id="formErrorNotice">Your form submission is not complete.<a href="#">close</a></div>');
-	$('#formErrorNotice').fadeIn('fast').css('left',Math.round(($(window).width()-$('#formErrorNotice').width())/2));
-	$('#formErrorNotice a').click(function(e){
-		e.preventDefault();
-		$(this).parent().fadeOut('fast');
-	});
-	<?php } ?>
-
-});
-// ]]>
-</script>

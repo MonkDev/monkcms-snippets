@@ -1,7 +1,7 @@
 
-<? 
-	// Snippet so that browsers can detect your blog RSS feed on your blog layout
-	
+<?
+	// RSS auto-discovery tag
+
 	getContent (
 		"blog",
 		"display:auto",

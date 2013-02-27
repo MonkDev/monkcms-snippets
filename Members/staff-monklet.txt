@@ -1,4 +1,5 @@
-STAFF PAGE MONKLET - NO CSS REQUIRED.
+STAFF PAGE MONKLET
+No extra CSS required.
 
 {{
 tag="member"

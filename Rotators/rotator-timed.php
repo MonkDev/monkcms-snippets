@@ -32,11 +32,11 @@
 	'before_show: data-cycle-auto-height="calc"',
 	'before_show: data-cycle-log="false"',
 	'before_show:>',
-	'before_show:#SLIDEBODY#',
+	'before_show:~SLIDEBODY~',
 	"image_slide_show:__customstarttime__",
-	"image_slide_show:|SLIDEDATA|",
+	"image_slide_show:~SLIDEDATA~",
 	"image_slide_show:__customendtime__",
-	"image_slide_show:|SLIDEDATA|",
+	"image_slide_show:~SLIDEDATA~",
 	"image_slide_show:<li class='slide' data-position='__position__'>",
 	"image_slide_show:<a class='image-slide'",
 	"image_slide_show: href='__url__'",
@@ -47,9 +47,9 @@
 	"image_slide_show:</li>",
 	"image_slide_show:~SLIDE~",
 	"video_slide_show:__customstarttime__",
-	"video_slide_show:|SLIDEDATA|",
+	"video_slide_show:~SLIDEDATA~",
 	"video_slide_show:__customendtime__",
-	"video_slide_show:|SLIDEDATA|",
+	"video_slide_show:~SLIDEDATA~",
 	"video_slide_show:<li class='slide' data-position='__position__'>",
 	"video_slide_show:<a class='video-slide'",
 	"video_slide_show:__ifvideoembed__data-video-type='embed'",
@@ -64,7 +64,7 @@
 	"video_slide_show:</a>",
 	"video_slide_show:</li>",
 	"video_slide_show:~SLIDE~",
-	"after_show:#SLIDEBODY#",
+	"after_show:~SLIDEBODY~",
 	"after_show:<div class='cycle-pager'></div>",
 	"after_show:</div><!-- .cycle-slideshow -->",
 	"noecho"
@@ -72,7 +72,7 @@
 
 	date_default_timezone_set('America/Los_Angeles'); // or the client's timezone
 
-	$rotator_arr = explode('#SLIDEBODY#',$get_rotator);
+	$rotator_arr = explode('~SLIDEBODY~',$get_rotator);
 
 	$rotator_open = $rotator_arr[0];
 	$rotator_items = trim($rotator_arr[1],'~SLIDE~');
@@ -83,10 +83,12 @@
 
 	foreach($rotator_items_arr as $slide_item){
 
-		$slide_item_arr = explode('|SLIDEDATA|',$slide_item);
+		$slide_item_arr = explode('~SLIDEDATA~',$slide_item);
 		$slide = $slide_item_arr[2];
 		$start_time = trim($slide_item_arr[0]);
 		$end_time = trim($slide_item_arr[1]);
+		if(checkdate($start_time)===false){$start_time = '';}
+      if(checkdate($end_time)===false){$end_time = '';}
 
 		// start + end time
 		if($start_time!='' && $end_time!=''){

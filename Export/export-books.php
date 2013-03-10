@@ -11,7 +11,7 @@
 	*/
 
 
-	$filename = "books-export";
+	$filename = 'books' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
 	$howmany = 107; // Set to number of books in the module
 
 

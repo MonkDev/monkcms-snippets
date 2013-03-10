@@ -11,7 +11,7 @@
 	*/
 
 
-	$filename = "churches-export";
+	$filename = 'churches' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
 
 
 	// Header

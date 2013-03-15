@@ -11,7 +11,7 @@
 	*/
 
 
-	$filename = "media-export";
+	$filename = 'media' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
 	$howmany = 651; // Set to number of items in the module
 
 

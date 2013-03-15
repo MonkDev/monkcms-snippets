@@ -8,11 +8,13 @@
 	Upload this file to your site root, and use this URL to download a CSV:
 	http://www.site.com/export-media.php
 
+	CURRENTLY DOES NOT WORK WELL WHEN GETTING MANY ITEMS
+
 	*/
 
 
 	$filename = 'media' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
-	$howmany = 3799; // Set to number of items in the module
+	$howmany = 651; // Set to number of items in the module
 
 
 	// Header
@@ -51,6 +53,55 @@
 			return '';
 		}
 	}
+	function getRemoteModDate($url,$format){
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_NOBODY, true);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_FILETIME, true);
+		$result = curl_exec($curl);
+		if ($result === false) {
+		    die (curl_error($curl));
+		}
+		$timestamp = curl_getinfo($curl, CURLINFO_FILETIME);
+		if ($timestamp != -1) {
+		    return date($format, $timestamp);
+		}
+	}
+	function formatSizeUnits($bytes){
+        if ($bytes >= 1073741824) {
+            $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+        } elseif ($bytes >= 1048576) {
+            $bytes = number_format($bytes / 1048576, 2) . ' MB';
+        } elseif ($bytes >= 1024) {
+            $bytes = number_format($bytes / 1024, 2) . ' KB';
+        } elseif ($bytes > 1) {
+            $bytes = $bytes . ' bytes';
+        } elseif ($bytes == 1) {
+            $bytes = $bytes . ' byte';
+        } else {
+            $bytes = '0 bytes';
+        }
+        return $bytes;
+    }
+	function getFileSize($url,$format){
+	    $curl = curl_init($url);
+	    curl_setopt($curl, CURLOPT_NOBODY, true);
+	    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+	    curl_setopt($curl, CURLOPT_HEADER, true);
+	    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+	    $result = curl_exec($curl);
+	    curl_close($curl);
+	    if (preg_match('/Content-Length: (\d+)/', $result, $matches)) {
+	        $length = (int)$matches[1];
+	        $size = $length;
+	        if($format=='formatted'){
+				return formatSizeUnits($size);
+			}
+			if($format=='bytes'){
+				return $size;
+			}
+	    }
+	}
 	function processItem($in){
 		$out = trim($in);
 		$out = str_replace('"','""',$out);
@@ -64,6 +115,9 @@
 	$headers .= '"Type",';
 	$headers .= '"Filename",';
 	$headers .= '"Source",';
+	$headers .= '"Modified",';
+	$headers .= '"Size",';
+	$headers .= '"Bytes",';
 	$headers .= '"Name",';
 	$headers .= '"Description",';
 	$headers .= '"Tags"';
@@ -113,21 +167,22 @@
 		$media_array = explode("~||~",$get_media_array[$i]);
 
 		$media_url = trim($media_array[3]);
-		$media_url_arr = explode('/',$media_url);
-		$media_filename = $media_url_arr[count($media_url_arr)-1];
-		if($media_filename==''){
-			$media_filename = trim($media_array[2]);
-		}
-
 		$embed_code = trim($media_array[4]);
+		$media_filename = trim($media_array[2]);
 
 		if($embed_code!=''){
 			$media_url = '';
+			$media_mtime = '';
 			$media_type = 'embed';
+			$media_size_b = '0';
+			$media_size_f = '0';
 			$media_source = $embed_code;
 		} else {
 			$embed_code = '';
+			$media_mtime = getRemoteModDate($media_url,"M d, Y g:i A");
 			$media_type = getFileType($media_filename);
+			$media_size_b = getFileSize($media_url,'bytes');
+			$media_size_f = getFileSize($media_url,'formatted');
 			$media_source = $media_url;
 		}
 
@@ -141,6 +196,9 @@
 		processItem($media_type)		. "," .
 		processItem($media_filename)	. "," .
 		processItem($media_source)		. "," .
+		processItem($media_mtime)		. "," .
+		processItem($media_size_f)		. "," .
+		processItem($media_size_b)		. "," .
 		processItem($media_name)		. "," .
 		processItem($media_desc)		. "," .
 		processItem($media_tags)		. "\n";

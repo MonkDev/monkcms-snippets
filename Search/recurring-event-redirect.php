@@ -15,9 +15,10 @@
 
 	function updatedEventRedirect($event_slug){
 
-		$event_slug_old = $event_slug;
-
 		if (strpos($_SERVER['HTTP_REFERER'],'/search-results') !== false) {
+
+			// original event string
+			$event_slug_old = $event_slug;
 
 			// get old event's title string
 			$event_preg_match = array();

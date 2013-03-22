@@ -14,6 +14,18 @@ after_show_gallery="</div><!-- .galleryMonklet -->"
 }}
 
 
+/* =Gallery Monklet Javascript (http://www.jacklmoore.com/colorbox/)
+---------------------------------------------------------------------
+*/
+
+$('.slideshow').colorbox({
+	slideshow: true,
+	photo: true,
+	preloading: true,
+	slideshowSpeed: 5000,
+	slideshowAuto: false
+});
+
 
 /* =Gallery Monklet Call (WYSIWYG Content Editor)
 ---------------------------------------------------------------------

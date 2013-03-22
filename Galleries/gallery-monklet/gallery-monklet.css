@@ -1,11 +1,11 @@
 /* =Gallery Monklet
 ---------------------------------------------------------------------
 */
-#sub #content .galleryMonklet {
+#content .galleryMonklet {
 	margin:30px auto;
 }
 
-#sub #content .galleryMonklet,#sub #content .galleryMonklet ul.gM-photos {
+#content .galleryMonklet,#content .galleryMonklet ul.gM-photos {
 	width:100%;
 	padding:0;
 	margin-left:auto;
@@ -14,7 +14,7 @@
 	clear:both;
 }
 
-#sub #content .galleryMonklet li.gM-photo {
+#content .galleryMonklet li.gM-photo {
 	display:block;
 	float:left;
 	list-style:none;
@@ -23,7 +23,7 @@
 	margin:0 0 2%;
 }
 
-#sub #content .galleryMonklet li.gM-photo a {
+#content .galleryMonklet li.gM-photo a {
 	max-width:85%;
 	margin:auto;
 	display:block;
@@ -32,13 +32,16 @@
 	border:1px solid #c5c5c5;
 }
 
-#sub #content .galleryMonklet li.gM-photo a:hover {
+#content .galleryMonklet li.gM-photo a:hover {
 	border-color:#999;
 }
 
-#sub #content .galleryMonklet li.gM-photo a img {
+#content .galleryMonklet li.gM-photo a img {
 	display:block;
 	max-width:100%;
 	height:auto;
 	min-height:auto;
+	margin:0;
+	padding:0;
+	border:0;
 }

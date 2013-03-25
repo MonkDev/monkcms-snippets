@@ -70,6 +70,7 @@ class pageMeta {
         $pmeta = getContent(
           "blog",
           "display:auto",
+          "howmany:1",
           "before_show_postlist:__blogtitle__",
           "before_show_postlist:~|~",
           "before_show_postlist:__blogdescription__",
@@ -155,6 +156,7 @@ class pageMeta {
         $pmeta = getContent(
           "sermon",
           "display:auto",
+          "howmany:1",
           "show_detail:__title__",
           "show_detail:~|~",
           "show_detail:__summary__",

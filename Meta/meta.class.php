@@ -5,10 +5,10 @@
 
 	1. Initialize class in your template to set the module type.
 
-		$meta = new pageMeta("module name", "default title");
+		$meta = new pageMeta("module name", "default title", "facebook og image url", "facebook og type");
 
 		"module name" - the module in use:
-		page  |  blog  |  article  |  event  |  sermon
+		page  |  blog  |  article  |  event  |  sermon  |  facebook
 
 		"default title" - the title in case other methods fail
 
@@ -20,22 +20,37 @@
 		$meta->page_keywords
 		$meta->page_group
 		$meta->page_image
+    $meta->facebook_og
 
 // ===================================================================== */
 
 class pageMeta {
+  public $sitename = "Site Name";
   public $page_title = "";
   public $page_description = "";
   public $page_keywords = "";
   public $page_group = "";
   public $page_image = "";
   public $debug = "";
+  public $facebook_image = "";
+  public $facebook_og = "";
+  public $facebook_type = "";
+  public $facebook = false;
 
-  function pageMeta($modid,$default){
+  function pageMeta($modid, $default, $fbimg, $fbtype){
 
     //set default page title
     if($default){
       $this->page_title = $default;
+    }
+    
+    if($fbimg){
+      $this->facebook_image = $fbimg;
+      $this->facebook = true;
+    }
+
+    if($fbtype){
+      $this->facebook_type = $fbtype;
     }
 
     //get wildcard
@@ -63,7 +78,7 @@ class pageMeta {
           "noecho"
         );
         $pmeta .= getContent("media","display:detail","find:".$_GET['nav'],"label:header","show:__imageurl maxWidth='300' maxHeight='300'__",'noecho');
-        $this->assignMeta($pmeta);
+        $this->assignMeta($pmeta, $this->facebook);
 
       // BLOGS
       }else if(strtolower($modid) == "blog" || strtolower($modid) == "blogs"){
@@ -223,6 +238,28 @@ class pageMeta {
       $this->page_keywords = processMetaItem($ptag);
       $this->page_group = processMetaItem($pgroup);
       $this->page_image = processMetaItem($pimage);
+      
+      if($this->facebook){
+        $this->facebook_og .= "<meta property='og:image' content='".$this->facebook_image."'/>\n";
+        $this->facebook_og .= "<meta property='og:title' content='".$this->page_title."'/>\n";
+        $this->facebook_og .= "<meta property='og:url' content='".$this->getURL()."'/>\n";
+        $this->facebook_og .= "<meta property='og:site_name' content='".$this->sitename."'/>\n";
+        if($facbook_type != ""){
+          $this->facebook_og .= "<meta property='og:type' content='".$this->fbtype."'/>\n";
+        }
+      }
   }
+  
+  private function getURL(){
+     $protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https')
+                     === FALSE ? 'http' : 'https';
+     $host     = $_SERVER['HTTP_HOST'];
+     $script   = $_SERVER['SCRIPT_NAME'];
+     $uri      = $_SERVER['REQUEST_URI'];
+     $params   = $_SERVER['QUERY_STRING'];
+
+     $currentUrl = $protocol . '://' . $host . $uri;
+     return $currentUrl;
+   }
 }
 ?>

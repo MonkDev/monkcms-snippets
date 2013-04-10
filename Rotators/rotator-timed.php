@@ -6,8 +6,13 @@
 		Using Custom Fields assigned to Rotator Slides, slides can individually
 		be set to begin, expire, or display between times.
 
-		User must enter date and time in custom field in a proper format, like:
-		2013/3/1 18:00
+		Users must enter date and time in custom field in a proper format, such as:
+
+		2013/5/1 18:00
+		5-1-2013 18:00
+
+		That is, any format recognized by strtotime()
+		http://www.php.net/manual/en/datetime.formats.php
 	*/
 
 ?>
@@ -21,7 +26,7 @@
 	'rotator',
 	'display:slides',
 	//'find:' . $_GET['nav'],
-	'find:demo-rotator',
+	'find:test-rotator',
 	'order:position',
 	'before_show:<ol class="cycle-slideshow" data-id="__slug__"',
 	'before_show: data-cycle-slides=".slide"',
@@ -70,7 +75,13 @@
 	"noecho"
 	);
 
-	date_default_timezone_set('America/Los_Angeles'); // or the client's timezone
+
+	date_default_timezone_set('America/Los_Angeles');
+	/*
+	date_default_timezone_set('America/Chicago');
+	date_default_timezone_set('America/New_York');
+	http://php.net/manual/en/timezones.php
+	*/
 
 	$rotator_arr = explode('~SLIDEBODY~',$get_rotator);
 
@@ -85,26 +96,24 @@
 
 		$slide_item_arr = explode('~SLIDEDATA~',$slide_item);
 		$slide = $slide_item_arr[2];
-		$start_time = trim($slide_item_arr[0]);
-		$end_time = trim($slide_item_arr[1]);
-		if(checkdate($start_time)===false){$start_time = '';}
-      if(checkdate($end_time)===false){$end_time = '';}
+		$start_time = strtotime(trim($slide_item_arr[0]));
+		$end_time = strtotime(trim($slide_item_arr[1]));
 
 		// start + end time
 		if($start_time!='' && $end_time!=''){
-			if((strtotime($start_time) < $now) && ($now < strtotime($end_time))){
+			if(($start_time < $now) && ($now < $end_time)){
 				$rotator_slides .= $slide;
 			}
 		}
 		// start time only
 		elseif($start_time!='' && $end_time==''){
-			if(strtotime($start_time) < $now){
+			if($start_time < $now){
 				$rotator_slides .= $slide;
 			}
 		}
 		// end time only
 		elseif($start_time=='' && $end_time!=''){
-			if($now < strtotime($end_time)){
+			if($now < $end_time){
 				$rotator_slides .= $slide;
 			}
 		}

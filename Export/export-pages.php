@@ -9,21 +9,11 @@
 	http://www.site.com/export-pages.php
 
 	Notes:
-	Sections: To capture the names of assigned Sections, complete the array of Section labels from all Page Templates.
 	Draft pages: Drafts are not output. Private pages are listed, but no text is displayed.
 
 	*/
 
 	$filename = 'pages' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
-
-	/*
-	$sections =
-	array(
-		'Sidebar 1',
-		'Sidebar 2 Ad',
-		'Sidebar 3'
-	);
-	*/
 
 	// Header
 	header("Content-type: text/csv");
@@ -49,8 +39,7 @@
 	$headers .= '"Description",';
 	$headers .= '"Keywords",';
 	$headers .= '"Groups",';
-	$headers .= '"Content",';
-	$headers .= '"Sections"';
+	$headers .= '"Content"';
 	$headers .= "\n";
 
 	// Find page ID's
@@ -83,27 +72,6 @@
 		"noecho"
 		);
 
-		$section_list = '';
-
-		if (isset($sections)) {
-			for($s=0;$s<count($sections);$s++){
-				$get_section = '';
-				$get_section =
-				getContent(
-				"section",
-				"display:detail",
-				"find:p-" . $pageIDs[$i],
-				"label:" . $sections[$s],
-				"show:__title__",
-				"noecho"
-				);
-				if($get_section != ''){
-					$section_list .= $sections[$s] . ": " . '"' . $get_section . '"' . ", ";
-				}
-			}
-			$section_list = trim($section_list,", ");
-		}
-
 		$get_page_array = explode("~|~|~", $get_page);
 
 		for($p=0;$p<count($get_page_array)-1;$p++){
@@ -124,11 +92,10 @@
 				processItem($page_array[0]) 	. "," .
 				processItem($page_title) 		. "," .
 				processItem($page_url)			. "," .
-				processItem($page_array[3])		. "," .
-				processItem($page_array[4])		. "," .
-				processItem($page_array[5])		. "," .
-				processItem($page_text) 		. "," .
-				processItem($section_list)		. "\n";
+				processItem($page_array[3])	. "," .
+				processItem($page_array[4])	. "," .
+				processItem($page_array[5])	. "," .
+				processItem($page_text) 		. "\n";
 
 				$lines .= $line;
 

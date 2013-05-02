@@ -17,16 +17,20 @@
 
 ?>
 
-  <div class='rotator'>
+	<div class='rotator'>
 
 <?php
+
+	// Set to client timezone (is set to UTC otherwise)
+	$timezone = getContent('site','display:detail','show:__timezone__','noecho');
+	if($timezone){date_default_timezone_set($timezone);}
 
 	$get_rotator =
 	getContent(
 	'rotator',
 	'display:slides',
-	//'find:' . $_GET['nav'],
-	'find:test-rotator',
+	'find:' . $_GET['nav'],
+	//'find:test-rotator',
 	'order:position',
 	'before_show:<ol class="cycle-slideshow" data-id="__slug__"',
 	'before_show: data-cycle-slides=".slide"',
@@ -36,7 +40,7 @@
 	'before_show: data-cycle-swipe="true"',
 	'before_show: data-cycle-auto-height="calc"',
 	'before_show: data-cycle-log="false"',
-	'before_show:>',
+	'before_show:>' . "\n",
 	'before_show:~SLIDEBODY~',
 	"image_slide_show:__customstarttime__",
 	"image_slide_show:~SLIDEDATA~",
@@ -49,7 +53,7 @@
 	"image_slide_show:>",
 	"image_slide_show:<img src='__imageurl width='880' height='350'__' width='880' height='350' alt=\"__title__\"/>",
 	"image_slide_show:</a>",
-	"image_slide_show:</li>",
+	"image_slide_show:</li>" . "\n",
 	"image_slide_show:~SLIDE~",
 	"video_slide_show:__customstarttime__",
 	"video_slide_show:~SLIDEDATA~",
@@ -67,21 +71,13 @@
 	"video_slide_show:>",
 	"video_slide_show:<img src='__videopreviewimageurl width='880' height='350'__'  width='880' height='350' alt=\"__title__\"/>",
 	"video_slide_show:</a>",
-	"video_slide_show:</li>",
+	"video_slide_show:</li>" . "\n",
 	"video_slide_show:~SLIDE~",
 	"after_show:~SLIDEBODY~",
 	"after_show:<div class='cycle-pager'></div>",
 	"after_show:</div><!-- .cycle-slideshow -->",
 	"noecho"
 	);
-
-
-	date_default_timezone_set('America/Los_Angeles');
-	/*
-	date_default_timezone_set('America/Chicago');
-	date_default_timezone_set('America/New_York');
-	http://php.net/manual/en/timezones.php
-	*/
 
 	$rotator_arr = explode('~SLIDEBODY~',$get_rotator);
 
@@ -117,7 +113,7 @@
 				$rotator_slides .= $slide;
 			}
 		}
-		// no times for you!
+		// no times given
 		elseif($start_time=='' && $end_time=='') {
 			$rotator_slides .= $slide;
 		}
@@ -130,4 +126,5 @@
 
 ?>
 
-  </div>
+
+	</div>

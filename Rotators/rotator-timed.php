@@ -75,7 +75,7 @@
 	"video_slide_show:~SLIDE~",
 	"after_show:~SLIDEBODY~",
 	"after_show:<div class='cycle-pager'></div>",
-	"after_show:</div><!-- .cycle-slideshow -->",
+	"after_show:</ol><!-- .cycle-slideshow -->",
 	"noecho"
 	);
 

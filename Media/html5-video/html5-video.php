@@ -1,24 +1,21 @@
 <?php
 
-	/*
-		H.264 HTML5 VIDEO SNIPPET
-		-Produces a simple video player box from a single video item in a Link List.
-		-Browsers that do not support HTML5 or the H.264 codec will gracefully degrade
-		 to simply providing a link to download the video.
-		-Video embed codes also supported; the dimensions will be set as well.
-	*/
+	/* -------------------- HTML5 VIDEO -------------------- */
 
-	// video dimensions
+	$video_linklist = 'welcome-video';
 	$video_width = 304;
-	$video_height = 222;
+	$video_height = 228;
+	$video_zindex = 10;
+	$video_preload = 'none'; // (auto, preload, or none)
 
-	// get video
+	/* ----------------------------------------------------- */
+
 	$get_video =
 	explode("|||",
 	getContent(
 	"linklist",
 	"display:links",
-	"find:welcome-video",
+	"find:$video_linklist",
 	"show:__name__",
 	"show:|||",
 	"show:__url__",
@@ -60,28 +57,25 @@
 
 ?>
 
-	<div id="video-wrapper" style="background:#000;" style="width:<?=$video_width?>px;height:<?=$video_height?>px;">
-		<video src="<?=$video_src?>" poster="<?=$video_img?>" width="<?=$video_width?>" height="<?=$video_height?>" controls="controls" preload="none">
+	<div id="video-wrapper" style="background:#000;width:<?=$video_width?>px;height:<?=$video_height?>px;">
+		<video src="<?=$video_src?>" poster="<?=$video_img?>" width="<?=$video_width?>" height="<?=$video_height?>" controls="controls" preload="<?=$video_preload?>">
 			<source src="<?=$video_src?>" type="video/mp4"/>
 			<p>The video "<?=$video_name?>" cannot be played in this browser. <a href="<?=$video_src?>">Click here to download.</a></p>
 		</video>
 	</div>
 
+<?php break; case 'video_link': ?>
+
+	<a href="<?=$video_src?>" title="<?=$video_desc?>" style="position:relative;display:block;width:<?=$video_width?>px;height:<?=$video_height?>px;" target="_blank">
+		<img src="<?=$video_img?>" alt="<?=$video_name?>" width="<?=$video_width?>" height="<?=$video_height?>" style="position:absolute;top:0;left:0;z-index:<?=$video_zindex?>;"/>
+		<span style="position:absolute;top:0;left:0;display:block;width:100%;height:100%;background:url(/_img/btn_play-html5.png) no-repeat center center;z-index:<?=$video_zindex+5?>;"></span>
+	</a>
+
 <?php break; case 'video_embed': ?>
 
 	<?=$video_src?>
 
-<?php break; case 'video_link': ?>
-
-	<a href="<?=$video_src?>" title="<?=$video_desc?>">
-		<img src="<?=$video_img?>" alt="<?=$video_name?>" width="<?=$video_width?>" height="<?=$video_height?>"/>
-	</a>
-
 <?php break; case 'image_only': ?>
-
-	<?php if($video_img){ ?><img src="<?=$video_img?>" alt="<?=$video_name?>" width="<?=$video_width?>" height="<?=$video_height?>"/><?php } ?>
-
-<?php break; default: ?>
 
 	<?php if($video_img){ ?><img src="<?=$video_img?>" alt="<?=$video_name?>" width="<?=$video_width?>" height="<?=$video_height?>"/><?php } ?>
 

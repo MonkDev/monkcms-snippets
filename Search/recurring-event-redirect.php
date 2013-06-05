@@ -11,6 +11,10 @@
 		Include at the top of the event detail page (most likely ekk_eventpage.php),
 		just after the require of monkcms.php.
 
+		Note:
+		May not return the correct event if the "next" event is an exception to
+		the recurrence rule.
+
 	*/
 
 	function updatedEventRedirect($event_slug){

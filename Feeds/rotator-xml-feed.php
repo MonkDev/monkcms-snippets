@@ -12,7 +12,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/monkcms.php");
 
 $rotator = $_GET['id'];
 
-echo("<?xml version='1.0' encoding='utf-8'?>\n");
+echo "<?xml version='1.0' encoding='utf-8'?>\n";
 echo "<images>\n";
 
 $get_rotator =

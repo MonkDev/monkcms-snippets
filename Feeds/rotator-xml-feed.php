@@ -1,11 +1,18 @@
 <?php
 
 /*
--------------------------------------------------------------------
+---------------------------------------------------------------------------
+
 	ROTATOR XML FEED
-	Provide a feed for Flash players using the Rotators module.
-	To prevent cross-domain security issues, image caching is used.
--------------------------------------------------------------------
+
+	Provide a feed for Flash players using
+	the Rotators module. To prevent cross-domain
+	security issues, image caching is used.
+
+	Example url:
+	http://www.site.com/_inc/rotator-xml-feed.php?id=home-billboard
+
+---------------------------------------------------------------------------
 */
 
 require($_SERVER["DOCUMENT_ROOT"]."/monkcms.php");

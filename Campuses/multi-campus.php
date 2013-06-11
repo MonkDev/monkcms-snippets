@@ -28,11 +28,11 @@
 
 	function currentCampus(){
 		$campus = "campus-one"; // default campus if necessary
-		$uri = split("/",trim($_SERVER['REQUEST_URI']),"/");
+		$uri = explode("/",trim($_SERVER['REQUEST_URI'],"/"));
 		if($uri[0] == "campus-one" || $uri[0] == "campus-two" || $uri[0] == "campus-three"){
 			$campus = $uri[0];
 			setcookie('campus', $campus, time() + 31536000, '/');
-		} else if (!empty($_COOKIE['campus'])) {
+		} else if(!empty($_COOKIE['campus'])) {
 				$campus = $_COOKIE['campus'];
 			}
 		return $campus;

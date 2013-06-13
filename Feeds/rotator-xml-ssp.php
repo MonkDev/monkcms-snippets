@@ -3,7 +3,7 @@
 /*
 ---------------------------------------------------------------------------
 
-	ROTATOR XML FEED
+	ROTATOR XML FEED - SLIDE SHOW PRO VERSION
 
 	Provide a feed for Flash players using
 	the Rotators module. To prevent cross-domain
@@ -20,7 +20,8 @@ require($_SERVER["DOCUMENT_ROOT"]."/monkcms.php");
 $rotator = $_GET['id'];
 
 echo "<?xml version='1.0' encoding='utf-8'?>\n";
-echo "<images>\n";
+echo "<gallery>\n";
+echo "<album>\n";
 
 $get_rotator =
 trim(getContent(
@@ -38,13 +39,10 @@ $rotator_prearr = explode("~~~",$get_rotator);
 
 for($i=0;$i<count($rotator_prearr);$i++){
 	$slide = explode("||",$rotator_prearr[$i]);
-	echo "<image>\n";
-	echo '<imageID>' . ($i+1) . '</imageID>' . "\n";
-	echo '<pic>' . $slide[0] . '</pic>' . "\n";
-	echo '<link>' . 'http://' . $_SERVER['HTTP_HOST'] . $slide[1] . '</link>' . "\n";
-	echo "</image>" . "\n";
+	echo '<img src="'. $slide[0] .'" link="'. 'http://' . $_SERVER['HTTP_HOST'] . $slide[1] . '" target="_self"/>' . "\n";
 }
 
-echo "</images>";
+echo "</album>\n";
+echo "</gallery>";
 
 ?>

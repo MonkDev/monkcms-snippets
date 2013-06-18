@@ -17,6 +17,8 @@
 
 require($_SERVER["DOCUMENT_ROOT"]."/monkcms.php");
 
+header('Content-type: text/xml');
+
 $rotator = $_GET['id'];
 
 echo "<?xml version='1.0' encoding='utf-8'?>\n";

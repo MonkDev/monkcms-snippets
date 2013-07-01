@@ -7,7 +7,7 @@
 		Add htaccess to invoke this script:
 
 		RewriteCond %{REQUEST_FILENAME} !-f
-		RewriteRule ^mediafiles/(.+)/?$ mcms_media_parse.php?file=$1 [NC,L]
+		RewriteRule ^mediafiles/(.+)/?$ mcms_media_redirect.php?file=$1 [NC,L]
 	*/
 
 	require($_SERVER["DOCUMENT_ROOT"] . "/monkcms.php");

@@ -2,9 +2,9 @@
 
 	/*
 		MCMS MEDIA REDIRECT
-		Find + redirect media URLs from a 404 response
+		Find + redirect media URLs from 404
 
-		Add htaccess to invoke this script:
+		Add to top of htaccess file to invoke this script:
 
 		RewriteCond %{REQUEST_FILENAME} !-f
 		RewriteRule ^mediafiles/(.+)/?$ mcms_media_redirect.php?file=$1 [NC,L]
@@ -38,7 +38,7 @@
 		$file_found = $get_file;
 	}
 
-	// redirect or 404
+	// redirect to file, or 404
 	if($file_found){
 		header('Location: ' . $file_found);
 	} else {

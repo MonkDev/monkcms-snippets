@@ -11,7 +11,6 @@ $(document).ready(function() {
 			//console.log('broken anchor HREF found');
 			if ((href.indexOf("/uploaded/") <= 0) && (href.indexOf(".xml") <= 0)) {
 				var filename = href.split('/')[href.split('/').length - 1];
-				filename = filename.split('.')[0];
 				$.ajax({
 					type: 'GET',
 					url: '/_temp/ajax-find-media.php?filename=' + filename,
@@ -28,7 +27,6 @@ $(document).ready(function() {
 			//console.log('broken image SRC found');
 			if (src.indexOf("/uploaded/") <= 0) {
 				var filename = src.split('/')[src.split('/').length - 1];
-				filename = filename.split('.')[0];
 				$.ajax({
 					type: 'GET',
 					url: '/_temp/ajax-find-media.php?filename=' + filename,

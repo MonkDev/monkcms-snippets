@@ -6,6 +6,7 @@
 
 		Add to top of htaccess file to invoke this script:
 
+		# Redirect media links (replace with your media dir)
 		RewriteCond %{REQUEST_FILENAME} !-f
 		RewriteRule ^mediafiles/(.+)/?$ mcms_media_redirect.php?file=$1 [NC,L]
 	*/
@@ -15,17 +16,18 @@
 
 	$file = $_GET['file'];
 	$file_found = false;
+	$old_media_dir = '/mediafiles/';
 
 	// get filename
-	$filename = basename($file);
-	$filename_arr = explode('.',$filename);
+	$filename_ext = basename($file);
+	$filename_arr = explode('.',$filename_ext);
 	$filename = $filename_arr[0];
 	if(strpos($filename,'_')!==false) {
 		$filename_arr = explode('_',$filename);
 		$filename = $filename_arr[count(explode('_',$filename))-1];
 	}
 
-	// find by filename
+	// find media by filename
 	$get_file = trim(getContent(
 		"media",
 		"display:detail",
@@ -35,14 +37,30 @@
 	));
 
 	if($get_file!=''){
+
 		$file_found = $get_file;
+
+		// check if same file
+		if(strpos($file_found,$filename_ext)!==false){
+		} else {
+			$file_found = false;
+		}
+
+		// protect against redirect loop
+		$file_found_arr = explode('/',$file_found);
+		$file_found_dir = $file_found_arr[count(explode('/',$file_found))-2];
+		if(trim($file_found_dir,'/') == trim($old_media_dir,'/')){
+			$file_found = false;
+		}
+
 	}
 
 	// redirect to file, or 404
 	if($file_found){
 		header('Location: ' . $file_found);
 	} else {
-		header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . '/monkcms.php?404');
+		header("HTTP/1.0 404 Not Found");
+		exit();
 	}
 
 ?>

@@ -40,13 +40,12 @@
 
 		$file_found = $get_file;
 
-		// check if same file
-		if(strpos($file_found,$filename_ext)!==false){
-		} else {
+		// ignore if not same file
+		if(strpos($file_found,$filename_ext)===false){
 			$file_found = false;
 		}
 
-		// protect against redirect loop
+		// ignore if redirect loop
 		$file_found_arr = explode('/',$file_found);
 		$file_found_dir = $file_found_arr[count(explode('/',$file_found))-2];
 		if(trim($file_found_dir,'/') == trim($old_media_dir,'/')){

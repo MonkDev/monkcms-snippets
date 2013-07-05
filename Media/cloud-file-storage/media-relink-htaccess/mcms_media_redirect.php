@@ -1,22 +1,30 @@
 <?php
 
-	/*
-		MCMS MEDIA REDIRECT
-		Find + redirect media URLs from 404
+/*
 
-		Add to top of htaccess file to invoke this script:
+MCMS MEDIA REDIRECT
+Find + redirect media URLs from 404
 
-		# Redirect media links (replace with your media dir)
-		RewriteCond %{REQUEST_FILENAME} !-f
-		RewriteRule ^mediafiles/(.+)/?$ mcms_media_redirect.php?file=$1 [NC,L]
-	*/
+Add to top of htaccess file to invoke this script:
+
+# Redirect media links (replace with your media dir)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^mediafiles/(.+)/?$ mcms_media_redirect.php?file=$1 [NC,L]
+
+*/
 
 	require($_SERVER["DOCUMENT_ROOT"] . "/monkcms.php");
 	header("Content-Type: text/plain");
 
+	/* ---------------------------------- */
+
+		$old_media_dir = '/mediafiles/';
+
+	/* ---------------------------------- */
+
 	$file = $_GET['file'];
+	$file_redirect = false;
 	$file_found = false;
-	$old_media_dir = '/mediafiles/';
 
 	// get filename
 	$filename_ext = basename($file);

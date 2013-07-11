@@ -7,7 +7,7 @@ Find + redirect media URLs from 404
 
 Add to top of htaccess file to invoke this script:
 
-# Redirect media links (replace with your media dir)
+# Redirect media links
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^mediafiles/(.+)/?$ mcms_media_redirect.php?file=$1 [NC,L]
 
@@ -18,7 +18,7 @@ RewriteRule ^mediafiles/(.+)/?$ mcms_media_redirect.php?file=$1 [NC,L]
 
 	/* ---------------------------------- */
 
-		$old_media_dir = '/mediafiles/';
+	$old_media_dir = '/mediafiles/';
 
 	/* ---------------------------------- */
 
@@ -48,18 +48,42 @@ RewriteRule ^mediafiles/(.+)/?$ mcms_media_redirect.php?file=$1 [NC,L]
 
 		$file_found = $get_file;
 
-		// ignore if not same file
-		if(strpos($file_found,$filename_ext)===false){
-			$file_found = false;
-		}
+	// find media by search
+	} else {
 
-		// ignore if redirect loop
-		$file_found_arr = explode('/',$file_found);
-		$file_found_dir = $file_found_arr[count(explode('/',$file_found))-2];
-		if(trim($file_found_dir,'/') == trim($old_media_dir,'/')){
-			$file_found = false;
-		}
+		$search_file = trim(getContent(
+			"search",
+			"display:results",
+			"find_module:media",
+			"keywords:" . $filename_ext,
+			"howmany:1",
+			"show:__url__",
+			"no_show: ",
+			"noecho"
+		));
 
+		$file_found = $search_file;
+
+	}
+
+	// ignore if not the same file
+	if(strpos($file_found,$filename_ext)===false){
+		$file_found = false;
+	} else {
+		if(strpos($file_found,'_')!==false) {
+			$file_found_arr = explode('_',$file_found);
+			$file_found_name_ext = $file_found_arr[count(explode('_',$file_found))-1];
+			if($file_found_name_ext !== $filename_ext){
+				$file_found = false;
+			}
+		}
+	}
+
+	// ignore if redirect loop
+	$file_found_arr = explode('/',$file_found);
+	$file_found_dir = $file_found_arr[count(explode('/',$file_found))-2];
+	if(trim($file_found_dir,'/') == trim($old_media_dir,'/')){
+		$file_found = false;
 	}
 
 	// redirect to file, or 404

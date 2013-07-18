@@ -22,9 +22,19 @@ RewriteRule ^mediafiles/(.+)/?$ mcms_media_redirect.php?file=$1 [NC,L]
 
 	/* ---------------------------------- */
 
+	if(isset($_GET['debug'])){
+		$debug = true;
+	} else {
+		$debug = false;
+	}
+
 	$file = $_GET['file'];
 	$file_redirect = false;
 	$file_found = false;
+
+	if($debug){
+		echo '$_GET["file"] = ' . "\n" . $file . "\n\n";
+	}
 
 	// get filename
 	$filename_ext = basename($file);
@@ -33,6 +43,11 @@ RewriteRule ^mediafiles/(.+)/?$ mcms_media_redirect.php?file=$1 [NC,L]
 	if(strpos($filename,'_')!==false) {
 		$filename_arr = explode('_',$filename);
 		$filename = $filename_arr[count(explode('_',$filename))-1];
+	}
+
+	if($debug){
+		echo '$filename_ext = ' . "\n" . $filename_ext . "\n\n";
+		echo '$filename = ' . "\n" . $filename . "\n\n";
 	}
 
 	// find media by filename
@@ -44,7 +59,15 @@ RewriteRule ^mediafiles/(.+)/?$ mcms_media_redirect.php?file=$1 [NC,L]
 		"noecho"
 	));
 
+	if($debug){
+		echo 'Media API pinged for slug "' . $filename . '"' . "\n\n";
+	}
+
 	if($get_file!=''){
+
+		if($debug){
+			echo 'Media API returned: ' . "\n" . $get_file . "\n\n";
+		}
 
 		$file_found = $get_file;
 
@@ -62,36 +85,71 @@ RewriteRule ^mediafiles/(.+)/?$ mcms_media_redirect.php?file=$1 [NC,L]
 			"noecho"
 		));
 
+		if($debug){
+			echo 'No media match found' . "\n\n";
+			echo 'Search attempted for string "' . $filename_ext . '"' . "\n\n";
+			if($search_file){
+				echo 'Search found file: ' . "\n" . $search_file . "\n\n";
+			} else {
+				echo 'No search result for string "' . $filename_ext . '"' . "\n\n";
+			}
+		}
+
 		$file_found = $search_file;
 
 	}
 
 	// ignore if not the same file
+	$file_matched = true;
 	if(strpos($file_found,$filename_ext)===false){
-		$file_found = false;
+		$file_matched = false;
 	} else {
 		if(strpos($file_found,'_')!==false) {
 			$file_found_arr = explode('_',$file_found);
 			$file_found_name_ext = $file_found_arr[count(explode('_',$file_found))-1];
 			if($file_found_name_ext !== $filename_ext){
-				$file_found = false;
+				$file_matched = false;
 			}
 		}
+	}
+
+	if($file_matched){
+		if($debug){
+			echo 'Name of file found matches "' . $filename_ext . '"' . "\n\n";
+		}
+	} else {
+		if($debug){
+			echo 'Name of file found does not match "' . $filename_ext . '"' . "\n\n";
+		}
+		$file_found = false;
 	}
 
 	// ignore if redirect loop
 	$file_found_arr = explode('/',$file_found);
 	$file_found_dir = $file_found_arr[count(explode('/',$file_found))-2];
 	if(trim($file_found_dir,'/') == trim($old_media_dir,'/')){
+		if($debug){
+			echo 'Redirect loop detected' . "\n\n";
+		}
 		$file_found = false;
 	}
 
+	if($debug){
+		if($file_found){
+			echo 'REDIRECT TO:' . "\n" . $file_found . "\n\n";
+		} else {
+			echo 'NO REDIRECT ATTEMPTED' . "\n\n";
+		}
+	}
+
 	// redirect to file, or 404
-	if($file_found){
-		header('Location: ' . $file_found);
-	} else {
-		header("HTTP/1.0 404 Not Found");
-		exit();
+	if(!$debug){
+		if($file_found){
+			header('Location: ' . $file_found);
+		} else {
+			header("HTTP/1.0 404 Not Found");
+			exit();
+		}
 	}
 
 ?>

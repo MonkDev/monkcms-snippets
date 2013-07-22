@@ -43,7 +43,7 @@ class pageMeta {
     if($default){
       $this->page_title = $default;
     }
-    
+
     if($fbimg){
       $this->facebook_image = $fbimg;
       $this->facebook = true;
@@ -152,6 +152,7 @@ class pageMeta {
         $pmeta = getContent(
           "products",
           "display:auto",
+          "howmany:1",
           "before_show_productlist:__familytitle__",
           "show_detail:__familytitle__ - __producttitle__",
           "show_detail:~|~",
@@ -238,7 +239,7 @@ class pageMeta {
       $this->page_keywords = processMetaItem($ptag);
       $this->page_group = processMetaItem($pgroup);
       $this->page_image = processMetaItem($pimage);
-      
+
       if($this->facebook){
         $this->facebook_og .= "<meta property='og:image' content='".$this->facebook_image."'/>\n";
         $this->facebook_og .= "<meta property='og:title' content='".$this->page_title."'/>\n";
@@ -249,7 +250,7 @@ class pageMeta {
         }
       }
   }
-  
+
   private function getURL(){
      $protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https')
                      === FALSE ? 'http' : 'https';

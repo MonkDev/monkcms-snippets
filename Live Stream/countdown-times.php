@@ -22,7 +22,7 @@ getContent(
     "repeatevent:yes",
     "find_category:live-event",
     "startdate:" . $yesterday,
-    "howmany:15",
+    "howmany:10",
     "show:__title__",
     "show:||",
     "show:__eventstart format='F j, Y G:i:s'__", // 1 - start time

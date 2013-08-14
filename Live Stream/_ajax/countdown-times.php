@@ -22,7 +22,7 @@ getContent(
     "repeatevent:yes",
     "find_category:live-event",
     "startdate:" . $yesterday,
-    "howmany:10",
+    "howmany:15",
     "show:__title__",
     "show:||",
     "show:__eventstart format='F j, Y G:i:s'__", // 1 - start time
@@ -40,7 +40,7 @@ for ($i=0; $i<count($event_prearray); $i++) {
 	$item_arr = explode("||",$event_prearray[$i]);
 	$event_end = $item_arr[2];
 
-    // Include only events that have not yet ended
+    //include only events that have not yet ended
 	if($now<strtotime($event_end)){
 		$event_array[] = $item_arr;
 	}
@@ -53,7 +53,7 @@ for ($i=0; $i<count($event_array); $i++) {
     $title = $event_array[$i][0];
 
     $dateTime_start = new DateTime($event_array[$i][1], new DateTimeZone($timezone));
-    $dateTime_end = new DateTime($event_array[$i][2], new DateTimeZone($timezone));
+    $dateTime_end = new DateTime($event_array[$i][2], new DateTimeZone($timezone));    
 
     $nodes[$i] = array(
     	id => "id".strval($i),

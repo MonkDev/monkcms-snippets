@@ -23,6 +23,8 @@
   
 </div><!-- #countdown -->
 
+<!-- include the jquery plugin that does all the work -->
+<script  type="text/javascript" src="jquery.countdown.min.js"></script>
 
 <!-- include the main control file. This file calls /_ajax/countdown.php so make sure that's included -->
 <script  type="text/javascript" src="countdown-manager.js"></script>

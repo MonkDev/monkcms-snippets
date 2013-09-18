@@ -12,7 +12,7 @@
 
 
 	$filename = 'media' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
-	$howmany = 3799; // Set to number of items in the module
+	$howmany = 1500; // Set to number of items in the module
 
 
 	// Header
@@ -101,7 +101,8 @@
 		"show:~||~",
 		"show:__tags__", // 6
 		"show:~|~|~",
-		"noecho"
+		"noecho",
+		"nocache"
 		);
 
 	}
@@ -114,9 +115,14 @@
 
 		$media_url = trim($media_array[3]);
 		$media_url_arr = explode('/',$media_url);
-		$media_filename = $media_url_arr[count($media_url_arr)-1];
+		$media_filename = $media_url_arr[count(explode('/',$media_url))-1];
 		if($media_filename==''){
 			$media_filename = trim($media_array[2]);
+		} else {
+			if(strpos($media_filename,'_')!==false) {
+				$media_filename_arr = explode('_',$media_filename);
+				$media_filename = $media_filename_arr[count(explode('_',$media_filename))-1];	
+			}
 		}
 
 		$embed_code = trim($media_array[4]);

@@ -15,6 +15,16 @@
 
 	*Remember that the Site Group cannot be present in a Page's groups
 	for it to be private.
+	
+	Here are some instructions for the user on using a template with these additions:
+	
+	1. Create a Group in People > Groups, and set the privacy of the Group to Private.
+	2. Add yourself and/or a few Members to this Group.
+	3. Open the Page you want to make private. Change the Template to Subpage Layout (Private). 
+	4. Assign your private Group to the Page on the Publish screen. Be sure to remove the Site Group.
+	5. In Content > Sections > Access Denied Message, set the message you'd like users to see if they log in, but do not yet have access to the private Group (a CMS user will need to add them).
+
+	With the private Group set to this page, the user will be prompted to log in. If they log in and are not in the private Group, the custom message will display. If they log in and are in the Group, the content will display.
 
 // ===================================================================== */
 

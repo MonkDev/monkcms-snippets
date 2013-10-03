@@ -32,6 +32,7 @@
 	'find:' . $_GET['nav'],
 	//'find:test-rotator',
 	'order:position',
+	
 	'before_show:<ol class="cycle-slideshow" data-id="__slug__"',
 	'before_show: data-cycle-slides=".slide"',
 	'before_show: data-cycle-fx="fadeout"',
@@ -41,7 +42,9 @@
 	'before_show: data-cycle-auto-height="calc"',
 	'before_show: data-cycle-log="false"',
 	'before_show:>' . "\n",
+	
 	'before_show:~SLIDEBODY~',
+	
 	"image_slide_show:__customstarttime__",
 	"image_slide_show:~SLIDEDATA~",
 	"image_slide_show:__customendtime__",
@@ -51,10 +54,11 @@
 	"image_slide_show: href='__url__'",
 	"image_slide_show:__ifurlnewwindow__target='_blank'",
 	"image_slide_show:>",
-	"image_slide_show:<img src='__imageurl width='880' height='350'__' width='880' height='350' alt=\"__title__\"/>",
+	"image_slide_show:<img src='__imageurl width='880' height='350'__' width='880' height='350' alt=\"__title nokill='yes'__\"/>",
 	"image_slide_show:</a>",
 	"image_slide_show:</li>" . "\n",
 	"image_slide_show:~SLIDE~",
+	
 	"video_slide_show:__customstarttime__",
 	"video_slide_show:~SLIDEDATA~",
 	"video_slide_show:__customendtime__",
@@ -66,14 +70,16 @@
 	"video_slide_show: data-embed-src='__videoembedurl__'",
 	"video_slide_show: data-file-url='__videourl__'",
 	"video_slide_show: data-image='__videopreviewimageurl__'",
-	"video_slide_show: data-title='__title__'",
+	"video_slide_show: data-title=\"__title nokill='yes'__\"",
 	"video_slide_show: href='#'",
 	"video_slide_show:>",
-	"video_slide_show:<img src='__videopreviewimageurl width='880' height='350'__'  width='880' height='350' alt=\"__title__\"/>",
+	"video_slide_show:<img src='__videopreviewimageurl width='880' height='350'__'  width='880' height='350' alt=\"__title nokill='yes'__\"/>",
 	"video_slide_show:</a>",
 	"video_slide_show:</li>" . "\n",
 	"video_slide_show:~SLIDE~",
+
 	"after_show:~SLIDEBODY~",
+	
 	"after_show:<div class='cycle-pager'></div>",
 	"after_show:</ol><!-- .cycle-slideshow -->",
 	"noecho"
@@ -91,9 +97,9 @@
 	foreach($rotator_items_arr as $slide_item){
 
 		$slide_item_arr = explode('~SLIDEDATA~',$slide_item);
-		$slide = $slide_item_arr[2];
 		$start_time = strtotime(trim($slide_item_arr[0]));
 		$end_time = strtotime(trim($slide_item_arr[1]));
+		$slide = $slide_item_arr[2];
 
 		// start + end time
 		if($start_time!='' && $end_time!=''){
@@ -126,5 +132,4 @@
 
 ?>
 
-
-	</div>
+	</div><!-- .rotator -->

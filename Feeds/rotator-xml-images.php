@@ -15,9 +15,9 @@
 ---------------------------------------------------------------------------
 */
 
-require($_SERVER["DOCUMENT_ROOT"]."/monkcms.php");
-
 header('Content-type: text/xml');
+
+require($_SERVER["DOCUMENT_ROOT"]."/monkcms.php");
 
 $rotator = $_GET['id'];
 

@@ -34,14 +34,19 @@
 
 <?php
 
-	// Get the members of the group(s) applied to this page.
-
-	$groups = getContent("page", "display:detail", "find:" . $_GET['nav'], "show:__groupslugs__", "noecho");
-	$groups = str_replace(" ","",$groups);
-
-	$group_members = strtolower(getContent("member", "display:list", "find_group:" . $groups, "show:__username__,", "noecho"));
-	$current_member = strtolower($MCMS_USERNAME);
-
+	$group_access = false;
+	
+	$get_groups = getContent("page", "display:detail", "find:" . $_GET['nav'], "show:__groupslugs__", "noecho"); // this API call will be different for sermons, blogs, etc.
+	$get_groups = trim(preg_replace('/\s+/', '', $get_groups), ',');
+	
+	$group_members = getContent("member", "display:list", "find_group:" . $get_groups, "howmany:9999", "show:__username__,", "noecho");
+	$group_members = explode(',', trim($group_members, ','));
+	$group_members = array_values(array_unique($group_members));
+		
+	if (in_array($MCMS_USERNAME, $group_members)) {
+		$group_access = true;
+	}
+	
 ?>
 
 
@@ -70,7 +75,7 @@
 
 	// If logged in and *not* a group member, show the access denied message.
 
-	if ( $MCMS_LOGGEDIN && (!strstr($group_members,$current_member)) ):
+	if ( $MCMS_LOGGEDIN && !$group_access ):
 
 ?>
 
@@ -89,7 +94,7 @@
 
 	// If logged in *and* a group member, show everything.
 
-	if( $MCMS_LOGGEDIN && (strstr($group_members,$current_member)) ):
+	if( $MCMS_LOGGEDIN && $group_access ):
 
 ?>
 

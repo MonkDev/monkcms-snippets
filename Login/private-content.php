@@ -35,9 +35,9 @@
 <?php
 
 	/* MEMBERSHIP */
-
+	
 	$group_access = false;
-
+	
 	// Get groups list
 	$get_groups = getContent("blog", "display:auto", "howmany:1", "show_postlist:__groupslug__", "noecho"); // blogs
 	$get_groups = getContent("page", "display:detail", "find:" . $_GET['nav'], "show:__groupslugs__", "noecho"); // pages
@@ -46,12 +46,14 @@
 	$get_groups = trim(preg_replace('/\s+/', '', $get_groups), ',');
 
 	// Get members of all groups
-	$group_members = getContent("member", "display:list", "find_group:" . $get_groups, "howmany:9999", "show:__username__,", "noecho");
-	$group_members = explode(',', trim($group_members, ','));
-	$group_members = array_values(array_unique($group_members));
-
-	// Check if current member is included
-	if (in_array($MCMS_USERNAME, $group_members)) {
+	if($get_groups!=''){
+		$group_members = getContent("member", "display:list", "find_group:" . $get_groups, "howmany:9999", "show:__username__,", "noecho");
+		$group_members = explode(',', trim($group_members, ','));
+		$group_members = array_values(array_unique($group_members));
+		if (in_array($MCMS_USERNAME, $group_members)) {
+			$group_access = true;
+		}
+	} else {
 		$group_access = true;
 	}
 
@@ -99,25 +101,20 @@
 
 	/* LOGGED IN, NOT A MEMBER */
 
-	if ( $MCMS_LOGGEDIN && !$group_access ):
+	if ( $MCMS_LOGGEDIN && !$group_access ){
 
-?>
-
-		<h3>Your account does not have access to this page.</h3>
-
-		<?php
-			// Custom "access denied" message.
-			getContent(
+		// "Access denied" message.
+		getContent(
 			"section",
 			"display:detail",
 			"find:access-denied-" . $some_slug, // some identifier (group name, etc)
-			"show:__text__",
+			//"find:p-######",
+			"show:__text__", // <h3>Your account does not have access to this page.</h3>
+			"<p><a href='/logout'>&laquo; log out</a></p>",
 			"<p><a href='/'>&laquo; home</a></p>"
-			);
-		?>
+		);
 
-
-<?php endif; ?>
+<?php } ?>
 
 
 

@@ -39,8 +39,8 @@
 	$group_access = false;
 	
 	// Get groups list
-	$get_groups = getContent("blog", "display:auto", "howmany:1", "show_postlist:__groupslug__", "noecho"); // blogs
 	$get_groups = getContent("page", "display:detail", "find:" . $_GET['nav'], "show:__groupslugs__", "noecho"); // pages
+	$get_groups = getContent("blog", "display:auto", "howmany:1", "show_postlist:__groupslug__", "noecho"); // blogs
 
 	// Sanitize groups list
 	$get_groups = trim(preg_replace('/\s+/', '', $get_groups), ',');
@@ -64,7 +64,7 @@
 
 <?php
 
-	/* HELPERS */
+	/* BLOG TEMPLATE HELPERS */
 
 	// If title of Blog can't be returned due to privacy, get it via wildcard.
 	if(!$blogslug){ $blogslug_arr = explode('/',trim($_GET['wildcard'],'/')); $blogslug = $blogslug_arr[0]; }
@@ -88,7 +88,7 @@
 	if (!$MCMS_LOGGEDIN) {
 
 		$login_link = getContent("login","display:popup","label:login","noecho");
-		echo '<p>Please ' . $login_link . ' to access this blog.</p>';
+		echo '<p>Please ' . $login_link . ' to access this page.</p>';
 
 	}
 
@@ -101,14 +101,14 @@
 
 	/* LOGGED IN, NOT A MEMBER */
 
-	if ( $MCMS_LOGGEDIN && !$group_access ){
+	if ($MCMS_LOGGEDIN && !$group_access){
 
 		// "Access denied" message.
 		getContent(
 			"section",
 			"display:detail",
-			"find:access-denied-" . $some_slug, // some identifier (group name, etc)
-			//"find:p-######",
+			"find:p-######",
+			//"find:access-denied-" . $some_slug, // some identifier (group name, etc)
 			"show:__text__", // <h3>Your account does not have access to this page.</h3>
 			"<p><a href='/logout'>&laquo; log out</a></p>",
 			"<p><a href='/'>&laquo; home</a></p>"
@@ -123,7 +123,7 @@
 
 	/* LOGGED IN AND A MEMBER */
 
-	if( $MCMS_LOGGEDIN && $group_access ):
+	if($MCMS_LOGGEDIN && $group_access){
 
 ?>
 
@@ -139,4 +139,4 @@
 		?>
 
 
-<?php endif; ?>
+<?php } ?>

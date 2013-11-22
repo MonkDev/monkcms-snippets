@@ -12,7 +12,7 @@
 		foreach($matches[1] as $url){
 			if(strpos($url,'rackcdn.com')!==false){
 				$secure_url = str_replace('http://','https://',$url);
-				$secure_url = preg_replace('/.r(\d{2})./','.ssl.',$secure_url);
+				$secure_url = preg_replace('/\.r(\d{2})\./','.ssl.',$secure_url);
 				$content = str_replace($url,$secure_url,$content);
 			}
 		}

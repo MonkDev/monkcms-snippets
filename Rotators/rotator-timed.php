@@ -6,13 +6,26 @@
 		Using Custom Fields assigned to Rotator Slides, slides can individually
 		be set to begin, expire, or display between times.
 
-		Users must enter date and time in custom field in a proper format, such as:
+		Users must enter date and time in custom field in the proper American format:
 
-		2013/5/1 18:00
-		5-1-2013 18:00
+		YYYY-MM-DD 24:00
 
-		That is, any format recognized by strtotime()
-		http://www.php.net/manual/en/datetime.formats.php
+		http://www.php.net/manual/en/function.strtotime.php
+		
+		You may add the following function which is a modification of strtotime() to 
+		protect against instances where the user might enter a European date format
+		by mistake:
+		
+		function strtotime_US($date){
+			// Change to US date pattern if European pattern found
+			$date = trim($date);
+			$pattern = '/^([0-9]{1,2})(\.|-)([0-9]{1,2})(\.|-)([0-9]{4})/';
+			if(preg_match($pattern,$date)){
+				$date = preg_replace($pattern,'$5-$1-$3',$date);
+			}
+			return strtotime($date);
+		}
+		
 	*/
 
 ?>

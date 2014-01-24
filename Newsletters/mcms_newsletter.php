@@ -232,7 +232,9 @@
 				"show:<p><a href='__unsubscribeURL__'>Click here</a> to unsubscribe from this mailing list.</p>"
 				);
 			?>
-			<p>Sent with <a href="http://www.ekklesia360.com/" target="_blank">Ekklesia 360 &reg;</a>.</p>
+			<?php /*?>
+				<p>Sent with <a href="http://www.ekklesia360.com/" target="_blank">Ekklesia 360 &reg;</a>.</p>
+			<?php */?>
 			</td>
 		</tr>
 

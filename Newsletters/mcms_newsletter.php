@@ -91,16 +91,16 @@
 			border-bottom: 1px solid #ccc;
 		}
 		
-		td,p,ul,li {
+		td,ul,ol,p,li {
 			font-size: 14px;
 			line-height:normal;
 			margin:18px 0;
 		}
 		
 		li {
-			margin-top: 8px;
-			margin-bottom: 14px;
 			list-style-position: inside;
+			margin-top: 8px;
+			margin-bottom: 12px;
 		}
 		
 		td.notice p {
@@ -226,15 +226,12 @@
 			<hr />
 			<?php
 				// output unsubscribe URL
-				getContent(
+				/*getContent(
 				"newsletter",
 				"find:".$_GET['nav'],
 				"show:<p><a href='__unsubscribeURL__'>Click here</a> to unsubscribe from this mailing list.</p>"
-				);
+				);*/
 			?>
-			<?php /*?>
-				<p>Sent with <a href="http://www.ekklesia360.com/" target="_blank">Ekklesia 360 &reg;</a>.</p>
-			<?php */?>
 			</td>
 		</tr>
 

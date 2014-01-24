@@ -88,7 +88,7 @@
 		hr {
 			height: 1px;
 			border: 0;
-			border-bottom: 1px solid <?=$body_text?>;
+			border-bottom: 1px solid #ccc;
 		}
 		
 		td,p,ul,li {

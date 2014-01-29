@@ -9,7 +9,6 @@
 #content .monkForm fieldset, #content .monkForm fieldset div { padding:0; margin:0; }
 #content .monkForm fieldset div { margin-bottom:20px; }
 
-
 /* Widths */
 #content .monkForm { width:100%; }
 #content .monkForm fieldset legend { width: 450px; }
@@ -33,15 +32,59 @@
 	}
 }
 
+/* Backgrounds */
+#content .monkForm input,
+#content .monkForm select,
+#content .monkForm textarea
+{
+background:#fff;
+background:rgba(255,255,255,0.85);
+}
+
+/* Colors */
+#content .monkForm label,
+#content .monkForm legend,
+#content .monkForm
+{
+color:#555;
+}
+#content .monkForm p.errorSummary,
+#content .monkForm span.asterisk,
+#content .monkForm.monkForm p.error{
+color:red;
+}
+
+/* Focus */
+#content .monkForm input:focus,
+#content .monkForm select:focus,
+#content .monkForm textarea:focus
+{
+outline:none;
+background:#fff;
+border:1px solid #999;
+-webkit-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, .25);
+-moz-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, .25);
+box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, .25);
+}
+
+/* Effects */
+#content .monkForm input,
+#content .monkForm select,
+#content .monkForm textarea
+{
+/*
+-moz-border-radius:4px;
+-webkit-border-radius:4px;
+border-radius:4px;
+*/
+}
 
 /* Legends */
 #content .monkForm fieldset legend { display:block; margin:0; padding:0; padding-bottom:10px; line-height:normal; font-size:13px; white-space: normal; }
 
-
 /* Title */
 #content .monkForm > fieldset > legend { display:none; font-size:16px; white-space:normal; zoom: 1;}
 #content .monkForm > fieldset > fieldset > legend { padding-top:10px; font-size:16px; font-weight:bold; }
-
 
 /* Labels */
 #content .monkForm label { display: block; font-size:13px; line-height: normal; font-weight:bold; margin-bottom:4px; }
@@ -55,38 +98,26 @@
 #content .monkForm p.errorSummary { font-weight: bold; font-style:italic; }
 #content .monkForm p.error { font-size:11px; margin-bottom:5px; }
 
-
 /* General fields (input, select, textarea ) */
 #content .monkForm input,#content .monkForm p.data input,#content .monkForm p.data select,#content .monkForm p.data textarea {
 font:normal 12px/100% Verdana, Tahoma, sans-serif; border:1px solid #555;
 }
 
-
 /* Inputs */
 #content .monkForm input[type=text],#content .monkForm input[type=file] { padding:5px; }
-
 
 /* Selects */
 #content .monkForm select { padding:2px; }
 #content .monkForm select option { padding:2px 4px; }
 
-
 /* Textareas */
 #content .monkForm textarea { padding:6px; resize: vertical; }
-
 
 /* Checkboxes and radio buttons */
 #content .monkForm .radio .data,#content .monkForm .checkbox .data { margin-bottom:12px; }
 #content .monkForm .radio label,#content .monkForm .checkbox label{ display: inline; margin-left: 5px; }
 #content .monkForm input[type=checkbox],#content .monkForm input[type=radio] { background:none; border:0; }
 #content .monkForm fieldset fieldset fieldset p { padding:0; margin:7px 10px; margin-top:0; }
-
-
-/* Captchas */
-#content .monkForm .captcha label .asterisk { display: none; }
-#content .monkForm .captcha input { display: block;}
-#content .monkForm .captcha img { margin-bottom:4px; border: 1px solid #555; padding: 0; }
-
 
 /* Submit buttons */
 #content .monkForm input[type=submit]
@@ -103,57 +134,10 @@ box-shadow:none;
 #content .monkForm input[type=submit]:hover { background:#777; cursor: pointer; }
 #content .monkForm input[type=image] { border:0; }
 
-
-/* Colors */
-#content .monkForm label,
-#content .monkForm legend,
-#content .monkForm
-{
-color:#555;
-}
-#content .monkForm p.errorSummary,
-#content .monkForm span.asterisk,
-#content .monkForm.monkForm p.error{
-color:red;
-}
-
-
-/* Backgrounds */
-#content .monkForm input,
-#content .monkForm select,
-#content .monkForm textarea
-{
-background:#fff;
-background:rgba(255,255,255,0.85);
-}
-
-
-/* Effects */
-#content .monkForm input,
-#content .monkForm select,
-#content .monkForm textarea
-{
-/*
--moz-border-radius:4px;
--webkit-border-radius:4px;
-border-radius:4px;
-*/
-}
-
-
-/* Focus */
-#content .monkForm input:focus,
-#content .monkForm select:focus,
-#content .monkForm textarea:focus
-{
-outline:none;
-background:#fff;
-border:1px solid #999;
--webkit-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, .25);
--moz-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, .25);
-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, .25);
-}
-
+/* Captchas */
+#content .monkForm .captcha label .asterisk { display: none; }
+#content .monkForm .captcha input { display: block;}
+#content .monkForm .captcha img { margin-bottom:4px; border: 1px solid #555; padding: 0; }
 
 /* Asterisks */
 #content .monkForm span.asterisk { font-weight:normal; display: inline; }

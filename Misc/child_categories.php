@@ -3,9 +3,9 @@
 
 	// Outputs all child categories from a parent.
 	
-	function child_categories($module,$parent_category){
-		$categories = 
-		getContent(
+	function child_categories($module,$parent_category,$include_parent){
+		$categories =
+			getContent(
 			$module,
 			"display:categories",
 			"parent_category:" . $parent_category,
@@ -18,6 +18,9 @@
 			"noedit"
 		);
 		$categories = trim($categories,',');
+		if($include_parent){
+			$categories = $parent_category . ',' . $categories;
+		}
 		return $categories;
 	}
 	

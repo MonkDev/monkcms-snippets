@@ -1,0 +1,31 @@
+/* =Accordion
+---------------------------------------------------------------------
+*/
+
+.accordiontrigger {
+	cursor:pointer;
+}
+
+.accordiontrigger .plus-icon {
+	display:inline-block;
+	position:relative;
+	right:-9px;
+	top:3px;
+	width:18px;
+	height:18px;
+	text-indent:-9999px;
+	background:url(/_img/icon-plus.png?v=3) no-repeat 0 0;
+}
+
+.accordiontrigger .plus-icon.hidden {
+	background:none;
+}
+
+.js .accordiontext {
+	display:none;
+	position:relative;
+	-webkit-transition:max-height 700ms ease;
+	-moz-transition:max-height 700ms ease;
+	-o-transition:max-height 700ms ease;
+	padding-bottom:7px;
+}

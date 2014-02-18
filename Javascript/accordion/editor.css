@@ -1,0 +1,12 @@
+.accordiontrigger{
+	width:auto;
+	background: #bfc9de;	
+}
+.accordiontrigger:after {
+	content: " (accordion)";
+	font-size: 12px;
+}
+.accordiontext{
+	width:auto;
+	background: #e0e8f8;
+}

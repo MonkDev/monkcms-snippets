@@ -21,7 +21,7 @@
 	background:none;
 }
 
-.js .accordiontext {
+.js .accordionbellow {
 	display:none;
 	position:relative;
 	-webkit-transition:max-height 700ms ease;

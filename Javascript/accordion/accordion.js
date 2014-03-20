@@ -18,12 +18,12 @@ accordion('.accordiontrigger', '.accordiontext', true);
  */
 function accordion(triggerClass, contentClass, linked) {
 	if (typeof linked === undefined) {
-		var linked = false;
+		linked = false;
 	}
 	if ($(triggerClass).length > 0) {
 		$(triggerClass).each(function() {
 			$(this).append('<span class="accordionstatus"> [+]</span>');
-			var contentItems = $(this).nextUntil(triggerClass, contentClass).wrapAll('<div class="accordionbellow">');
+			$(this).nextUntil(triggerClass, contentClass).wrapAll('<div class="accordionbellow">');
 		});
 		$(triggerClass).click(function() {
 			var $this = $(this);
@@ -33,13 +33,13 @@ function accordion(triggerClass, contentClass, linked) {
 			if (!$target.hasClass('active')) {
 				if (linked) {
 					$all.slideUp(function() {
-						$all.removeClass('active')
+						$all.removeClass('active');
 					}).prev(triggerClass).find('.plus-icon').removeClass('hidden');
 				}
 				$('.accordionstatus').text(' [+]');
-				$this.find('.accordionstatus').text(' [–]');
+				$this.find('.accordionstatus').text(' [-]');
 				$target.slideDown(function() {
-					$target.addClass('active')
+					$target.addClass('active');
 				});
 				$this.find('.plus-icon').addClass('hidden');
 			} else {

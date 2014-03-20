@@ -43,7 +43,7 @@
 	$headers .= '"Weekly Attendance",'; 	// 4
 	$headers .= '"Worship Address",'; 		// 5
 	$headers .= '"Street",'; 				// 6
-	//$headers .= '"Street 2",'; 			// 7
+	$headers .= '"Street 2",'; 				// 7
 	$headers .= '"City",';					// 8
 	$headers .= '"State",';					// 9
 	$headers .= '"State Abbr",';			// 10
@@ -96,8 +96,8 @@
 			"show:__address__",
 			"show:~||~",
 			"show:__street__",
-			//"show:~||~",
-			//"show:__street2__",
+			"show:~||~",
+			"show:__street2__",
 			"show:~||~",
 			"show:__city__",
 			"show:~||~",
@@ -172,7 +172,6 @@
 			processItem($church_array[21]) . "," .
 			processItem($church_array[22]) . "," .
 			processItem($church_array[23]) . "," .
-			//processItem($church_array[24]) . "," .
 			processItem($church_array[24]) . "\n" ;
 
 			$lines .= $line;

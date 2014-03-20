@@ -6,7 +6,7 @@
 		Using Custom Fields assigned to Rotator Slides, slides can individually
 		be set to begin, expire, or display between times.
 
-		Users must enter date and time in custom field in the proper American format:
+		Users must enter date and time in custom field in this format:
 
 		YYYY-MM-DD 24:00
 

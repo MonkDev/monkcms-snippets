@@ -251,7 +251,7 @@ class serviceuEvents{
 	*
 	*/
 	public static function getEvents(){
-		$orgKey = '21ad7710-bb02-4843-ad40-6c4bc15477dd';
+		$orgKey = 'YOUR-ORGANIZATION-KEY-HERE';
 		$nextDays = '180';//6 months out
 		$feed = file_get_contents('http://api.serviceu.com/rest/events/occurrences?nextDays='.$nextDays.'&orgKey='.$orgKey.'&format=xml');
 		$xmlData = preg_replace_callback( '/&.*?;/', 'reencode', $feed );
@@ -313,7 +313,7 @@ class serviceuEvents{
 	*
 	*/
 	public static function getEventOccurrence($occID){
-		$orgKey = '21ad7710-bb02-4843-ad40-6c4bc15477dd';
+		$orgKey = 'YOUR-ORGANIZATION-KEY-HERE';
 		$feed = file_get_contents('http://api.serviceu.com/rest/events/occurrences/'.$occID.'?orgKey='.$orgKey.'&format=xml');
 		$xmlData = preg_replace_callback( '/&.*?;/', 'reencode', $feed );
 		$xmlString = simplexml_load_string($xmlData, 'SimpleXMLElement', LIBXML_NOCDATA);
@@ -360,7 +360,7 @@ class serviceuEvents{
 	*
 	*/
 	public static function getEvent($eventID){
-		$orgKey = '21ad7710-bb02-4843-ad40-6c4bc15477dd';
+		$orgKey = 'YOUR-ORGANIZATION-KEY-HERE';
 		$feed = file_get_contents('http://api.serviceu.com/rest/events/'.$eventID.'?orgKey='.$orgKey.'&format=xml');
 		$xmlData = preg_replace_callback( '/&.*?;/', 'reencode', $feed );
 		$xmlString = simplexml_load_string($xmlData, 'SimpleXMLElement', LIBXML_NOCDATA);
@@ -501,7 +501,7 @@ class serviceuEvents{
 	*
 	*/
 	public static function getCategories(){
-		$orgKey = '21ad7710-bb02-4843-ad40-6c4bc15477dd';
+		$orgKey = 'YOUR-ORGANIZATION-KEY-HERE';
 		$feed = file_get_contents('http://api.serviceu.com/rest/categories/?&orgKey='.$orgKey.'&format=xml');
 		$xmlData = preg_replace_callback( '/&.*?;/', 'reencode', $feed );
 		$xmlString = simplexml_load_string($xmlData, 'SimpleXMLElement', LIBXML_NOCDATA);
@@ -581,7 +581,7 @@ class serviceuEvents{
 	*
 	*/
 	public static function getDepartments(){
-		$orgKey = '21ad7710-bb02-4843-ad40-6c4bc15477dd';
+		$orgKey = 'YOUR-ORGANIZATION-KEY-HERE';
 		$feed = file_get_contents('http://api.serviceu.com/rest/departments/?&orgKey='.$orgKey.'&format=xml');
 		$xmlData = preg_replace_callback( '/&.*?;/', 'reencode', $feed );
 		$xmlString = simplexml_load_string($xmlData, 'SimpleXMLElement', LIBXML_NOCDATA);

@@ -37,13 +37,14 @@
 	// Set to client timezone (is set to UTC otherwise)
 	$timezone = getContent('site','display:detail','show:__timezone__','noecho');
 	if($timezone){date_default_timezone_set($timezone);}
+	$now = strtotime('now');
 
 	$get_rotator =
 	getContent(
 	'rotator',
 	'display:slides',
 	'find:' . $_GET['nav'],
-	//'find:test-rotator',
+	//'find:homepage-rotator',
 	'order:position',
 	
 	'before_show:<ol class="cycle-slideshow" data-id="__slug__"',
@@ -97,15 +98,12 @@
 	"after_show:</ol><!-- .cycle-slideshow -->",
 	"noecho"
 	);
-
+		
 	$rotator_arr = explode('~SLIDEBODY~',$get_rotator);
 
-	$rotator_open = $rotator_arr[0];
-	$rotator_items = trim($rotator_arr[1],'~SLIDE~');
-	$rotator_items_arr = explode('~SLIDE~',$rotator_items);
-
-	$rotator_close = $rotator_arr[2];
-	$now = strtotime('now');
+	$rotator_before = $rotator_arr[0];
+	$rotator_items_arr = explode('~SLIDE~',preg_replace('/(~SLIDE~)*$/','',$rotator_arr[1]));
+	$rotator_after = $rotator_arr[2];
 
 	foreach($rotator_items_arr as $slide_item){
 
@@ -139,9 +137,9 @@
 
 	}
 
-	echo $rotator_open;
+	echo $rotator_before;
 	echo $rotator_slides;
-	echo $rotator_close;
+	echo $rotator_after;
 
 ?>
 

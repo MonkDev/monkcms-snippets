@@ -1,7 +1,9 @@
 <?php
 
 	/*
+	
 		TIMED ROTATOR SLIDES
+		by Chris Ullyott
 
 		Using Custom Fields assigned to Rotator Slides, slides can individually
 		be set to begin, expire, or display between times.
@@ -25,6 +27,33 @@
 			}
 			return strtotime($date);
 		}
+		
+		
+		-------------------------------------------------------------------------------------------------
+
+		Here are some client instructions:
+
+		-------------------------------------------------------------------------------------------------
+		
+		
+		You can now set times on rotator slides in Ekklesia 360.
+		
+		In Media > Rotators, there is a Start Time and End Time. The position of the slides will remain as you have set them, however the times can be used to add or remove the slide from the rotation at a later date.
+		
+		Use the following format:
+		
+		YYYY-MM-DD 24:00
+		
+		If you use the "Start time", the slide will not show until that time. If you use the "End Time", the slide will show up until that time. If you use both fields, a window of time will be used. In short, you can use these options independently.
+		
+		You can also choose to go without a time (YYYY-MM-DD). If you do this, the slide will switch over at midnight.
+		
+		Your site's time zone is also used for this, which is set in the Admin tab in the CMS.
+		
+		Let us know if you have any questions about using that. Thanks again!
+
+
+		-------------------------------------------------------------------------------------------------
 		
 	*/
 

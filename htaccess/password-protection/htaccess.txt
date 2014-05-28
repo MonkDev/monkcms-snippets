@@ -1,19 +1,17 @@
 # PASSWORD-PROTECTION
 
-# This example only protects "/about-us/"
+# This protects only "/about-us/"
 SetEnvIf Request_URI ^/about-us(\/?)$ require_auth=true
 
-# This example protects "/about-us/" and all child pages
-SetEnvIf Request_URI ^/about-us/(.*?)$ require_auth=true
+# This protects "/about-us/" and all child pages
+SetEnvIf Request_URI ^/about-us/?(.*?)$ require_auth=true
 
-# Setup authentication
+# Authentication
 AuthUserFile /web/auth/.htpasswd
 AuthName "This page is protected."
 AuthType Basic
-
-# Setup deny/allow
-Order Deny,Allow
-Deny from all
-Satisfy any
 Require valid-user
-Allow from env=!require_auth
+Order allow,deny
+Allow from all
+Deny from env=require_auth
+Satisfy any

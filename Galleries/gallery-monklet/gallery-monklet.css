@@ -7,15 +7,15 @@
 
 #content .galleryMonklet,#content .galleryMonklet ul.gM-photos {
 	width:100%;
-	padding:0;
 	margin-left:auto;
 	margin-right:auto;
+	padding:0;
 	float:none;
 	clear:both;
+	list-style:none;
 }
 
 #content .galleryMonklet li.gM-photo {
-	display:block;
 	float:left;
 	list-style:none;
 	max-width:20%;/* five images per row */
@@ -24,23 +24,22 @@
 }
 
 #content .galleryMonklet li.gM-photo a {
+	display:block;
 	max-width:85%;
 	margin:auto;
-	display:block;
 	height:auto;
 	padding:2px;
 	border:1px solid #c5c5c5;
 }
 
 #content .galleryMonklet li.gM-photo a:hover {
-	border-color:#999;
+	border:1px solid #999;
 }
 
 #content .galleryMonklet li.gM-photo a img {
 	display:block;
 	max-width:100%;
 	height:auto;
-	min-height:auto;
 	margin:0;
 	padding:0;
 	border:0;

@@ -1,0 +1,25 @@
+{{
+
+tag="gallery"
+display="auto"
+order="recent"
+before_show_gallery="<!--<h2>__title__</h2>-->"
+before_show_gallery="<!--<p>__description__</p>-->"
+before_show_gallery="<!--<p><a href='../'>&laquo; Photo Galleries Home</a></p>-->"
+before_show_gallery="<div class='gallery-items'>"
+show_gallery="<img"
+show_gallery=" src='__imageurl maxWidth='900' maxHeight='900'__'"
+show_gallery=" title='__title__'"
+show_gallery=" rel='__description__'"
+show_gallery=" alt='__title__'"
+show_gallery="/>"
+after_show_gallery="</div>"
+after_show_gallery="<p id='album-nav'>"
+after_show_gallery="<a id='g_prev' href='#'>Previous</a> "
+after_show_gallery="<a id='g_next' href='#'>Next</a> "
+after_show_gallery="<a id='g_play' href='#'>Play</a> "
+after_show_gallery="<a id='g_pause' href='#'>Pause</a> "
+after_show_gallery="<a id='g_fullscreen' href='#'>Fullscreen</a>"
+after_show_gallery="</p>"
+
+}}

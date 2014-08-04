@@ -1,0 +1,83 @@
+.gallery {
+	overflow:hidden;
+	background-color:#333;
+	border:4px solid #000;
+	width:280px;
+	height:160px;
+	float:left;
+	position:relative;
+	margin-right:15px;
+	margin-bottom:15px;
+}
+
+.gallery.end {
+	margin-right:0;
+}
+
+.gallery .thmb {
+	overflow:hidden;
+	height:135px;
+	background:#fff;
+}
+
+.gallery .thmb img {
+	float:none;
+	margin:0;
+	padding:0;
+}
+
+.gallery p.title {
+	margin-top:2px;
+	background-color:#333;
+	position:absolute;
+	bottom:0;
+	margin-bottom:0;
+	padding:5px;
+	border-top:1px solid #313131;
+	display:block;
+	width:100%;
+}
+
+.gallery .title a {
+	color:#ccc;
+	text-decoration:none;
+}
+
+.gallery .title a:hover {
+	background-color:transparent;
+	text-decoration:none;
+	color:#fff;
+}
+
+.gallery-items {
+	position:relative;
+	z-index:1000;
+}
+
+#album-nav {
+	margin:7px 0;
+}
+
+#album-nav a {
+	margin-right:5px;
+}
+
+/* =Accent color
+---------------------------------------------------------------------
+*/
+a {
+	color:#5d7b9d;
+}
+
+/* =Override
+---------------------------------------------------------------------
+*/
+#content-wrap {
+	position:relative;
+	z-index:3;
+}
+
+.content {
+	position:relative;
+	z-index:3;
+}

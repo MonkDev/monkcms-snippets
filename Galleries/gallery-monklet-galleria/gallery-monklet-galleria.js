@@ -24,6 +24,7 @@
     			thumb_crop: false,
     			image_crop: false,
     			show_imagenav: false, // remove the prev/next arrows
+    			_toggleInfo: false, // prevent info toggle (always show the caption)
     			
     			extend: function() {
     				var gallery = this; // save the scope

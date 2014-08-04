@@ -1,8 +1,9 @@
 {{
 
 tag="gallery"
-display="auto"
-order="recent"
+display="list"
+find_gallery=""
+order="creation"
 before_show_gallery="<!--<h2>__title__</h2>-->"
 before_show_gallery="<!--<p>__description__</p>-->"
 before_show_gallery="<!--<p><a href='../'>&laquo; Photo Galleries Home</a></p>-->"

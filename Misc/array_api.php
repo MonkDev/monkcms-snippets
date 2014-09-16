@@ -28,15 +28,15 @@
  * TIPS: 
  *
  * 1.	Pass "find" either as a first-level parameter, or
- * 		within the "params" array.
+ *		within the "params" array.
  *
  * 2.	In PARAMS and API_TAGS, you can pass options 
- * 		either as an array or as a comma-separated list.
+ *		either as an array or as a comma-separated list.
  *
- * 3. "noecho" is already set.
+ * 3.	"noecho" is already set.
  * 
- * 4. Works well in straightforward implementations
- * 		where display:auto is not needed.
+ * 4.	Works well in straightforward implementations
+ *		where display:auto is not needed.
  * 
  */
 

@@ -12,6 +12,7 @@
  * generate a simple array of data using only the API
  * tags you want.
  *
+ *
  * MODULE: The MonkCMS module to be queried.
  * 
  * DISPLAY: The display mode. Default is "detail". 
@@ -24,6 +25,9 @@
  *
  * API_TAGS: An array of API tags to include in the
  * query, without the double underscores.
+ *
+ * OUTPUT: Set to 'json' for JSON output.
+ *
  *
  * TIPS: 
  *
@@ -61,7 +65,8 @@
 		'api_tags' => array(
 			"blogposttitle",
 			"__blogpostdate format='Y-m-d'__"
-		)
+		),
+		'output' => 'json'
 	));
 	
 /* EXAMPLE 3 --------------------------------
@@ -126,7 +131,7 @@
 		$show_tag = 'show';
 		if(isset($options['show_tag'])){ $show_tag = trim($options['show_tag']); }
 		
-		// tags
+		// api tags
 		$t = '';
 		$t_string = '';
 		if(isset($options['api_tags'])){ $t = $options['api_tags']; }
@@ -178,11 +183,11 @@
 		
 		// output
 		$output = '';
-		if(isset($options['output'])){ $output = $options['output']; }
+		if(isset($options['output'])){ $output = trim($options['output']); }
 		if($d=='detail' && count($gC_data)==1){
 			$gC_data = $gC_data[0];
 		}
-		if($output=='json'){
+		if(strtolower($output)=='json'){
 			$gC_data = json_encode($gC_data);
 		}
 		return $gC_data;

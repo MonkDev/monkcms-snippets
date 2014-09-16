@@ -57,6 +57,7 @@
 		'module' => 'blog',
 		'display' => 'list',
 		'params' => 'find_category:missions,howmany:10',
+		'show_tag' => 'show_postlist',
 		'api_tags' => array(
 			"blogposttitle",
 			"__blogpostdate format='Y-m-d'__"

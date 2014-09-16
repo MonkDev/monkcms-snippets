@@ -71,38 +71,30 @@
 		function getContentData($options){
 			
 			// delimiters
-			$dL1 = '%#_DELIM1_#%';
-			$dL2 = '%#_DELIM2_#%';
-			$dL3 = '%#_DELIM3_#%';
-			$dL4 = '%#_DELIM4_#%';
+			$dL1 = '%DELIM1%';
+			$dL2 = '%DELIM2%';
+			$dL3 = '%DELIM3%';
+			$dL4 = '%DELIM4%';
 			
 			// module
-			$m = $options['module'];
+			$m = '';
+			if(isset($options['module'])){ $m = trim($options['module']); }
 			$m_string = $m;
 			
 			// display 
-			if(isset($options['display'])){
-				$d = $options['display'];
-			} else {
-				$d = 'detail';
-			}
-			$d_string = 'display:' . trim($d);
-			
-			// find
-			$f = '';
-			if(isset($options['find'])){
-				$f = trim($options['find']);
-			}
+			$d = 'detail';
+			if(isset($options['display'])){ $d = trim($options['display']); }
+			$d_string = 'display:' . $d;
 			
 			// params
-			$p = $options['params'];
-			if(isset($options['parameters'])){
-				$p = $options['parameters'];
-			}
+			$p = '';
+			$f = '';
 			$p_string = '';
+			if(isset($options['find'])){ $f = trim($options['find']); }
+			if(isset($options['params'])){ $p = $options['params']; }
 			if(is_array($p)){
 				foreach($p as $key => $param){
-					$p_string .= $key . ':' . trim($param) . ',';
+					$p_string .= trim($key) . ':' . trim($param) . ',';
 				}
 			} else {
 				$p = preg_replace('/(\s+)?:(\s+)?/', ':', $p);
@@ -128,14 +120,15 @@
 			}
 			
 			// tags
-			$t = $options['api_tags'];
+			$t = '';
 			$t_string = '';
+			if(isset($options['api_tags'])){ $t = $options['api_tags']; }
 			if(!is_array($t)){
-				$t = explode(',', trim($t, ','));
+				$t = explode(',', trim(trim($t), ','));
 			}
 			$t = array_map('trim', $t);
 			foreach($t as $tag){
-				$tag = trim($tag, '_');
+				$tag = trim(trim($tag), '_');
 				$api_tag = '__' . "$tag nokill='yes'" . '__';
 				if(preg_match('/ /', $tag)){
 					$tag_array = explode(' ', $tag);
@@ -157,7 +150,8 @@
 			// request getContent
 			$gC = str_getcsv($gC_string, ",");
 			$gC = call_user_func_array("getContent", $gC);
-			$gC_array = array_filter(explode($dL2, $gC));
+			$gC = preg_replace("/($dL2)*$/", "", $gC);
+			$gC_array = explode($dL2, $gC);
 			
 			// build getContent data
 			$gC_data = array();
@@ -176,7 +170,8 @@
 			}
 			
 			// output
-			$output = $options['output'];
+			$output = '';
+			if(isset($options['output'])){ $output = $options['output']; }
 			if($d=='detail' && count($gC_data)==1){
 				$gC_data = $gC_data[0];
 			}
@@ -186,5 +181,5 @@
 			return $gC_data;
 	
 		}
-	
+
 ?>

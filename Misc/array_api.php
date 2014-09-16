@@ -105,11 +105,9 @@
 					$p_string .= $key . ':' . trim($param) . ',';
 				}
 			} else {
-				$p = preg_replace('/(:\s+?)/', ':', $p);
-				$p = preg_replace('/(\s+?:)/', ':', $p);
+				$p = preg_replace('/(\s+)?:(\s+)?/', ':', $p);
 				$p = explode(',', $p);
 				$p = array_map('trim', $p);
-				print_r($p);
 				$p_string = implode(',', $p);
 			}
 			if(!preg_match('/find:/', $p_string)){

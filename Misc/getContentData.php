@@ -1,4 +1,5 @@
 <?php require_once($_SERVER["DOCUMENT_ROOT"] . "/monkcms.php"); ?>
+<?php header("Content-Type: text/plain"); ?>
 <?php
 
 /**
@@ -9,145 +10,143 @@
  *
  *
  * Pass an array of options to getContentData() to
- * generate a simple array of data using only the API
- * tags you want.
+ * generate an array of data using only the API tags
+ * you want.
  *
  *
  * MODULE: The MonkCMS module to be queried.
- * 
- * DISPLAY: The display mode. Default is "detail". 
+ *
+ * DISPLAY: The display mode. Default is "detail".
  *
  * PARAMS: An array of normal MonkCMS API parameters
  * and their values, such as "find", "howmany".
  *
- * SHOW_TAG: If the show tag "show" is not appropriate,
- * This will override it with another show tag. 
+ * SHOW: If the show tag "show" is not appropriate,
+ * this will override it with another show tag.
  *
- * API_TAGS: An array of API tags to include in the
+ * TAGS: An array of API tags to include in the
  * query, without the double underscores.
  *
  * OUTPUT: Set to 'json' for JSON output.
  *
  *
- * TIPS: 
+ * TIPS:
  *
- * 1.	Pass "find" either as a first-level parameter, or
- *		within the "params" array.
+ * 1.	Pass "find" either as a first-level parameter,
+ *		or within the "params" array.
  *
- * 2.	In PARAMS and API_TAGS, you can pass options 
+ * 2.	In PARAMS and TAGS, you can pass options
  *		either as an array or as a comma-separated list.
  *
- * 3.	"noecho" is already set.
- * 
- * 4.	Works well in straightforward implementations
- *		where display:auto is not needed.
- *
- * 5. Easy Edit HTML is output separately when setting 
+ * 3. Easy Edit is disabled by default. Add the HTML
+ * 	for the Easy Edit links to your query by adding
  *		the param: 'easyEdit' => true
- * 
+ *
+ * 4.	"noecho" is already set.
+ *
  */
 
 /* EXAMPLE 1 --------------------------------
-	
+
 	$data = getContentData(array(
 		'module' => 'media',
 		'display' => 'list',
 		'params' => array(
 			'howmany' => 10
 		),
-		'api_tags' => 'name, filename, url, id'
+		'tags' => 'name, filename, url, id'
 	));
-	
+
 /* EXAMPLE 2 --------------------------------
-	
+
 	$data = getContentData(array(
 		'module' => 'blog',
 		'display' => 'list',
 		'params' => 'find_category:missions,howmany:10',
-		'show_tag' => 'show_postlist',
-		'api_tags' => array(
+		'show' => 'show_postlist',
+		'tags' => array(
 			"blogposttitle",
 			"__blogpostdate format='Y-m-d'__"
 		),
 		'output' => 'json'
 	));
-	
+
 /* EXAMPLE 3 --------------------------------
-	
+
 	$data = getContentData(array(
 		'module' => 'page',
 		'find' => 'p-123456',
 		'params' => array(
 			'nocache' => true
 		),
-		'api_tags' => 'name, slug, url, text'
+		'tags' => 'name, slug, url, text'
 	));
-	
+
 ------------------------------------------- */
 
 
 function getContentData($options){
-	
+
 	// delimiters
 	$dL1 = '%DELIM1%';
 	$dL2 = '%DELIM2%';
 	$dL3 = '%DELIM3%';
 	$dL4 = '%DELIM4%';
 	$dL5 = '%DELIM5%';
-	
+
 	// module
 	$m = '';
 	if(isset($options['module'])){ $m = trim($options['module']); }
-	$m_string = $m;
-	
-	// display 
+	$m_str = $m;
+
+	// display
 	$d = 'detail';
 	if(isset($options['display'])){ $d = trim($options['display']); }
-	$d_string = 'display:' . $d;
-	
+	$d_str = 'display:' . $d;
+
 	// params
 	$p = '';
 	$f = '';
-	$p_string = '';
+	$p_str = '';
 	$easyEdit = false;
 	if(isset($options['find'])){ $f = trim($options['find']); }
 	if(isset($options['params'])){ $p = $options['params']; }
 	if(is_array($p)){
 		foreach($p as $key => $param){
-			$p_string .= trim($key) . ':' . trim($param) . ',';
+			$p_str .= trim($key) . ':' . trim($param) . ',';
 		}
 	} else {
 		$p = preg_replace('/(\s+)?:(\s+)?/', ':', $p);
 		$p = explode(',', $p);
 		$p = array_map('trim', $p);
-		$p_string = implode(',', $p);
+		$p_str = implode(',', $p);
 	}
-	if(!preg_match('/find:/', $p_string)){
-		$p_string = 'find:' . $f . ',' . $p_string;
+	if($f && !preg_match('/find:/', $p_str)){
+		$p_str = 'find:' . $f . ',' . $p_str;
 	}
-	if(preg_match('/easyedit:1/', strtolower($p_string))){
+	if(preg_match('/easyedit:1/', strtolower($p_str))){
 		$easyEdit = true;
 	}
-	$p_string = preg_replace('/(.*?):1,/', '$1,', $p_string);
-	$p_string_array = explode(',', trim($p_string, ','));
-	$p_string_new = '';
-	foreach($p_string_array as $p_string_item){
-		$p_string_new .= '"' . $p_string_item . '",';
+	$p_str = preg_replace('/(.*?):1,/', '$1,', $p_str);
+	$p_str = preg_replace('/easyEdit(:1)?,/', '', $p_str);
+	$p_str_array = explode(',', trim($p_str, ','));
+	$p_str_new = '';
+	foreach($p_str_array as $p_str_item){
+		$p_str_new .= '"' . $p_str_item . '",';
 	}
-	$p_string = trim($p_string_new, ',');
-	
+	$p_str = trim($p_str_new, ',');
+
 	// show tag
 	$show_tag = 'show';
-	if(isset($options['show_tag'])){ $show_tag = trim($options['show_tag']); }
-	
+	if(isset($options['show'])){ $show_tag = trim($options['show']); }
+
 	// api tags
 	$t = '';
-	$t_string = '';
-	if(isset($options['api_tags'])){ $t = $options['api_tags']; }
+	$t_str = '';
+	if(isset($options['tags'])){ $t = $options['tags']; }
 	if(!is_array($t)){
 		$t = explode(',', trim(trim($t), ','));
 	}
-	$t = array_map('trim', $t);
 	foreach($t as $key => $tag){
 		$tag = trim(trim($tag), '_');
 		$api_tag = '__' . "$tag nokill='yes'" . '__';
@@ -159,36 +158,37 @@ function getContentData($options){
 			$api_tag = '__' . $tag . '__' . '1';
 		}
 		if($easyEdit && $key==0){
-			$t_string .= '"' . $show_tag . ':'. $dL5 . '"' .  ',';
+			$t_str .= '"' . $show_tag . ':'. $dL5 . '"' .  ',';
 		}
-		$t_string .= '"' . $show_tag . ':'. $dL3 . $tag . $dL4 . $api_tag . $dL1 . '"' .  ',';
+		$t_str .= '"' . $show_tag . ':'. $dL3 . $tag . $dL4 . $api_tag . $dL1 . '"' .  ',';
 	}
-	$t_string .= '"' . $show_tag . ':' . $dL2 . '"' .  ',';
-	$t_string = trim($t_string, ',');
-	
+	$t_str .= '"' . $show_tag . ':' . $dL2 . '"' .  ',';
+	$t_str = trim($t_str, ',');
+
 	// build getContent
-	$gC_string = '"' . $m_string . '",' . '"' . $d_string . '",' . $p_string . ',' . $t_string;
-	$gC_string = preg_replace('/("[a-zA-Z0-9]*?:0?",)/', '', $gC_string);
+	$gC_str = '"' . $m_str . '",' . '"' . $d_str . '",' . $p_str . ',' . $t_str;
+	$gC_str = preg_replace('/("[a-zA-Z0-9]*?:0?",)/', '', $gC_str);
 	if($easyEdit){
-		$gC_string = $gC_string . ',"noecho"';
+		$gC_str = $gC_str . ',"noecho"';
 	} else {
-		$gC_string = $gC_string . ',"noecho","noedit"';
+		$gC_str = $gC_str . ',"noecho","noedit"';
 	}
-	
+
 	// request getContent
-	$gC = str_getcsv($gC_string, ",");
+	$gC = str_getcsv($gC_str, ",");
 	$gC = call_user_func_array("getContent", $gC);
-	
+
 	// strip Easy Edit HTML
 	if($easyEdit){
-		$gC_array = explode($dL5, $gC);
+		$gC_array = explode($dL5, $gC, 2);
 		$gC_easyEdit = $gC_array[0];
 		$gC = $gC_array[1];
+		$gC = str_replace($dL5, '', $gC);
 	}
-	
+
 	$gC = preg_replace("/($dL2)*$/", "", $gC);
 	$gC_array = explode($dL2, $gC);
-	
+
 	// build getContent data
 	$gC_data = array();
 	foreach($gC_array as $key => $gC_line){
@@ -204,7 +204,7 @@ function getContentData($options){
 			$gC_data[$key][$gC_line_tag] = $gC_line_item;
 		}
 	}
-	
+
 	// output
 	$output = '';
 	if(isset($options['output'])){ $output = trim($options['output']); }
@@ -223,6 +223,5 @@ function getContentData($options){
 	return $gC_data;
 
 }
-
 
 ?>

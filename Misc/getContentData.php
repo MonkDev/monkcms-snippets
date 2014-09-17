@@ -1,5 +1,5 @@
 <?php require_once($_SERVER["DOCUMENT_ROOT"] . "/monkcms.php"); ?>
-<?php header("Content-Type: text/plain"); ?>
+<?php //header("Content-Type: text/plain"); ?>
 <?php
 
 /**
@@ -32,17 +32,21 @@
  *
  * TIPS:
  *
- * 1.	Pass "find" either as a first-level parameter,
- *		or within the "params" array.
+ * 1. Pass "find" either as a first-level parameter,
+ * 		or within the "params" array.
  *
- * 2.	In PARAMS and TAGS, you can pass options
+ * 2. In PARAMS and TAGS, you can pass options
  *		either as an array or as a comma-separated list.
  *
- * 3. Easy Edit is disabled by default. Add the HTML
- * 	for the Easy Edit links to your query by adding
+ * 3. Some tags that respond by outputting a single space
+ * 		are considered to be a boolean of TRUE. They are:
+ * 		__custom(.*?)__		__if(.*?)__		__is(.*?)__
+ *
+ * 4. Easy Edit is disabled by default. Add the HTML
+ *		for the Easy Edit links to your query by adding
  *		the param: 'easyEdit' => true
  *
- * 4.	"noecho" is already set.
+ * 5. "noecho" is already set.
  *
  */
 
@@ -154,9 +158,6 @@ function getContentData($options){
 			$tag_array = explode(' ', $tag);
 			$tag = $tag_array[0];
 		}
-		if($tag == 'ifnewwindow'){
-			$api_tag = '__' . $tag . '__' . '1';
-		}
 		if($easyEdit && $key==0){
 			$t_str .= '"' . $show_tag . ':'. $dL5 . '"' .  ',';
 		}
@@ -178,7 +179,7 @@ function getContentData($options){
 	$gC = str_getcsv($gC_str, ",");
 	$gC = call_user_func_array("getContent", $gC);
 
-	// strip Easy Edit HTML
+	// get Easy Edit HTML
 	if($easyEdit){
 		$gC_array = explode($dL5, $gC, 2);
 		$gC_easyEdit = $gC_array[0];
@@ -196,16 +197,18 @@ function getContentData($options){
 		$gC_line_array = explode($dL1, $gC_line);
 		foreach($gC_line_array as $gC_line_item){
 			preg_match("/^$dL3(.*?)$dL4/", $gC_line_item, $tag_matches);
-			$gC_line_item = str_replace($tag_matches[0], '', $gC_line_item);
 			$gC_line_tag = $tag_matches[1];
+			$gC_line_item = str_replace($tag_matches[0], '', $gC_line_item);
 			$gC_line_tag_arr = explode(' ', $gC_line_tag);
 			$gC_line_tag = $gC_line_tag_arr[0];
-			if($gC_line_item == ' 1'){ $gC_line_item = trim($gC_line_item); }
+			if(preg_match('/^(custom|if|is)/', $gC_line_tag) && $gC_line_item==' '){ 
+				$gC_line_item = 1; // tag is boolean
+			}
 			$gC_data[$key][$gC_line_tag] = $gC_line_item;
 		}
 	}
 
-	// output
+	// build output
 	$output = '';
 	if(isset($options['output'])){ $output = trim($options['output']); }
 	if($d=='detail' && count($gC_data)==1){
@@ -220,6 +223,8 @@ function getContentData($options){
 	if(strtolower($output)=='json'){
 		$gC_data = json_encode($gC_data);
 	}
+	
+	// return
 	return $gC_data;
 
 }

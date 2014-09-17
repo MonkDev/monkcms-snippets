@@ -131,15 +131,15 @@ function getContentData($options){
 	if(preg_match('/easyedit:1/', strtolower($p_str))){
 		$easyEdit = true;
 	}
-	$p_str = preg_replace('/(.*?):1,/', '$1,', $p_str);
 	$p_str = preg_replace('/easyEdit(:1)?,/', '', $p_str);
+	$p_str = preg_replace('/(nocache|noecho):1,/', '$1,', $p_str);
 	$p_str_array = explode(',', trim($p_str, ','));
 	$p_str_new = '';
 	foreach($p_str_array as $p_str_item){
 		$p_str_new .= '"' . $p_str_item . '",';
 	}
 	$p_str = trim($p_str_new, ',');
-
+	
 	// show tag
 	$show_tag = 'show';
 	if(isset($options['show'])){ $show_tag = trim($options['show']); }

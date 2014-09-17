@@ -6,8 +6,8 @@
  *
  * getContentData() - output MonkCMS data in an array
  *
- * @author Chris Ullyott
- *
+ * @author - Chris Ullyott
+ * @date - 2014.09.17
  *
  * Pass an array of options to getContentData() to
  * generate an array of data using only the API tags
@@ -21,8 +21,8 @@
  * PARAMS: An array of normal MonkCMS API parameters
  * and their values, such as "find", "howmany".
  *
- * SHOW: If the show tag "show" is not appropriate,
- * this will override it with another show tag.
+ * SHOW: Default show tag is "show", but you can set
+ * to "show_postlist" or etc. for various modules.
  *
  * TAGS: An array of API tags to include in the
  * query, without the double underscores.

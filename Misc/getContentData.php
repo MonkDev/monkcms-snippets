@@ -6,13 +6,14 @@
  *
  * getContentData() - output MonkCMS data in an array
  *
+ *
  * @author - Chris Ullyott
  * @date - 2014.09.17
+ *
  *
  * Pass an array of options to getContentData() to
  * generate an array of data using only the API tags
  * you want.
- *
  *
  * MODULE: The MonkCMS module to be queried.
  *
@@ -27,20 +28,25 @@
  * TAGS: An array of API tags to include in the
  * query, without the double underscores.
  *
+ * KEYS: Sets the keys of the array with the value of one
+ * of the specified TAGS. The values must be unique or
+ * an error will be thrown. Ideal with 'id' or 'slug'.
+ * Does not work with 'display' => 'detail'.
+ *
  * OUTPUT: Set to 'json' for JSON output.
  *
  *
  * TIPS:
  *
  * 1. Pass "find" either as a first-level parameter,
- * 		or within the "params" array.
+ * 	or within the "params" array.
  *
  * 2. In PARAMS and TAGS, you can pass options
  *		either as an array or as a comma-separated list.
  *
  * 3. Some tags that respond by outputting a single space
- * 		are considered to be a boolean of TRUE. They are:
- * 		__custom(.*?)__		__if(.*?)__		__is(.*?)__
+ * 	are considered to be a boolean of TRUE. They are:
+ *		__custom(.*?)__  __if(.*?)__  __is(.*?)__
  *
  * 4. Easy Edit is disabled by default. Add the HTML
  *		for the Easy Edit links to your query by adding
@@ -139,7 +145,7 @@ function getContentData($options){
 		$p_str_new .= '"' . $p_str_item . '",';
 	}
 	$p_str = trim($p_str_new, ',');
-	
+
 	// show tag
 	$show_tag = 'show';
 	if(isset($options['show'])){ $show_tag = trim($options['show']); }
@@ -187,10 +193,9 @@ function getContentData($options){
 		$gC = str_replace($dL5, '', $gC);
 	}
 
+	// build getContent data
 	$gC = preg_replace("/($dL2)*$/", "", $gC);
 	$gC_array = explode($dL2, $gC);
-
-	// build getContent data
 	$gC_data = array();
 	foreach($gC_array as $key => $gC_line){
 		$gC_line = preg_replace("/($dL1)*$/", "", $gC_line);
@@ -201,11 +206,28 @@ function getContentData($options){
 			$gC_line_item = str_replace($tag_matches[0], '', $gC_line_item);
 			$gC_line_tag_arr = explode(' ', $gC_line_tag);
 			$gC_line_tag = $gC_line_tag_arr[0];
-			if(preg_match('/^(custom|if|is)/', $gC_line_tag) && $gC_line_item==' '){ 
+			if(preg_match('/^(custom|if|is)/', $gC_line_tag) && $gC_line_item==' '){
 				$gC_line_item = 1; // tag is boolean
 			}
 			$gC_data[$key][$gC_line_tag] = $gC_line_item;
 		}
+	}
+
+	// custom array key
+	$k = '';
+	if(isset($options['keys'])){ $k = trim($options['keys']); }
+	if($k && $d!='detail'){
+		$gC_data_newKey = array();
+		foreach($gC_data as $key => $gC_data_item){
+			$this_key = $gC_data_item[$k];
+			if(!isset($gC_data_newKey[$this_key])){
+				$gC_data_newKey[$this_key] = $gC_data_item;
+			} else {
+				$gC_data_newKey = array(); // error! array keys not unique.
+				break;
+			}
+		}
+		$gC_data = $gC_data_newKey;
 	}
 
 	// build output
@@ -223,7 +245,7 @@ function getContentData($options){
 	if(strtolower($output)=='json'){
 		$gC_data = json_encode($gC_data);
 	}
-	
+
 	// return
 	return $gC_data;
 

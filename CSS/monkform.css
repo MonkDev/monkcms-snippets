@@ -99,7 +99,7 @@ border-radius:4px;
 #content .monkForm p.error { font-size:11px; margin-bottom:5px; }
 
 /* General fields (input, select, textarea ) */
-#content .monkForm input,#content .monkForm p.data input,#content .monkForm p.data select,#content .monkForm p.data textarea {
+#content .monkForm input,#content .monkForm input,#content .monkForm select,#content .monkForm textarea {
 font:normal 12px/100% Verdana, Tahoma, sans-serif; border:1px solid #555;
 }
 

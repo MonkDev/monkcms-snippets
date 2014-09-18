@@ -29,9 +29,8 @@
  * query, without the double underscores.
  *
  * KEYS: Sets the keys of the array with the value of one
- * of the specified TAGS. The values must be unique or
- * an error will be thrown. Ideal with 'id' or 'slug'.
- * Does not work with 'display' => 'detail'.
+ * of the specified TAGS. Ideal with unique 'id' or 'slug'
+ * values. Does not work with 'display' => 'detail'.
  *
  * OUTPUT: Set to 'json' for JSON output.
  *

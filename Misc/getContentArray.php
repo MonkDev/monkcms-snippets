@@ -7,7 +7,7 @@
  *
  *
  * @author - Chris Ullyott
- * @date - 2014.09.17
+ * @date - 2014.09.19
  *
  *
  * Pass an array of options to getContentArray() to
@@ -155,7 +155,7 @@ function getContentArray($options){
 		if(!isset($h) && preg_match('/^howmany:(\d{1,})$/', $p_str_item, $h_matches)){
 			$h = $h_matches[1];
 		}
-		$gC_parts[] .= '"' . $p_str_item . '"';
+		$gC_parts[] = '"' . $p_str_item . '"';
 	}
 
 	// show tag.
@@ -185,18 +185,18 @@ function getContentArray($options){
 			$tag = $tag_array[0];
 		}
 		if($easyEdit && $key==0){
-			$gC_parts[] .= '"' . $show_tag . ':'. $dL5 . '"';
+			$gC_parts[] = '"' . $show_tag . ':'. $dL5 . '"';
 		}
-		$gC_parts[] .= '"' . $show_tag . ':'. $dL3 . $tag . $dL4 . $api_tag . $dL1 . '"';
+		$gC_parts[] = '"' . $show_tag . ':'. $dL3 . $tag . $dL4 . $api_tag . $dL1 . '"';
 	}
-	$gC_parts[] .= '"' . $show_tag . ':' . $dL2 . '"';
+	$gC_parts[] = '"' . $show_tag . ':' . $dL2 . '"';
 
 	// build getContent.
 	if($easyEdit==true){
-		$gC_parts[] .= '"noecho"';
+		$gC_parts[] = '"noecho"';
 	} else {
-		$gC_parts[] .= '"noecho"';
-		$gC_parts[] .= '"noedit"';
+		$gC_parts[] = '"noecho"';
+		$gC_parts[] = '"noedit"';
 	}
 	$gC_str = implode($gC_parts, ',');
 	$gC_str = preg_replace('/("[a-zA-Z0-9]*?:0?",)/', '', $gC_str); // strip params that are false.
@@ -257,12 +257,12 @@ function getContentArray($options){
 		$gC_data = $gC_data_newKey;
 	}
 
-	// if there is only one tag... no need for multi-dimensional array.
+	// if there is only one tag; no need for multi-dimensional array.
 	if($single){
 		$gC_data_single = array();
 		foreach($gC_data as $gC_data_item){
-			foreach($gC_data_item as $gC_data_val){
-				$gC_data_single[] = $gC_data_val;
+			foreach($gC_data_item as $key => $gC_data_val){
+				$gC_data_single[$key] = $gC_data_val;
 			}
 		}
 		$gC_data = $gC_data_single;
@@ -271,7 +271,7 @@ function getContentArray($options){
 	// build output.
 	$output = NULL;
 	if(isset($options['output'])){ $output = trim($options['output']); }
-	if($d=='detail' && count($gC_data)==1){
+	if($d=='detail' && $single==false && count($gC_data)==1){
 		$gC_data = $gC_data[0];
 	}
 	if($easyEdit){

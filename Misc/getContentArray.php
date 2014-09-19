@@ -113,24 +113,24 @@ function getContentArray($options){
 
 	$gC_parts = array();
 
-	// delimiters
+	// delimiters.
 	$dL1 = '%DELIM1%';
 	$dL2 = '%DELIM2%';
 	$dL3 = '%DELIM3%';
 	$dL4 = '%DELIM4%';
 	$dL5 = '%DELIM5%';
 
-	// module
+	// module.
 	$m = NULL;
 	if(isset($options['module'])){ $m = trim($options['module']); }
 	$gC_parts[] = '"' . $m . '"';
 
-	// display
+	// display.
 	$d = 'detail';
 	if(isset($options['display'])){ $d = trim($options['display']); }
 	$gC_parts[] = '"display:' . $d . '"';
 
-	// params
+	// params.
 	$p = NULL;
 	$f = NULL;
 	$h = NULL;
@@ -158,20 +158,24 @@ function getContentArray($options){
 		$gC_parts[] .= '"' . $p_str_item . '"';
 	}
 
-	// show tag
+	// show tag.
 	$show_tag = 'show';
 	if(isset($options['show'])){ $show_tag = trim($options['show']); }
 
-	// easy edit
+	// easy edit.
 	$easyEdit = false;
 	if(isset($options['easyEdit']) && $options['easyEdit']==true){ $easyEdit = true; }
 
-	// api tags
+	// api tags.
 	$t = NULL;
+	$single = false;
 	$t_str = '';
 	if(isset($options['tags'])){ $t = $options['tags']; }
 	if(!is_array($t)){
 		$t = explode(',', trim(trim($t), ','));
+	}
+	if(count($t)==1){
+		$single = true;
 	}
 	foreach($t as $key => $tag){
 		$tag = trim(trim($tag), '_');
@@ -187,7 +191,7 @@ function getContentArray($options){
 	}
 	$gC_parts[] .= '"' . $show_tag . ':' . $dL2 . '"';
 
-	// build getContent
+	// build getContent.
 	if($easyEdit==true){
 		$gC_parts[] .= '"noecho"';
 	} else {
@@ -195,13 +199,13 @@ function getContentArray($options){
 		$gC_parts[] .= '"noedit"';
 	}
 	$gC_str = implode($gC_parts, ',');
-	$gC_str = preg_replace('/("[a-zA-Z0-9]*?:0?",)/', '', $gC_str); // strip params that are false
+	$gC_str = preg_replace('/("[a-zA-Z0-9]*?:0?",)/', '', $gC_str); // strip params that are false.
 
-	// request getContent
+	// request getContent.
 	$gC = str_getcsv($gC_str, ',');
 	$gC = call_user_func_array('getContent', $gC);
 
-	// get Easy Edit HTML
+	// get Easy Edit HTML.
 	if($easyEdit){
 		$gC_array = explode($dL5, $gC, 2);
 		$gC_easyEdit = $gC_array[0];
@@ -212,7 +216,7 @@ function getContentArray($options){
 	$k = NULL;
 	if(isset($options['keys'])){ $k = $options['keys']; }
 
-	// build getContent data
+	// build getContent data.
 	$gC = preg_replace("/($dL2)*$/", "", $gC);
 	$gC_array = explode($dL2, $gC);
 	$gC_data = array();
@@ -227,7 +231,7 @@ function getContentArray($options){
 			$gC_line_tag_arr = explode(' ', $gC_line_tag);
 			$gC_line_tag = $gC_line_tag_arr[0];
 			if(preg_match('/^(custom|if|is)/', $gC_line_tag) && $gC_line_item==' '){
-				$gC_line_item = 1; // tag is boolean
+				$gC_line_item = 1; // tag is boolean.
 			}
 			if($k===false){
 				$gC_data[$key1][$key2] = $gC_line_item;
@@ -237,7 +241,7 @@ function getContentArray($options){
 		}
 	}
 
-	// apply custom array key
+	// apply custom array key.
 	if($k && $d!='detail'){
 		$k = trim($k);
 		$gC_data_newKey = array();
@@ -253,7 +257,18 @@ function getContentArray($options){
 		$gC_data = $gC_data_newKey;
 	}
 
-	// build output
+	// if there is only one tag... no need for multi-dimensional array.
+	if($single){
+		$gC_data_single = array();
+		foreach($gC_data as $key1 => $gC_data_item){
+			foreach($gC_data_item as $key2 => $gC_data_val){
+				$gC_data_single[] = $gC_data_val;
+			}
+		}
+		$gC_data = $gC_data_single;
+	}
+
+	// build output.
 	$output = NULL;
 	if(isset($options['output'])){ $output = trim($options['output']); }
 	if($d=='detail' && count($gC_data)==1){
@@ -269,7 +284,7 @@ function getContentArray($options){
 		$gC_data = json_encode($gC_data);
 	}
 
-	// return
+	// return.
 	return $gC_data;
 
 }

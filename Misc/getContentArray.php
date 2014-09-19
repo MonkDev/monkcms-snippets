@@ -260,8 +260,8 @@ function getContentArray($options){
 	// if there is only one tag... no need for multi-dimensional array.
 	if($single){
 		$gC_data_single = array();
-		foreach($gC_data as $key1 => $gC_data_item){
-			foreach($gC_data_item as $key2 => $gC_data_val){
+		foreach($gC_data as $gC_data_item){
+			foreach($gC_data_item as $gC_data_val){
 				$gC_data_single[] = $gC_data_val;
 			}
 		}

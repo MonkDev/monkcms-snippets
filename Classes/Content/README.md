@@ -3,7 +3,9 @@
 A wrapper for getContent(), useful for getting array output from the CMS.
 
 @author - Chris Ullyott <chris@monkdevelopment.com>
+
 @url - https://github.com/MonkDev/monkcms-snippets/
+
 @demo - http://files.monkdev.com/chris/getContentArray-Demo-Small.mp4
 
 Example:
@@ -11,9 +13,28 @@ Example:
 $array = Content::getContentArray(array(
 	'module' => 'linklist',
 	'display' => 'links',
-	'params' => array('find:30871','howmany:3'), 
-	'tags' => 'id, slug, name, url, description'
+	'params' => array('find:featured-links','howmany:2'), 
+	'tags' => 'slug, url, customicon'
 ));
+```
+
+```
+Array
+(
+    [0] => Array
+        (
+            [slug] => this-week
+            [url] => /resources/events
+            [customicon] => icon-calendar
+        )
+
+    [1] => Array
+        (
+            [slug] => small-group
+            [url] => /contact-form
+            [customicon] => icon-user
+        )
+)
 ```
 
 

@@ -49,11 +49,11 @@ The display mode. Default is `detail`.
 ####Params
 An array of normal MonkCMS API parameters and their values, such as "find", "howmany". Can be written in any of the following three formats:
 
-1. `array('find:30871', 'howmany:10')`
+1. `array('find:featured-links', 'howmany:10')`
 
-2. `array('find' => 30871, 'howmany' => 10)`
+2. `array('find' => featured-links, 'howmany' => 10)`
 
-3. `"find:30871, howmany:10"`
+3. `"find:featured-links, howmany:10"`
 
 ####Show
 The default and only show tag used is `show`, so you will need to use `'show' => 'show_postlist'` or etc. for various modules. There are no "before_show" or "after_show" capabilities.

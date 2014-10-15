@@ -21,8 +21,8 @@ class Content {
 	*  ==========================================================================
 	*
 	* Pass an array of options to getContentArray() to
-	* generate an array of data using only the API tags
-	* you want.
+	* get an array of data from the CMS using only the
+	* API tags you need.
 	*
 	* @author - Chris Ullyott <chris@monkdevelopment.com>
 	* @url - https://github.com/MonkDev/monkcms-snippets/
@@ -35,10 +35,15 @@ class Content {
 	* DISPLAY: The display mode. Default is "detail".
 	*
 	* PARAMS: An array of normal MonkCMS API parameters
-	* and their values, such as "find", "howmany".
-	*
+	* and their values, such as "find", "howmany". Can be
+	* written in any of the following three formats:
+	* 1. array('find:30871', 'howmany:10')
+	* 2. array('find' => 30871, 'howmany' => 10)
+	* 3. "find:30871, howmany:10"
+	* 
 	* SHOW: Default show tag is "show", but you can set
 	* to "show_postlist" or etc. for various modules.
+	* There are no before_show / after_show capabilities.
 	*
 	* TAGS: An array of API tags to include in the
 	* query, without the double underscores.
@@ -46,14 +51,14 @@ class Content {
 	* KEYS: Sets the keys of the array with the value of one
 	* of the specified TAGS. Ideal with unique 'id' or 'slug'
 	* values (this does not work with 'display' => 'detail').
-	* For plain numerical keys, use 'keys' => false.
+	* For numerical keys, use 'keys' => false.
 	*
 	* OUTPUT: Set to 'json' for JSON output.
 	*
 	* TIPS:
 	*
 	* 1. Pass "find" either as a first-level parameter,
-	* 	or within the "params" array.
+	* 	or within the "params" option.
 	*
 	* 2. In PARAMS and TAGS, you can pass options
 	*		either as an array or as a comma-separated list.
@@ -113,12 +118,8 @@ class Content {
 		$array = Content::getContentArray(array(
 			'module' => 'linklist',
 			'display' => 'links',
-			'params' => array(
-				'find' => 'social-media-links',
-				'howmany' => 3
-			),
-			'tags' => 'id, slug, name, url, description',
-			'keys' => false
+			'params' => array('find:30871','howmany:3'), 
+			'tags' => 'id, slug, name, url, description'
 		));
 	
 	------------------------------------------- */
@@ -145,17 +146,32 @@ class Content {
 		$f = NULL;
 		$h = NULL;
 		$p_str = '';
-		if(isset($options['find'])){ $f = trim($options['find']); }
 		if(isset($options['params'])){ $p = $options['params']; }
 		if(is_array($p)){
-			$p_str = self::paramArrayToString($p);
+			if(self::arrayIsAssociative($p)){
+				$p_str = self::paramArrayToString($p);
+			} else {
+				$p_str = implode(',',$p);
+			}
 		} else {
 			$p_str = self::cleanParamString($p);
 		}
-		$p_str = preg_replace('/(nocache|noecho):1,/', '$1,', $p_str);
-		if($f && !preg_match('/find:/', $p_str)){
-			$p_str = 'find:' . $f . ',' . $p_str;
+		
+		// !find
+		if(isset($options['find'])){
+			$f = trim($options['find']);
+			$f_key = 'find';
+		} else if(isset($options['find_id'])){
+			$f = trim($options['find_id']);
+			$f_key = 'find_id';
 		}
+		preg_match('/(find(_id)?):/', $p_str, $find_param_matches);
+		if($f && !$find_param_matches[1]){
+			$p_str = $f_key . ':' . $f . ',' . $p_str;
+		}
+		
+		// !join params + find
+		$p_str = self::replaceTrueParams($p_str);
 		$p_str_array = explode(',', trim($p_str, ','));
 		foreach($p_str_array as $p_str_item){
 			if(!isset($h) && preg_match('/^howmany:(\d{1,})$/', $p_str_item, $h_matches)){
@@ -163,7 +179,7 @@ class Content {
 			}
 			$gC_parts[] = $p_str_item;
 		}
-
+		
 		// !show tag
 		$show_tag = 'show';
 		if(isset($options['show'])){ $show_tag = trim($options['show']); }
@@ -230,8 +246,7 @@ class Content {
 				$gC_data[$key1][$gC_line_tag] = $gC_line_item;
 				
 				// !process custom tags
-				
-				// 1. embed source
+				// embed source
 				if(preg_match('/embed/', $gC_line_tag)){
 					$embed_src = self::extractEmbedSrc($gC_line_item);
 					$gC_data[$key1][$gC_line_tag . 'SRC'] = $embed_src;
@@ -273,6 +288,19 @@ class Content {
 
 	}
 
+	
+	/*
+	*  ==========================================================================
+	*
+	*  arrayIsAssociative() - returns boolean TRUE if array is associative
+	*
+	*  ==========================================================================
+	*
+	*/
+	private static function arrayIsAssociative($array){
+		return (bool)count(array_filter(array_keys($array), 'is_string'));
+	}
+	
 	
 	/*
 	*  ==========================================================================
@@ -332,6 +360,21 @@ class Content {
 		// clears strings like "item:" or "item:0"
 		$gC = preg_replace('/("[a-zA-Z0-9]*?:0?",)/', '', $input);
 		return trim($gC);
+	}
+	
+	
+	/*
+	*  ==========================================================================
+	*
+	*  replaceTrueParams() - removes "true" to simply set these params
+	*
+	*  ==========================================================================
+	*
+	*/
+	private static function replaceTrueParams($input){
+		// removes "true" to simply set these params as is getContent style
+		$gC = preg_replace('/(nocache|noecho|noedit):1,/', '$1,', $input);
+		return trim($gC);	
 	}
 	
 	
@@ -419,9 +462,9 @@ class Content {
 	*
 	*/
 	private static function extractEmbedSrc($html){
-		$pattern = '/<\s?iframe.*?src\s?=\s?["\'](.*?)["\']/';
+		$pattern = '/(<object>)?<\s?iframe.*?src\s?=\s?["\'](.*?)["\']/';
 		preg_match($pattern, $html, $matches);
-		$src = $matches[1];
+		$src = $matches[2];
 		return $src;
 	}
 		

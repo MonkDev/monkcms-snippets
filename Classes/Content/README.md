@@ -1,55 +1,65 @@
 # getContentArray()
 
-### A wrapper for getContent() including getContentArray(), useful for getting array output from the CMS.
+A wrapper for getContent() including getContentArray(), useful for getting array output from the CMS.
 
 @author - Chris Ullyott <chris@monkdevelopment.com>
+
 @url - https://github.com/MonkDev/monkcms-snippets/
+
 @demo - http://files.monkdev.com/chris/getContentArray-Demo-Small.mp4
 
-##Module
+
+##Options
+
+####Module
 The MonkCMS module to be queried.
 
-##Display
+####Display
 The display mode. Default is `detail`.
 
-##Params
+####Params
 An array of normal MonkCMS API parameters and their values, such as "find", "howmany". Can be written in any of the following three formats:
+
 1. `array('find:30871', 'howmany:10')`
+
 2. `array('find' => 30871, 'howmany' => 10)`
+
 3. `"find:30871, howmany:10"`
 
-##Show
+####Show
 Default show tag is `show`, but you can set to `show_postlist` or etc. for various modules. There are no "before_show" / "after_show" capabilities.
 
-##Tags
+####Tags
 An array of API tags to include in the query, without the double underscores. Pass either as an array or as a comma-separated list.
 
-##Keys
+####Keys
 Sets the keys of the array with the value of one of the specified TAGS. Ideal with unique 'id' or 'slug' values (this does not work with `'display' => 'detail'`). For numerical keys, use `'keys' => false`.
 
-## Output
+#### Output
 Set to 'json' for JSON output.
 
 
 ## Tips
 
-### Find
+#### Find
 Pass "find" either as a first-level parameter, or within the "params" option.
 
-### Booleans
+#### Booleans
 Some tags that respond by outputting a single space are considered to be a boolean of TRUE. They are:
+
 `__custom(.*?)__`  `__if(.*?)__`  `__is(.*?)__`
 
-###Howmany
+####Howmany
 "howmany" => INTEGER will limit the number of items returned even where the API does not do this.
 
-###Easy Edit
+####Easy Edit
 Easy Edit is disabled by default. Add the HTML for the Easy Edit links to your query by adding:
+
 `'easyEdit' => true`
 
 ## Examples
 
-###Example 1
+####Example 1
 
 ```
 $array = Content::getContentArray(array(
@@ -63,7 +73,7 @@ $array = Content::getContentArray(array(
 ```
 	
 	
-###Example 2
+####Example 2
 
 ```
 $array = Content::getContentArray(array(
@@ -80,7 +90,7 @@ $array = Content::getContentArray(array(
 ```
 	
 	
-###Example 3
+####Example 3
 	
 ```
 $array = Content::getContentArray(array(
@@ -95,7 +105,7 @@ $array = Content::getContentArray(array(
 ```
 
 
-###Example 4
+####Example 4
 
 ```
 $array = Content::getContentArray(array(

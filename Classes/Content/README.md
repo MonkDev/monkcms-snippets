@@ -114,6 +114,7 @@ $array = Content::getContentArray(array(
 		"blogposttitle",
 		"__blogpostdate format='Y-m-d'__"
 	),
+	'keys' => 'blogpostdate',
 	'output' => 'json'
 ));
 ```

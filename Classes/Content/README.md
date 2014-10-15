@@ -79,7 +79,7 @@ Some tags that respond by outputting a single space are considered to be a boole
 `__custom(.*?)__`  `__if(.*?)__`  `__is(.*?)__`
 
 ####Howmany
-"howmany" => INTEGER will limit the number of items returned even where the API does not do this.
+`"howmany" => <INTEGER>` will limit the number of items returned even where the API does not do this.
 
 ####Easy Edit
 Easy Edit is disabled by default. Add the HTML for the Easy Edit links to your query by adding:

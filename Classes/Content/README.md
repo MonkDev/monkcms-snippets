@@ -56,7 +56,7 @@ An array of normal MonkCMS API parameters and their values, such as "find", "how
 3. `"find:30871, howmany:10"`
 
 ####Show
-Default show tag is `show`, but you can set to `show_postlist` or etc. for various modules. There are no "before_show" / "after_show" capabilities.
+The default and only show tag used is `show`, so you will need to use `'show' => 'show_postlist'` or etc. for various modules. There are no "before_show" / "after_show" capabilities.
 
 ####Tags
 An array of API tags to include in the query, without the double underscores. Pass either as an array or as a comma-separated list.

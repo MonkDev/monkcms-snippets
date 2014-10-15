@@ -8,7 +8,7 @@ A wrapper for getContent(), useful for getting array output from the CMS.
 
 @demo - http://files.monkdev.com/chris/getContentArray-Demo-Small.mp4
 
-Example:
+##Example
 ```
 $array = Content::getContentArray(array(
 	'module' => 'linklist',
@@ -86,7 +86,7 @@ Easy Edit is disabled by default. Add the HTML for the Easy Edit links to your q
 
 `'easyEdit' => true`
 
-## Examples
+## Further examples
 
 ####Example 1
 

@@ -7,6 +7,7 @@
 *  ===========================================================================
 *
 *  @author - Chris Ullyott <chris@monkdevelopment.com>
+*  @url - https://github.com/MonkDev/monkcms-snippets/tree/master/Classes/Content
 *  @date October 2014
 *
 */
@@ -199,7 +200,7 @@ class Content {
 			$tag = trim(trim($tag), '_');
 			$api_tag = '__' . "$tag nokill='yes'" . '__';
 			if(preg_match('/ /', $tag)){
-				$tag = explodeSelect(' ', $tag, 0);
+				$tag = self::explodeSelect(' ', $tag, 0);
 			}
 			if($easyEdit && $key==0){
 				$gC_parts[] = $show_tag . ':'. $dL5;
@@ -207,7 +208,6 @@ class Content {
 			$gC_parts[] = $show_tag . ':'. $dL3 . $tag . $dL4 . $api_tag . $dL1;
 		}
 		$gC_parts[] = $show_tag . ':' . $dL2;
-		
 		$gC_str = self::buildGetContent($gC_parts, $easyEdit);
 		$gC = str_getcsv($gC_str, ',');
 		$gC = call_user_func_array('getContent', $gC);

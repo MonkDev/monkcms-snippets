@@ -1,12 +1,20 @@
 # getContentArray()
 
-A wrapper for getContent() including getContentArray(), useful for getting array output from the CMS.
+A wrapper for getContent(), useful for getting array output from the CMS.
 
 @author - Chris Ullyott <chris@monkdevelopment.com>
-
 @url - https://github.com/MonkDev/monkcms-snippets/
-
 @demo - http://files.monkdev.com/chris/getContentArray-Demo-Small.mp4
+
+Example:
+```
+$array = Content::getContentArray(array(
+	'module' => 'linklist',
+	'display' => 'links',
+	'params' => array('find:30871','howmany:3'), 
+	'tags' => 'id, slug, name, url, description'
+));
+```
 
 
 ##Options
@@ -101,17 +109,5 @@ $array = Content::getContentArray(array(
 	),
 	'tags' => 'name, slug, url, text',
 	'easyEdit' => true
-));
-```
-
-
-####Example 4
-
-```
-$array = Content::getContentArray(array(
-	'module' => 'linklist',
-	'display' => 'links',
-	'params' => array('find:30871','howmany:3'), 
-	'tags' => 'id, slug, name, url, description'
 ));
 ```

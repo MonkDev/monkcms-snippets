@@ -41,7 +41,7 @@ class Content {
 	* 1. array('find:30871', 'howmany:10')
 	* 2. array('find' => 30871, 'howmany' => 10)
 	* 3. "find:30871, howmany:10"
-	* 
+	*
 	* SHOW: Default show tag is "show", but you can set
 	* to "show_postlist" or etc. for various modules.
 	* There are no before_show / after_show capabilities.
@@ -78,7 +78,7 @@ class Content {
 	*/
 
 	/* EXAMPLE 1 --------------------------------
-	
+
 		$array = Content::getContentArray(array(
 			'module' => 'media',
 			'display' => 'list',
@@ -87,9 +87,9 @@ class Content {
 			),
 			'tags' => 'name, filename, url, id'
 		));
-	
+
 	/* EXAMPLE 2 --------------------------------
-	
+
 		$array = Content::getContentArray(array(
 			'module' => 'blog',
 			'display' => 'list',
@@ -101,9 +101,9 @@ class Content {
 			),
 			'output' => 'json'
 		));
-	
+
 	/* EXAMPLE 3 --------------------------------
-	
+
 		$array = Content::getContentArray(array(
 			'module' => 'page',
 			'find' => 'giving',
@@ -113,16 +113,16 @@ class Content {
 			'tags' => 'name, slug, url, text',
 			'easyEdit' => true
 		));
-	
+
 	/* EXAMPLE 4 --------------------------------
-	
+
 		$array = Content::getContentArray(array(
 			'module' => 'linklist',
 			'display' => 'links',
-			'params' => array('find:30871','howmany:3'), 
+			'params' => array('find:30871','howmany:3'),
 			'tags' => 'id, slug, name, url, description'
 		));
-	
+
 	------------------------------------------- */
 
 	public static function getContentArray($options){
@@ -157,7 +157,7 @@ class Content {
 		} else {
 			$p_str = self::cleanParamString($p);
 		}
-		
+
 		// !find
 		if(isset($options['find'])){
 			$f = trim($options['find']);
@@ -170,7 +170,7 @@ class Content {
 		if($f && !$find_param_matches[1]){
 			$p_str = $f_key . ':' . $f . ',' . $p_str;
 		}
-		
+
 		// !join params + find
 		$p_str = self::replaceTrueParams($p_str);
 		$p_str_array = explode(',', trim($p_str, ','));
@@ -180,7 +180,7 @@ class Content {
 			}
 			$gC_parts[] = $p_str_item;
 		}
-		
+
 		// !show tag
 		$show_tag = 'show';
 		if(isset($options['show'])){ $show_tag = trim($options['show']); }
@@ -224,27 +224,27 @@ class Content {
 		$gC = self::trimString($gC, $dL2);
 		$gC_array = explode($dL2, $gC);
 		$gC_data = array();
-		
+
 		foreach($gC_array as $key1 => $gC_line){
-			
+
 			if(isset($h) && (($key1 + 1)>$h)){ break; }
 			$gC_line = self::trimString($gC_line, $dL1);
 			$gC_line_array = explode($dL1, $gC_line);
-			
+
 			foreach($gC_line_array as $key2 => $gC_line_item){
-				
+
 				preg_match("/^$dL3(.*?)$dL4/", $gC_line_item, $tag_matches);
 				$gC_line_tag = self::explodeSelect(' ', $tag_matches[1], 0);
 				$gC_line_item = str_replace($tag_matches[0], '', $gC_line_item);
-								
+
 				// booleans
 				if(preg_match('/^(custom|if|is)/', $gC_line_tag) && $gC_line_item==' '){
 					$gC_line_item = 1; // tag is boolean
 				}
-				
+
 				// add to array
 				$gC_data[$key1][$gC_line_tag] = $gC_line_item;
-				
+
 				// !process custom tags
 				// embed source
 				if(preg_match('/embed/', $gC_line_tag)){
@@ -253,15 +253,15 @@ class Content {
 				}
 
 			}
-			
+
 		}
-		
+
 		// !customize array keys
 		$k = NULL;
 		if(isset($options['keys'])){ $k = $options['keys']; }
 		if($k===false){
 			$gC_data = self::multiArrayKeyReset($gC_data);
-		} else {			
+		} else {
 			if($k && $d!='detail'){
 				$gC_data = self::customArrayKeys($gC_data, $k);
 			}
@@ -288,7 +288,7 @@ class Content {
 
 	}
 
-	
+
 	/*
 	*  ==========================================================================
 	*
@@ -300,8 +300,8 @@ class Content {
 	private static function arrayIsAssociative($array){
 		return (bool)count(array_filter(array_keys($array), 'is_string'));
 	}
-	
-	
+
+
 	/*
 	*  ==========================================================================
 	*
@@ -316,8 +316,8 @@ class Content {
 		}
 		return $string;
 	}
-	
-	
+
+
 	/*
 	*  ==========================================================================
 	*
@@ -331,8 +331,8 @@ class Content {
 		$input = preg_replace("/^($string)*|($string)*$/", "", $input);
 		return $input;
 	}
-	
-	
+
+
 	/*
 	*  ==========================================================================
 	*
@@ -346,8 +346,8 @@ class Content {
 		$string = preg_replace('/(\s+)?,(\s+)?/', ',', $string);
 		return trim($string);
 	}
-	
-	
+
+
 	/*
 	*  ==========================================================================
 	*
@@ -361,8 +361,8 @@ class Content {
 		$gC = preg_replace('/("[a-zA-Z0-9]*?:0?",)/', '', $input);
 		return trim($gC);
 	}
-	
-	
+
+
 	/*
 	*  ==========================================================================
 	*
@@ -374,10 +374,10 @@ class Content {
 	private static function replaceTrueParams($input){
 		// removes "true" to simply set these params as is getContent style
 		$gC = preg_replace('/(nocache|noecho|noedit):1,/', '$1,', $input);
-		return trim($gC);	
+		return trim($gC);
 	}
-	
-	
+
+
 	/*
 	*  ==========================================================================
 	*
@@ -395,10 +395,10 @@ class Content {
 			$getContent .= $item;
 		}
 		$getContent = self::cleanGetContentString($getContent);
-		return $getContent; 
+		return $getContent;
 	}
-	
-	
+
+
 	/*
 	*  ==========================================================================
 	*
@@ -420,8 +420,8 @@ class Content {
 		}
 		return $new_array;
 	}
-	
-	
+
+
 	/*
 	*  ==========================================================================
 	*
@@ -437,8 +437,8 @@ class Content {
 		}
 		return $array;
 	}
-	
-	
+
+
 	/*
 	*  ==========================================================================
 	*
@@ -451,8 +451,8 @@ class Content {
 		$array = explode($delimiter, $string);
 		return $array[$index];
 	}
-	
-	
+
+
 	/*
 	*  ==========================================================================
 	*
@@ -467,7 +467,7 @@ class Content {
 		$src = $matches[2];
 		return $src;
 	}
-		
+
 
 }
 

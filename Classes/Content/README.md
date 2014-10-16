@@ -82,11 +82,9 @@ Some tags that respond by outputting a single space are considered to be a boole
 `"howmany" => <INTEGER>` will limit the number of items returned even where the API does not do this.
 
 ####Easy Edit
-Easy Edit is disabled by default. Add the HTML for the Easy Edit links to your query by adding:
+Add the HTML for the Easy Edit links to your query by adding `'easyEdit' => true`
 
-`'easyEdit' => true`
-
-## Further examples
+## More examples
 
 ####Page
 	
@@ -121,7 +119,7 @@ $array = Content::getContentArray(array(
 $array = Content::getContentArray(array(
 	'module' => 'blog',
 	'display' => 'list',
-	'params' => 'name:all,find_category:missions,howmany:10',
+	'params' => 'name:all, find_category:missions, howmany:10',
 	'show' => 'show_postlist',
 	'tags' => array(
 		"blogposttitle",

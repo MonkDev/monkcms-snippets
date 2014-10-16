@@ -88,21 +88,34 @@ Easy Edit is disabled by default. Add the HTML for the Easy Edit links to your q
 
 ## Further examples
 
-####Example 1
+####Page
+	
+```
+$array = Content::getContentArray(array(
+	'module' => 'page',
+	'find' => 'giving',
+	'tags' => 'name, slug, url, text, tags'
+));
+```
+
+
+####Media
 
 ```
 $array = Content::getContentArray(array(
 	'module' => 'media',
 	'display' => 'list',
 	'params' => array(
-		'howmany' => 10
+		'howmany' => 10,
+		'nocache' => true
 	),
-	'tags' => 'name, filename, url, id'
+	'tags' => 'id, name, filename, url',
+	'keys' => 'id'
 ));
 ```
 	
 	
-####Example 2
+####Blog Posts
 
 ```
 $array = Content::getContentArray(array(
@@ -114,22 +127,6 @@ $array = Content::getContentArray(array(
 		"blogposttitle",
 		"__blogpostdate format='Y-m-d'__"
 	),
-	'keys' => 'blogpostdate',
 	'output' => 'json'
-));
-```
-	
-	
-####Example 3
-	
-```
-$array = Content::getContentArray(array(
-	'module' => 'page',
-	'find' => 'giving',
-	'params' => array(
-		'nocache' => true
-	),
-	'tags' => 'name, slug, url, text',
-	'easyEdit' => true
 ));
 ```

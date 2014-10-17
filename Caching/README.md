@@ -1,6 +1,6 @@
 # cache_data()
 
-Reads and writes data in a secondary cache folder apart from `/monkcache`. Creates a folder at `/_cache` and writes data in a user-defined directory there. When first using `'mode' => 'read',`, the function returns `false` to signify that the cache has expired, and new data must be written using `'mode' => 'write',`. 
+Reads and writes data in a secondary cache folder apart from `/monkcache`. Creates a folder at `/_cache` and writes data in a user-defined directory there. When first using `'mode' => 'read'`, the function returns `false` to signify that the cache has expired, and new data must be written using `'mode' => 'write'`. 
 
 ## Example
 

@@ -5,15 +5,19 @@ Reads and writes data in a secondary cache folder apart from `/monkcache`. Creat
 ## Example
 
 ```
+/* get cached data */
+
 $instagramFeed = cache_data(array(
 	'mode'=>'read',
 	'path'=>'instagram/feed'
 ));
 
-if(!$instagramFeed){ // data has expired
+
+/* if data has expired */
+
+if(!$instagramFeed){	
 	
 	$instagramFeed = (result of your query) 
-	
 	cache_data(array(
 		'mode'=>'write',
 		'path'=>'instagram/feed',
@@ -21,9 +25,6 @@ if(!$instagramFeed){ // data has expired
 	));
 	
 }
-
-
-
 ```
 
 ## Options

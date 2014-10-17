@@ -11,15 +11,18 @@ $instagramFeed = cache_data(array(
 ));
 
 if(!$instagramFeed){ // data has expired
-	...
+	
 	$instagramFeed = (result of your query) 
+	
+	cache_data(array(
+		'mode'=>'write',
+		'path'=>'instagram/feed',
+		'data'=>$instagramFeed
+	));
+	
 }
 
-cache_data(array(
-	'mode'=>'write',
-	'path'=>'instagram/feed',
-	'data'=>$instagramFeed
-));
+
 
 ```
 

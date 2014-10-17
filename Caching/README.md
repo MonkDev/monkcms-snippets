@@ -18,6 +18,7 @@ $instagramFeed = cache_data(array(
 if(!$instagramFeed){	
 	
 	$instagramFeed = (result of your query) 
+	
 	cache_data(array(
 		'mode'=>'write',
 		'path'=>'instagram/feed',

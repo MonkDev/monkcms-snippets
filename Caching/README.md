@@ -38,8 +38,11 @@ Define a directory name or path relative to the default root folder, which will 
 Sets the cache's expiration frequency. 
 
 `hourly`
+
 `nightly` (default)
+
 `weekly`
+
 `monthly`
 
 ### Data

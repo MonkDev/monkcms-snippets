@@ -36,7 +36,7 @@ if(!$instagramFeed){
 
 `read` or `write`.
 
-## Path
+### Path
 
 Define a directory name or path relative to the default root folder, which will be `/_cache`.
 

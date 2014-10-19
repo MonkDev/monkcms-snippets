@@ -246,10 +246,16 @@ class Content {
 				$gC_data[$key1][$gC_line_tag] = $gC_line_item;
 
 				// !process custom tags
+				// new window
+				if(preg_match('/newwindow/', $gC_line_tag)){
+					$target_attr = ($gC_line_item ? '_blank' : '');
+					$gC_data[$key1][$gC_line_tag . 'Target'] = $target_attr;
+
+				}
 				// embed source
 				if(preg_match('/embed/', $gC_line_tag)){
 					$embed_src = self::extractEmbedSrc($gC_line_item);
-					$gC_data[$key1][$gC_line_tag . 'SRC'] = $embed_src;
+					$gC_data[$key1][$gC_line_tag . 'Src'] = $embed_src;
 				}
 
 			}

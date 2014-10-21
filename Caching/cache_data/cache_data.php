@@ -4,9 +4,9 @@
 
 		// defaults
 		$cache_dir	= '/_cache/';
-		$mode				= (isset($options['mode']) ? $options['mode'] : 'read');
-		$expire			= (isset($options['expire']) ? $options['expire'] : 'weekly');
-		$data				= (isset($options['data']) ? $options['data'] : '');
+		$mode			= (isset($options['mode']) ? $options['mode'] : 'read');
+		$expire		= (isset($options['expire']) ? $options['expire'] : 'weekly');
+		$data			= (isset($options['data']) ? $options['data'] : '');
 
 		// create file tree
 		$cache_path	= rtrim($_SERVER['DOCUMENT_ROOT'],'/') . '/' . trim($cache_dir,'/');
@@ -71,6 +71,7 @@
 				return false;
 			}
 		}
+
 
 	}
 

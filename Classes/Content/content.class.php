@@ -9,6 +9,7 @@
 *  @author - Chris Ullyott <chris@monkdevelopment.com>
 *  @url - https://github.com/MonkDev/monkcms-snippets/tree/master/Classes/Content
 *  @date October 2014
+*  @version 1.1
 *
 */
 

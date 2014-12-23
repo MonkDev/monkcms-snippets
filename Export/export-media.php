@@ -12,7 +12,7 @@
 
 
 	$filename = 'media' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
-	$howmany = 1500; // Set to number of items in the module
+	$howmany = 5000; // Set to number of items in the module
 
 
 	// Header
@@ -84,6 +84,7 @@
 		getContent(
 		"media",
 		"display:list",
+		"type:".$_GET['type'],
 		"howmany:".$this_howmany,
 		"offset:".$this_offset,
 		"order:recent",
@@ -101,8 +102,7 @@
 		"show:~||~",
 		"show:__tags__", // 6
 		"show:~|~|~",
-		"noecho",
-		"nocache"
+		"noecho"
 		);
 
 	}
@@ -121,7 +121,7 @@
 		} else {
 			if(strpos($media_filename,'_')!==false) {
 				$media_filename_arr = explode('_',$media_filename);
-				$media_filename = $media_filename_arr[count(explode('_',$media_filename))-1];	
+				$media_filename = $media_filename_arr[count(explode('_',$media_filename))-1];
 			}
 		}
 

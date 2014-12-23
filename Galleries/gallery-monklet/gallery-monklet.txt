@@ -16,24 +16,6 @@ after_show_gallery="</div><!-- .galleryMonklet -->"
 
 
 
-/* =Monklet (w/ inline CSS)
----------------------------------------------------------------------
-*/
-
-{{
-tag="gallery"
-display="list"
-find_gallery=""
-before_show_gallery="<style type='text/css'>#content .galleryMonklet{margin:30px auto}#content .galleryMonklet,#content .galleryMonklet ul.gM-photos{width:100%;margin-left:auto;margin-right:auto;padding:0;float:none;clear:both;list-style:none}#content .galleryMonklet li.gM-photo{float:left;list-style:none;max-width:20%;padding:0;margin:0 0 2%}#content .galleryMonklet li.gM-photo a{display:block;max-width:85%;margin:auto;height:auto;padding:2px;border:1px solid #c5c5c5}#content .galleryMonklet li.gM-photo a:hover{border:1px solid #999}#content .galleryMonklet li.gM-photo a img{display:block;max-width:100%;height:auto;margin:0;padding:0;border:0}</style>"
-before_show_gallery="<div class='galleryMonklet'>"
-before_show_gallery="<ul class='gM-photos clearfix'>"
-show_gallery="<li class='gM-photo'><a class='slideshow' rel='gallery___galleryslug__' href='__imageurl maxWidth='850' maxHeight='850'__'><img src='__imageurl2 width='250' height='170'__' alt='__title__'/></a></li>"
-after_show_gallery="</ul>"
-after_show_gallery="</div><!-- .galleryMonklet -->"
-}}
-
-
-
 /* =Javascript (Synchronous)
 ---------------------------------------------------------------------
 */
@@ -71,7 +53,7 @@ $(document).ready(function(){
  */
 
 function galleryMonklet(){
-	if( $('.galleryMonklet').length ) {
+	if( $('.galleryMonklet').length && $(window).width()>960) {
 		$.getScript("/_js/vendor/jquery.colorbox-min.js",function(){
         $('.slideshow').colorbox({
 						slideshow: true,

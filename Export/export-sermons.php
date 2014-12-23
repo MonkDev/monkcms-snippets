@@ -12,7 +12,7 @@
 
 
 	$filename = 'sermons' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
-	$howmany = 754; // Set to number of sermons in the module
+	$howmany = 2500; // Set to number of sermons in the module
 
 
 	// Header

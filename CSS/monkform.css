@@ -1,143 +1,374 @@
-/* = Styles for form.monkForm
+
+/* = BEGIN form.monkForm
 ---------------------------------------------------------------------
 */
 
-/* Resets */
-#content .monkForm { margin:0; padding:0; clear: both; }
-#content .monkForm fieldset { padding:0; border: 0; display: block;}
-#content .monkForm fieldset .text { padding:0; }
-#content .monkForm fieldset, #content .monkForm fieldset div { padding:0; margin:0; }
-#content .monkForm fieldset div { margin-bottom:20px; }
 
-/* Widths */
-#content .monkForm { width:100%; }
-#content .monkForm fieldset legend { width: 450px; }
-#content .monkForm .captcha input[type=text] { width:120px; }
-#content .monkForm input[type=text],
-#content .monkForm input[type=file],
-#content .monkForm textarea,
-#content .monkForm .description
+/* !Resets */
+#content .monkForm,
+#content .monkForm fieldset
 {
-	width:300px;
+	display: block;
+	float: none;
+	clear: both;
+	margin: 0;
+	padding: 0;
+	border: 0;
 }
-@media (max-width: 37.5em) {
-	#content .monkForm fieldset legend,
-	#content .monkForm .captcha input,
+#content .monkForm > fieldset > fieldset
+{
+	margin-bottom: 4em;
+}
+#content .monkForm
+{
+	width: 100%;
+	max-width: 100%;
+	margin-bottom: 3em;
+}
+#content .monkForm > fieldset
+{
+	padding: 5px;
+}
+#content .monkForm fieldset div,
+#content .monkForm fieldset .text
+{
+	margin-bottom: 25px;
+}
+
+/* !Widths */
+@media (min-width: 37.5em)
+{
+	#content .monkForm fieldset legend
+	{
+		width: 450px;
+	}
 	#content .monkForm input[type=text],
 	#content .monkForm input[type=file],
 	#content .monkForm textarea,
 	#content .monkForm .description
 	{
-		width:96%;
+		width: 300px;
 	}
 }
 
-/* Backgrounds */
+/* !Mobile */
+@media (max-width: 37.5em)
+{
+	#content .monkForm,
+	#content .monkForm > fieldset
+	{
+		margin-left: auto;
+		margin-right: auto;
+	}
+	#content .monkForm fieldset,
+	#content .monkForm select,
+	#content .monkForm > fieldset > fieldset > div
+	{
+		max-width: 92%;
+	}
+  #content .monkForm fieldset legend,
+	#content .monkForm input[type=text],
+	#content .monkForm input[type=file],
+	#content .monkForm textarea,
+	#content .monkForm .description
+	{
+		width: 90%;
+		margin-bottom: 5px;
+  }
+  #content .monkForm .name input,
+  #content .monkForm .address input
+	{
+		margin-bottom: 8px;
+	}
+}
+
+/* !Type */
+#content .monkForm,
+#content .monkForm .heading,
+#content .monkForm legend,
+#content .monkForm label,
+#content .monkForm input,
+#content .monkForm select,
+#content .monkForm textarea,
+#content .monkForm p,
+#content .monkForm span
+{
+	font-family: 'Lato', Arial, sans-serif;
+	font-size: 14px;
+}
+#content .monkForm fieldset legend,
+#content .monkForm fieldset fieldset legend
+{
+	font-size: 22px;
+}
+#content .monkForm p.errorSummary,
+#content .monkForm span.asterisk
+{
+	font-size: 18px;
+}
+#content .monkForm .heading,
+#content .monkForm label,
+#content .monkForm input,
+#content .monkForm select,
+#content .monkForm textarea,
+#content form.monkForm p.error
+{
+	font-size: 14px;
+}
+#content .monkForm .description
+{
+	font-size: 12px;
+}
+
+/* !Backgrounds */
 #content .monkForm input,
 #content .monkForm select,
 #content .monkForm textarea
 {
-background:#fff;
-background:rgba(255,255,255,0.85);
+	background: #fff;
+	background: rgba(255,255,255,0.85);
 }
 
-/* Colors */
-#content .monkForm label,
-#content .monkForm legend,
-#content .monkForm
+/* !Main Colors */
+#content .monkForm,
+#content .monkForm input,
+#content .monkForm .heading,
+#content .monkForm input[type=submit],
+#content .monkForm input[type=submit]:hover
 {
-color:#555;
+	color: #444;
+}
+#content .monkForm input,
+#content .monkForm select,
+#content .monkForm textarea,
+#content .monkForm input[type=submit]:focus
+{
+	border-color: #777;
 }
 #content .monkForm p.errorSummary,
 #content .monkForm span.asterisk,
-#content .monkForm.monkForm p.error{
-color:red;
+#content .monkForm.monkForm p.error
+{
+	color: tomato;
 }
 
-/* Focus */
+/* !Accent Colors */
+#content .monkForm input[type=submit]:hover
+{
+	color: #0079c9;
+}
+#content .monkForm input:focus,
+#content .monkForm select:focus,
+#content .monkForm textarea:focus,
+#content .monkForm input[type=submit]:hover
+{
+	border-color: #0079c9;
+}
+
+/* !Focus */
 #content .monkForm input:focus,
 #content .monkForm select:focus,
 #content .monkForm textarea:focus
 {
-outline:none;
-background:#fff;
-border:1px solid #999;
--webkit-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, .25);
--moz-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, .25);
-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, .25);
+	outline: none;
+	background: #fff;
 }
 
-/* Effects */
+/* !Effects */
 #content .monkForm input,
 #content .monkForm select,
 #content .monkForm textarea
 {
-/*
--moz-border-radius:4px;
--webkit-border-radius:4px;
-border-radius:4px;
-*/
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
 }
 
-/* Legends */
-#content .monkForm fieldset legend { display:block; margin:0; padding:0; padding-bottom:10px; line-height:normal; font-size:13px; white-space: normal; }
-
-/* Title */
-#content .monkForm > fieldset > legend { display:none; font-size:16px; white-space:normal; zoom: 1;}
-#content .monkForm > fieldset > fieldset > legend { padding-top:10px; font-size:16px; font-weight:bold; }
-
-/* Labels */
-#content .monkForm label { display: block; font-size:13px; line-height: normal; font-weight:bold; margin-bottom:4px; }
-#content .monkForm fieldset fieldset label { padding:0; }
-#content .monkForm .radio label,#content .monkForm .checkbox label { font-weight:normal; line-height:normal; clear:none; }
-#content .monkForm p.data { margin-bottom:4px; }
-#content .monkForm .radio p.data:last-child,#content .monkForm .checkbox p.data:last-child { margin-bottom:8px; }
-#content .monkForm .description { font-size:11px; line-height:normal; font-style:italic; margin-top:4px; }
-#content .monkForm fieldset fieldset div,#content .monkForm fieldset fieldset div p,#content .monkForm fieldset fieldset div p { padding:0; margin:0; font-weight:normal; }
-#content .monkForm fieldset fieldset div { margin-bottom:25px; }
-#content .monkForm p.errorSummary { font-weight: bold; font-style:italic; }
-#content .monkForm p.error { font-size:11px; margin-bottom:5px; }
-
-/* General fields (input, select, textarea ) */
-#content .monkForm input,#content .monkForm input,#content .monkForm select,#content .monkForm textarea {
-font:normal 12px/100% Verdana, Tahoma, sans-serif; border:1px solid #555;
-}
-
-/* Inputs */
-#content .monkForm input[type=text],#content .monkForm input[type=file] { padding:5px; }
-
-/* Selects */
-#content .monkForm select { padding:2px; }
-#content .monkForm select option { padding:2px 4px; }
-
-/* Textareas */
-#content .monkForm textarea { padding:6px; resize: vertical; }
-
-/* Checkboxes and radio buttons */
-#content .monkForm .radio .data,#content .monkForm .checkbox .data { margin-bottom:12px; }
-#content .monkForm .radio label,#content .monkForm .checkbox label{ display: inline; margin-left: 5px; }
-#content .monkForm input[type=checkbox],#content .monkForm input[type=radio] { background:none; border:0; }
-#content .monkForm fieldset fieldset fieldset p { padding:0; margin:7px 10px; margin-top:0; }
-
-/* Submit buttons */
-#content .monkForm input[type=submit]
+/* !Headings (Legends, Labels) */
+#content .monkForm fieldset legend,
+#content .monkForm fieldset .heading
 {
-background:#555; color:#fff; padding:10px 25px; margin:15px 0;
-text-transform:uppercase;
-letter-spacing: 0.5px;
-text-shadow: 0 1px 2px #000000;
--webkit-box-shadow:none;
--moz-box-shadow:none;
-box-shadow:none;
+	display: block;
+	margin: 0;
+	padding: 0 0 10px 0;
+	line-height: normal;
+	white-space: normal;
 }
-#content .monkForm #.monkFormsubmit input[src*=png],#content .monkForm #.monkFormsubmit input[src*=jpg],#content .monkForm #.monkFormsubmit input[src*=jpeg],#content .monkForm #.monkFormsubmit input[src*=gif] { border:none; margin-bottom:35px; }
-#content .monkForm input[type=submit]:hover { background:#777; cursor: pointer; }
-#content .monkForm input[type=image] { border:0; }
 
-/* Captchas */
-#content .monkForm .captcha label .asterisk { display: none; }
-#content .monkForm .captcha input { display: block;}
-#content .monkForm .captcha img { margin-bottom:4px; border: 1px solid #555; padding: 0; }
+/* !Parent Legend (Form Title) */
+#content .monkForm > fieldset > legend
+{
+	display: none;
+}
 
-/* Asterisks */
-#content .monkForm span.asterisk { font-weight:normal; display: inline; }
+/* !Fieldset Legend */
+#content .monkForm > fieldset > fieldset > legend
+{
+	margin-bottom: 20px;
+}
+#content .monkForm fieldset fieldset legend
+{
+	font-weight: bold;
+}
+
+/* !Headings */
+#content .monkForm .heading
+{
+	display: block;
+	line-height: normal;
+	font-weight: bold;
+	margin-bottom: 4px;
+	padding: 0;
+}
+#content .monkForm .radio label,
+#content .monkForm .checkbox label
+{
+	font-weight: normal;
+	line-height: normal;
+	clear: none;
+}
+#content .monkForm p.data
+{
+	margin-bottom: 4px;
+}
+#content .monkForm p.data.last
+{
+	margin-bottom: 0;
+}
+#content .monkForm .description
+{
+	line-height: normal;
+	font-style: italic;
+	margin-top: 4px;
+}
+#content .monkForm fieldset fieldset div,
+#content .monkForm fieldset fieldset div p
+{
+	padding: 0;
+	margin: 0;
+	font-weight: normal;
+}
+#content .monkForm fieldset fieldset div
+{
+	margin-bottom: 30px;
+}
+#content .monkForm fieldset fieldset div:last-child
+{
+	margin-bottom: 0;
+}
+#content .monkForm p.errorSummary
+{
+	font-weight: bold;
+}
+#content .monkForm p.error
+{
+	font-style: italic;
+	margin-bottom: 5px;
+}
+
+/* !General fields (input, select, textarea ) */
+#content .monkForm input,
+#content .monkForm select,
+#content .monkForm textarea
+{
+	line-height: normal;
+	padding: 3px 6px;
+	border-style: solid;
+  border-width: 1px;
+}
+
+/* !Inputs */
+#content .monkForm input[type=text],
+#content .monkForm input[type=file]
+{
+	padding: 5px;
+}
+
+
+/* !Selects */
+#content .monkForm select
+{
+	padding: 2px;
+}
+#content .monkForm select option
+{
+	padding: 2px 4px;
+}
+
+/* !Textareas */
+#content .monkForm textarea
+{
+	padding: 6px;
+}
+
+/* !Checkboxes and radio buttons */
+#content .monkForm .radio .data,
+#content .monkForm .checkbox .data
+{
+	margin-bottom: 12px;
+}
+#content .monkForm .radio label,
+#content .monkForm .checkbox label
+{
+	display: inline;
+	margin-left: 5px;
+}
+#content .monkForm input[type=checkbox],
+#content .monkForm input[type=radio]
+{
+	background: none;
+	border: 0;
+}
+#content .monkForm fieldset fieldset fieldset p
+{
+	padding: 0;
+	margin: 7px 0;
+	margin-top: 0;
+}
+
+/* !Sections */
+#content .monkForm .section
+{
+}
+
+/* !Submit buttons */
+#content .monkForm input[type=submit],
+#content .monkForm input[type=submit]:hover
+{
+	background: #fff;
+	background: rgba(255,255,255,0.85);
+	padding: 10px 25px;
+	margin: 0;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	text-shadow: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	cursor: pointer;
+}
+#content .monkForm input[type=submit]:active
+{
+	position: relative;
+	top: 1px;
+}
+#content .monkForm input[type=submit][src$=png],
+#content .monkForm input[type=submit][src$=jpg],
+#content .monkForm input[type=submit][src$=jpeg],
+#content .monkForm input[type=submit][src$=gif]
+{
+	display: block;
+	border: none;
+}
+
+/* !Asterisks */
+#content .monkForm span.asterisk
+{
+	font-weight: normal;
+	display: inline-block;
+	padding: 0 2px;
+}
+
+/* = /END form.monkForm
+---------------------------------------------------------------------
+*/

@@ -12,7 +12,7 @@
 
 
 	$filename = 'media' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
-	$howmany = 5000; // Set to number of items in the module
+	$howmany = 1000; // Set to number of items in the module
 
 
 	// Header
@@ -58,12 +58,17 @@
 		$out = '"' . $out . '"';
 		return $out;
 	}
+	function hostName($url){
+		$parse_url = parse_url($url);
+		return $parse_url['host'];
+	}
 
 	// Headers
 	$headers .= '"ID",';
 	$headers .= '"Type",';
 	$headers .= '"Filename",';
 	$headers .= '"Source",';
+	$headers .= '"Service",';
 	$headers .= '"Name",';
 	$headers .= '"Description",';
 	$headers .= '"Tags"';
@@ -142,11 +147,20 @@
 		$media_desc = trim($media_array[5]);
 		$media_tags = trim($media_array[6]);
 
+		// media service
+		$media_host = 'Ekklesia 360';
+		if(	stripos($media_source, '/mediafiles/')===false &&
+				stripos($media_source, '/uploaded/')===false &&
+				stripos($media_source, '/h264-720/')===false) {
+			$media_host = 'External';
+		}
+
 		$line =
 		processItem($media_id)			. "," .
 		processItem($media_type)		. "," .
 		processItem($media_filename)	. "," .
 		processItem($media_source)		. "," .
+		processItem($media_host)		. "," .
 		processItem($media_name)		. "," .
 		processItem($media_desc)		. "," .
 		processItem($media_tags)		. "\n";

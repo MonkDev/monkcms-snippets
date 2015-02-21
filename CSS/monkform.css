@@ -32,7 +32,7 @@
 #content .monkForm fieldset div,
 #content .monkForm fieldset .text
 {
-	margin-bottom: 25px;
+	margin-bottom: 24px;
 }
 
 /* !Widths */
@@ -43,11 +43,12 @@
 		width: 450px;
 	}
 	#content .monkForm input[type=text],
+	#content .monkForm input[type=email],
 	#content .monkForm input[type=file],
 	#content .monkForm textarea,
 	#content .monkForm .description
 	{
-		width: 300px;
+		width: 250px;
 	}
 }
 
@@ -68,6 +69,7 @@
 	}
   #content .monkForm fieldset legend,
 	#content .monkForm input[type=text],
+	#content .monkForm input[type=email],
 	#content .monkForm input[type=file],
 	#content .monkForm textarea,
 	#content .monkForm .description
@@ -118,6 +120,7 @@
 #content .monkForm .description
 {
 	font-size: 12px;
+	margin-bottom: 0;
 }
 
 /* !Backgrounds */
@@ -155,14 +158,14 @@
 /* !Accent Colors */
 #content .monkForm input[type=submit]:hover
 {
-	color: #0079c9;
+	/* color: #0079c9; */
 }
 #content .monkForm input:focus,
 #content .monkForm select:focus,
 #content .monkForm textarea:focus,
 #content .monkForm input[type=submit]:hover
 {
-	border-color: #0079c9;
+	/* border-color: #0079c9; */
 }
 
 /* !Focus */
@@ -170,7 +173,7 @@
 #content .monkForm select:focus,
 #content .monkForm textarea:focus
 {
-	outline: none;
+	/* outline: none; */
 	background: #fff;
 }
 
@@ -227,9 +230,10 @@
 	line-height: normal;
 	clear: none;
 }
-#content .monkForm p.data
+#content .monkForm fieldset p.data,
+#content .monkForm fieldset fieldset p
 {
-	margin-bottom: 4px;
+	margin: 0 0 8px 0;
 }
 #content .monkForm p.data.last
 {
@@ -279,6 +283,7 @@
 
 /* !Inputs */
 #content .monkForm input[type=text],
+#content .monkForm input[type=email],
 #content .monkForm input[type=file]
 {
 	padding: 5px;
@@ -305,7 +310,7 @@
 #content .monkForm .radio .data,
 #content .monkForm .checkbox .data
 {
-	margin-bottom: 12px;
+	margin-bottom: 8px;
 }
 #content .monkForm .radio label,
 #content .monkForm .checkbox label

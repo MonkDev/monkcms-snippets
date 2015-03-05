@@ -12,7 +12,7 @@
 
 
 	$filename = 'media' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
-	$howmany = 1000; // Set to number of items in the module
+	$howmany = 5000; // Set to number of items in the module
 
 
 	// Header

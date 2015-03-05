@@ -12,7 +12,7 @@
 
 
 	$filename = 'events' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
-	$howmany = 300; // Set to number of events in the module
+	$howmany = 5000; // Set to number of events in the module
 
 
 	// Header

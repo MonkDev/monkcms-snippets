@@ -10,15 +10,13 @@
 		
 		<h1>Exports</h1>
 		
-		<ul>
-			<li><a target="_blank" href="_modules/export-pages.php">Pages</a></li>
-			<li><a target="_blank" href="_modules/export-nav.php">Navigation</a></li>
-			<li><a target="_blank" href="_modules/export-sermons.php">Sermons</a></li>
-			<li><a target="_blank" href="_modules/export-media.php">Media</a></li>
-			<li><a target="_blank" href="_modules/export-events.php">Events</a></li>
-			<li><a target="_blank" href="_modules/export-books.php">Books</a></li>
-			<li><a target="_blank" href="_modules/export-churches.php">Churches</a></li>
-		</ul>
-		
+		<p><a target="_blank" href="_modules/export-pages.php">Pages</a></p>
+		<p><a target="_blank" href="_modules/export-nav.php">Navigation</a></p>
+		<p><a target="_blank" href="_modules/export-sermons.php">Sermons</a></p>
+		<p><a target="_blank" href="_modules/export-media.php">Media</a></p>
+		<p><a target="_blank" href="_modules/export-events.php">Events</a></p>
+		<p><a target="_blank" href="_modules/export-books.php">Books</a></p>
+		<p><a target="_blank" href="_modules/export-churches.php">Churches</a></p>
+	
 	</body>
 </html>

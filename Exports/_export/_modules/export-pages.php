@@ -43,7 +43,7 @@
 	$headers .= "\n";
 
 	// Find page ID's
-	$htaccess = file_get_contents('.htaccess');
+	$htaccess = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/' . '.htaccess');
 	preg_match_all('/nav=p-(.*?)\&/',$htaccess,$matches);
 	$pageIDs = $matches[1];
 

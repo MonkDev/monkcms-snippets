@@ -283,6 +283,7 @@
 }
 
 /* !Inputs */
+#content .monkForm input,
 #content .monkForm input[type=text],
 #content .monkForm input[type=email],
 #content .monkForm input[type=file]

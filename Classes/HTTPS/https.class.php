@@ -99,16 +99,19 @@ class Monk_HTTPS {
 	public function getSContent(){
 
 	 	$args = func_get_args();
-	 	if(!in_array('noecho', $args)){
+	 	$noecho = false;
+	 	if(in_array('noecho', $args)){
+		 	$noecho = true;
+		} else {
 			$args[] = 'noecho';
 		}
 	 	$ret = call_user_func_array("getContent", $args);
 	 	if($ret){
 	 		$output = $this->toHTTPS($ret, true);
+	   	if($output && $noecho==false){
+	    	print($output);
+	    }
 	 	}
-   	if($output){
-    	print($output);
-    }
     return $ret;
 
 	}
@@ -125,6 +128,7 @@ class Monk_HTTPS {
 	* but with http replaced with https for all page content (but not link destinations)
 	*/
 	public function Sinclude($file){
+
 		ob_start();
 		$ret = include($file);
 		$output = $this->toHTTPS(ob_get_contents(), true);
@@ -132,5 +136,7 @@ class Monk_HTTPS {
 		print($output);
 		return $ret;
 	}
+
 }
+
 ?>

@@ -2,11 +2,15 @@
 
 Set up an Ekklesia 360 site locally with one click. For root users only.
 
+http://www.mamp.info/
+
+http://panic.com/transmit/
+
 ### Installation: 
 
-1. Add `Dev Setup.app` to your `~/Applications/`.
+1. Add `Dev Setup.app` to `~/Applications`.
 
-2. Create a folder in `~/Sites/` called `root`.
+2. Create a folder in `~/Sites` called `root`.
 
 3. Fire up MAMP (Standard Version) and point the Webserver Document Root to `~/Sites/root`.
 

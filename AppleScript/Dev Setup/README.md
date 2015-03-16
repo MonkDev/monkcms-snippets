@@ -1,6 +1,6 @@
 # Local Development Setup w/ Applescript
 
-## Set up an Ekklesia 360 site locally with one click. For root users only.
+Set up an Ekklesia 360 site locally with one click. For root users only.
 
 ### Installation: 
 
@@ -21,6 +21,9 @@
 ### Recommended Transmit Rule
 
 Skip files:
+
 `All`
+
 `Kind` is: `Folder`
+
 `Name` matches: `^_?(.*?)(old|backup|archive|mediafiles|monkcache|monkimage|setupguide)$`

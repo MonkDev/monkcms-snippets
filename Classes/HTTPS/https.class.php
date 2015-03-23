@@ -48,9 +48,12 @@ class Monk_HTTPS {
 		if($proceed){
 		 	preg_match_all('@(https?://([-\w\.]+)+(:\d+)?(/([\w-/_\.]*(\?\S+)?)?)?)@',$string,$matches);
 		 	foreach($matches[1] as $url){
-			 	$secure_url = str_replace('http://', 'https://', $url);
-			 	$secure_url = $this->secureRSCFile($secure_url);
-			 	$string = str_replace($url, $secure_url, $string);
+			 	$parse_url = parse_url($url);
+			 	if($parse_url['host']==$_SERVER['HTTP_HOST'] || preg_match('/rackcdn\.com$/',$parse_url['host'])){
+			 		$secure_url = str_replace('http://', 'https://', $url);
+			 		$secure_url = $this->secureRSCFile($secure_url);
+			 		$string = str_replace($url, $secure_url, $string);
+			 	}
 			}
 		}
 
@@ -128,7 +131,6 @@ class Monk_HTTPS {
 	* but with http replaced with https for all page content (but not link destinations)
 	*/
 	public function Sinclude($file){
-
 		ob_start();
 		$ret = include($file);
 		$output = $this->toHTTPS(ob_get_contents(), true);
@@ -136,7 +138,5 @@ class Monk_HTTPS {
 		print($output);
 		return $ret;
 	}
-
 }
-
 ?>

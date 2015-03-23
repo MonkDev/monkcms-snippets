@@ -22,7 +22,7 @@ http://panic.com/transmit/
 
 7. While inside Ekklesia 360 as a root user, click on your bookmarklet.
 
-The Applescript will fire up Transmit and begin synchronizing the site to a local folder in ~/Sites/ named after the site's domain. According to your Transmit Rules, any files or folders can be ignored. 
+The Applescript will fire up Transmit and begin synchronizing the site to a local folder in `~/Sites/` named after the site's domain. According to your Transmit Rules, any files or folders can be ignored. 
 
 ### Recommended Transmit Rule
 

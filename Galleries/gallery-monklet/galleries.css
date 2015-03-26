@@ -67,6 +67,7 @@
 	margin:0;
 	padding:0;
 	border:0;
+	float:none;
 }
 
 @media (min-width: 37.5em) {

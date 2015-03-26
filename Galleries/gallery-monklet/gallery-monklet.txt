@@ -21,7 +21,7 @@ after_show_gallery="</div><!-- .galleryMonklet -->"
 */
 
 $(document).ready(function(){
-	
+
 	// Colorbox (http://www.jacklmoore.com/colorbox/)
 	$('.slideshow').colorbox({
 		slideshow: true,
@@ -29,7 +29,7 @@ $(document).ready(function(){
 		preloading: true,
 		slideshowSpeed: 5000,
 		slideshowAuto: false
-	});		
+	});
 
 });
 
@@ -56,6 +56,8 @@ function galleryMonklet(){
 	if( $('.galleryMonklet').length && $(window).width()>960) {
 		$.getScript("/_js/vendor/jquery.colorbox-min.js",function(){
         $('.slideshow').colorbox({
+	        	maxWidth: '85%',
+	        	maxHeight: '85%',
 						slideshow: true,
 						photo: true,
 						preloading: true,
@@ -64,7 +66,6 @@ function galleryMonklet(){
 				});
     });
 	}
-}
 
 
 

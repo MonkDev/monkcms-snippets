@@ -80,6 +80,7 @@
 	$batch_count = ceil($howmany / $batch_length);
 
 	$get_media = '';
+	$source_urls = '';
 	for($i=1; $i<=$batch_count; $i++){
 
 		$this_howmany = strval($batch_length);
@@ -140,6 +141,9 @@
 			$embed_code = '';
 			$media_type = getFileType($media_filename);
 			$media_source = $media_url;
+			if($media_source){
+				$source_urls .= $media_source . "\n";
+			}
 		}
 
 		$media_id = trim($media_array[0]);
@@ -171,8 +175,11 @@
 
 	$lines = trim($lines,"\n");
 
-
 	// Output
-	echo $headers . $lines;
+	if(isset($_GET['urls'])){
+		echo $source_urls;
+	} else {
+		echo $headers . $lines;
+	}
 
 ?>

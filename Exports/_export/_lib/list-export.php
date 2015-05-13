@@ -1,85 +1,11 @@
 <?php require_once($_SERVER["DOCUMENT_ROOT"] . "/monkcms.php"); ?>
 <?php require_once('content.class.php'); ?>
+<?php require_once('export-functions.php'); ?>
 <?php
 
-/* LIST EXPORT FUNCTIONS */
 
-function singular_module_name($module){
-	switch ($module) {
-	case 'galleries':
-		$name = 'gallery';
-		break;
-	default:
-		$name = preg_replace('/(s|es)$/', '', $module);
-		break;
-	}
-	return $name;
-}
+/* LIST EXPORT */
 
-
-function csv_headers($array){
-	$headers = '"num",';
-	foreach($array as $i){
-		$i = preg_replace('/\s+.*$/', '', $i);
-		$headers .= '"'.$i.'",';
-	}
-	$headers = trim($headers,',');
-	$headers .= "\n";
-	return $headers;
-}
-
-
-function csv_string($in){
-	$out = trim($in);
-	$out = str_replace('"','""',$out);
-	$out = str_replace('&amp;','&',$out);
-	$out = '"' . $out . '"';
-	return $out;
-}
-
-
-function gc_module_params($module){
-	$params = array(
-		'display' => 'list',
-		'show' => 'show'
-	);
-	switch ($module) {
-	case 'page':
-		$params['display'] = 'detail';
-		break;
-	case 'blog':
-		$params['show'] = 'show_postlist';
-		break;
-	case 'product':
-		$params['show'] = 'show_productlist';
-		break;
-	}
-	return $params;
-}
-
-
-function get_tags($module, $path){
-	$tags = array();
-	$file_path = rtrim($path,'/') . '/' . $module . '.php';
-	$file_contents = file_get_contents($file_path);
-	if(!$file_contents){
-		exit("Error: Tags expected in \"$file_path\" not found.");
-	}
-	$file_lines = explode("\n", trim($file_contents));
-	$file_lines = array_filter($file_lines);
-	foreach($file_lines as $line){
-		$tag = trim(trim($line),'_');
-		$tags[] = $tag;
-	}
-	return $tags;
-}
-
-
-
-?>
-<?php
-
-/* LIST EXPORT RUNTIME */
 
 // get module
 $module = '';
@@ -89,11 +15,13 @@ if(isset($_GET['module']) && $_GET['module']!=''){
 	exit('No module defined.');
 }
 
+
 // get select (export a single data point)
 $select = '';
 if(isset($_GET['select']) && $_GET['select']!=''){
 	$select = $_GET['select'];
 }
+
 
 // get filter
 $filter = array(0 => '', 1 => '');
@@ -138,17 +66,20 @@ for($i=1; $i<=$batch_count; $i++){
 			'display' => $gc_params['display'],
 			'show' => $gc_params['show'],
 			'params' => array(
+				$filter[0] => $filter[1],
 				'howmany' => $this_howmany,
 				'offset' => $this_offset,
-				$filter[0] => $filter[1]
+				'find_booklist' => 'all', //books
+				'name' => 'all' // blogs
 			),
 			'tags' => $module_tags
-		));
+	));
 	if(empty($gc)){ break; }
 	foreach($gc as $item){
 		$data[] = $item;
 	}
 }
+
 
 // unique values only
 $data = array_map("unserialize", array_unique(array_map("serialize", $data)));

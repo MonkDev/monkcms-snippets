@@ -345,22 +345,6 @@ class Content {
 	}
 
 
-	/*
-	*  ==========================================================================
-	*
-	*  extractEmbedSrc() - get the source of an iframe in HTML
-	*
-	*  ==========================================================================
-	*
-	*/
-	private static function extractEmbedSrc($html){
-		$pattern = '/(<object>)?<\s?iframe.*?src\s?=\s?["\'](.*?)["\']/';
-		preg_match($pattern, $html, $matches);
-		$src = $matches[2];
-		return $src;
-	}
-
-
 }
 
 ?>

@@ -1,0 +1,15 @@
+booktitle
+booktitlelink
+booktitleslug
+bookauthor
+bookcategory
+imageurl
+imageurl2
+imageurl3
+bookimageTMB
+booktext
+bookaffiliate
+bookkeywords
+bookcommentnumber
+bookcommentnumberonly
+bookcommentlist

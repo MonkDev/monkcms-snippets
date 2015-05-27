@@ -9,7 +9,7 @@ javascript: (function() {
 			var ftp_pass = encodeURIComponent($('#metaHeaderFTPSettings tr:contains("PW:") input').val());
 			var ftp_path = encodeURIComponent($('#metaHeaderFTPSettings tr:contains("Path:") input').val());
 			var ftp_protocol = $('#metaHeaderSiteConfig a:contains("Launch")').attr('href').split('://')[0].toUpperCase();
-			var site_domain = $('#meta-header ul li:eq(2) a').attr('href').replace(/(http:\/\/)?(https:\/\/)?(www.)?\/?/, '').replace('/', '');
+			var site_domain = $('#meta-header ul li:eq(2) a').attr('href').trim().replace(/(http:\/\/)?(https:\/\/)?(www.)?\/?/, '').replace('/', '');
 			var dev_url = 'devSetup://' + 'set.up' + '?domain=' + site_domain + '&user=' + ftp_user + '&pass=' + ftp_pass + '&path=' + ftp_path + '&protocol=' + ftp_protocol + '&host=' + ftp_host;
 			console.log(dev_url);
 			if (ftp_host && ftp_user && ftp_pass) {

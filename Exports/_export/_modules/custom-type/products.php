@@ -10,21 +10,16 @@
 
 	*/
 
+	require('../../_inc/config.php');
 
 	$filename = 'products' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
 	$howmany = 100; // Set to number of products in the module
-
 
 	// Header
 	header("Content-type: text/csv");
 	header("Content-Disposition: attachment; filename=" . $filename . ".csv");
 	header("Pragma: no-cache");
 	header("Expires: 0");
-
-
-	// MonkCMS
-	require($_SERVER['DOCUMENT_ROOT'] . '/monkcms.php');
-
 
 	// Functions
 	function processItem($in){
@@ -34,7 +29,6 @@
 		$out = '"' . $out . '"';
 		return $out;
 	}
-
 
 	// Headers
 	$headers .= '"Code",'; 															// 0

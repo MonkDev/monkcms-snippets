@@ -1,3 +1,4 @@
+<?php require('_inc/config.php'); ?>
 <?php
 
 	// Find files in a directory
@@ -15,7 +16,7 @@
 				'runtime_path' => $match,
 				'basename' => $pathinfo['basename'],
 				'filename' => $pathinfo['filename'],
-				'title' => ucwords($pathinfo['filename'])
+				'title' => $pathinfo['filename']
 			);
 			$files[] = $file;
 		}
@@ -44,6 +45,9 @@
 	$files_list = find_files('_modules/list-type', 'php');
 	foreach($files_list as $key => $list_type){
 		$files_list[$key]['runtime_path'] = '_lib/list-export.php?module=' . $list_type['filename'];
+		if($list_type['filename']=='media-list'){
+			$files_list[$key]['runtime_path'] = '_lib/list-export.php?module=media&select=url';
+		}
 	}
 	$files_custom = find_files('_modules/custom-type', 'php');
 	$files = array_merge($files_list, $files_custom);

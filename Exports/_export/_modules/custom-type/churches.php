@@ -10,20 +10,15 @@
 
 	*/
 
+	require('../../_inc/config.php');
 
 	$filename = 'churches' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
-
 
 	// Header
 	header("Content-type: text/csv");
 	header("Content-Disposition: attachment; filename=" . $filename . ".csv");
 	header("Pragma: no-cache");
 	header("Expires: 0");
-
-
-	// MonkCMS
-	require($_SERVER['DOCUMENT_ROOT'] . '/monkcms.php');
-
 
 	// Functions
 	function processItem($in){
@@ -33,7 +28,6 @@
 		$out = '"' . $out . '"';
 		return $out;
 	}
-
 
 	// Headers
 	$headers .= '"Name",'; 					// 0

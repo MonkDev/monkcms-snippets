@@ -1,6 +1,6 @@
-<?php require_once($_SERVER["DOCUMENT_ROOT"] . "/monkcms.php"); ?>
-<?php require_once('content.class.php'); ?>
-<?php require_once('export-functions.php'); ?>
+<?php require('../_inc/config.php'); ?>
+<?php require('content.class.php'); ?>
+<?php require('export-functions.php'); ?>
 <?php
 
 

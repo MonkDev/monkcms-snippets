@@ -7,11 +7,15 @@
 		file_put_contents($ticket_file, date('Y-m-d',strtotime("+5 days")));
 	}
 
+	$access = false;
 	$ticket_expire = file_get_contents($ticket_file);
+	if(strtotime('now')<strtotime($ticket_expire)){
+		$access = true;
+	}
 
-	if(strtotime('now')>strtotime($ticket_expire)){
+	if(!$access){
 		header('HTTP/1.0 403 Forbidden');
-		exit('<h1>Access expired.</h1>');
+		exit('<h1>Script access expired.</h1>');
 	}
 
 	require($_SERVER["DOCUMENT_ROOT"] . "/monkcms.php");

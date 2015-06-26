@@ -145,7 +145,6 @@ class Content {
 
 		// !params
 		$p = NULL;
-		$f = NULL;
 		$h = NULL;
 		$p_str = '';
 		if(isset($options['params'])){ $p = $options['params']; }
@@ -160,6 +159,7 @@ class Content {
 		}
 
 		// !find
+		$f = NULL;
 		if(isset($options['find'])){
 			$f = trim($options['find']);
 			$f_key = 'find';
@@ -172,11 +172,11 @@ class Content {
 			$p_str = $f_key . ':' . $f . ',' . $p_str;
 		}
 
-		// !join params + find
+		// !join params and find
 		$p_str = self::replaceTrueParams($p_str);
 		$p_str_array = explode(',', trim($p_str, ','));
 		foreach($p_str_array as $p_str_item){
-			if(!isset($h) && preg_match('/^howmany:(\d{1,})$/', $p_str_item, $h_matches)){
+			if(preg_match('/^howmany:(\d{1,})$/', $p_str_item, $h_matches)){
 				$h = $h_matches[1];
 			}
 			$gC_parts[] = $p_str_item;
@@ -250,13 +250,6 @@ class Content {
 				// new window
 				if(preg_match('/newwindow/', $gC_line_tag)){
 					$target_attr = ($gC_line_item ? '_blank' : '');
-					$gC_data[$key1][$gC_line_tag . 'Target'] = $target_attr;
-
-				}
-				// embed source
-				if(preg_match('/embed/', $gC_line_tag)){
-					$embed_src = self::extractEmbedSrc($gC_line_item);
-					$gC_data[$key1][$gC_line_tag . 'Src'] = $embed_src;
 				}
 
 			}
@@ -312,7 +305,7 @@ class Content {
 	/*
 	*  ==========================================================================
 	*
-	*  paramArrayToString() - builds a param string from an array
+	*  paramArrayToString() - builds a getContent param string from an array
 	*
 	*  ==========================================================================
 	*

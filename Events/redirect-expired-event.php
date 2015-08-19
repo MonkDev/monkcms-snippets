@@ -32,7 +32,7 @@
       'noedit'
     );
 
-      $event_slug_new = preg_replace('/^event\//', '', trim($event_slug_new, '/'));
+    $event_slug_new = preg_replace('/^event\//', '', trim($event_slug_new, '/'));
 
     // if new event is different, redirect to new URL
     if (($event_slug && $event_slug_new) && ($event_slug != $event_slug_new)) {

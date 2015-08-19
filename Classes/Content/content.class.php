@@ -76,6 +76,8 @@ class Content {
 	*		for the Easy Edit links to your query by adding
 	*		'easyEdit' => true
 	*
+	* 6. Pagination - adding 'pagination' => true to the array will add
+	*                  a ['pagination'] key to the return array
 	*/
 
 	/* EXAMPLE 1 --------------------------------
@@ -131,7 +133,7 @@ class Content {
 		$gC_parts = array();
 
 		// !delimiters
-		$dL1 = '%dL1%'; $dL2 = '%dL2%'; $dL3 = '%dL3%'; $dL4 = '%dL4%'; $dL5 = '%dL5%';
+		$dL1 = '%dL1%'; $dL2 = '%dL2%'; $dL3 = '%dL3%'; $dL4 = '%dL4%'; $dL5 = '%dL5%'; $dL6 = '%dL6%';
 
 		// !module
 		$m = NULL;
@@ -141,7 +143,7 @@ class Content {
 		// !display
 		$d = 'detail';
 		if(isset($options['display'])){ $d = trim($options['display']); }
-		$gC_parts[] = 'display:' . $d;
+		$gC_parts[] = 'display:' . $d;	
 
 		// !params
 		$p = NULL;
@@ -209,18 +211,40 @@ class Content {
 			$gC_parts[] = $show_tag . ':'. $dL3 . $tag . $dL4 . $api_tag . $dL1;
 		}
 		$gC_parts[] = $show_tag . ':' . $dL2;
+		
+		
+		// !pagination
+		$pagination = false;
+		if(isset($options['pagination'])){
+			$pagination = true;
+			$gC_parts[] = 'before_show:__pagination__'.$dL6;
+		}
+		
+		// !create the getContent
 		$gC_str = self::buildGetContent($gC_parts, $easyEdit);
+		
 		$gC = str_getcsv($gC_str, ',');
 		$gC = call_user_func_array('getContent', $gC);
 		if(!$gC){ return NULL; } // nothing returned.
-
+						
+		// !get Pagination
+		if($pagination){
+			if(strpos($gC, $dL6) !== false){
+				$gC_pag_array = explode($dL6, $gC, 2);
+				$gC_pagination = $gC_pag_array[0];
+				$gC = str_replace($dL6, '', $gC_pag_array[1]);
+			} else {
+				$gC_pagination = false;
+			}
+		}
+		
 		// !get Easy Edit HTML
 		if($easyEdit){
 			$gC_array = explode($dL5, $gC, 2);
 			$gC_easyEdit = $gC_array[0];
 			$gC = str_replace($dL5, '', $gC_array[1]);
 		}
-
+		
 		// !build getContent data
 		$gC = self::trimString($gC, $dL2);
 		$gC_array = explode($dL2, $gC);
@@ -273,12 +297,19 @@ class Content {
 		if($d=='detail' && count($gC_data)==1){
 			$gC_data = $gC_data[0];
 		}
-		if($easyEdit){
+		if($easyEdit || $pagination){
 			$gC_dataStore = $gC_data;
 			$gC_data = array();
 			$gC_data[$d] = $gC_dataStore;
-			$gC_data['easyEdit'] = $gC_easyEdit;
+			
+			if($easyEdit){
+				$gC_data['easyEdit'] = $gC_easyEdit;
+			}
+			if($pagination){
+				$gC_data['pagination'] = $gC_pagination;
+			}
 		}
+		
 		if(strtolower($output)=='json'){
 			$gC_data = json_encode($gC_data);
 		}

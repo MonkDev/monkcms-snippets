@@ -1,5 +1,7 @@
 <?php require($_SERVER["DOCUMENT_ROOT"]."/monkcms.php");
 
+header("Content-Type: application/json");
+
 $outarray;
 $nodes;
 $json;
@@ -73,8 +75,8 @@ $string = getContent(
 	"find_series:".$series,
 	"find_group:".$group,
 	"hide_series:".$hideseries,
-	"hide_cateogory:".$hidecategory,
-	"hide_group:".$hideseries,
+	"hide_category:".$hidecategory,
+	"hide_group:".$hidegroup,
 	"howmany:".$howmany,
 	"offset:".$offset,
 	"find_preacher:".$preacher,
@@ -197,7 +199,6 @@ $totalpossible = getContent(
 	"find_series:".$series,
 	"find_group:".$group,
 	//"howmany:".$howmany, hide both howmany and offest because it needs to know total of possible articles to return.
-	//"offset:".$offset,
 	"find_author:".$author,
 	"find_tag:".$tags,
 	"hide_series:".$hideseries,

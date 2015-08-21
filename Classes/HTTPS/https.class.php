@@ -80,7 +80,7 @@ class Monk_HTTPS {
 
 		if(strpos($url,'rackcdn.com')!==false){
 			$url = str_replace('http://','https://',$url);
-			$url = preg_replace('/\.r\d{2}\./','.ssl.',$url);
+			$url = preg_replace('/\.r\d{1,2}\./','.ssl.',$url);
 		}
 
 		return $url;

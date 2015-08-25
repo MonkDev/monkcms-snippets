@@ -1,0 +1,13 @@
+{{
+
+tag="products"
+display="auto"
+family="all"
+product="all"
+
+show_familylist="<h4>__familytitle__</h4>"
+
+show_productlist="<h5><a href=__producttitlelink__>__producttitle__</a></h5>"
+show_productlist="<p>__preview limit='120'__  <strong class='more'><a href='__producttitlelink__'>more details</a></strong></p>"
+
+}}

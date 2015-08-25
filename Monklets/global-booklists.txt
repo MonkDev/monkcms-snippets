@@ -1,0 +1,19 @@
+{{
+
+tag="book"
+display="auto" order="recent"
+
+show_booklist="<a href=__booktitlelink__>__booktitle__</a><br />"
+
+group_show_books="<h6>__booktitle__</h6>"
+
+show_books="<div class='book'>"
+show_books="<img src='__bookimageTMB__' />"
+show_books="<h4>__booktitle__</h4>"
+show_books="<p>__bookauthor__</p>"
+show_books="<p>__booktext__</p>"
+show_books="<p>__bookcommentnumber__</p>"
+show_books="<p><a href='__bookaffiliate__'>Purchase</a></p>"
+show_books="</div>"
+
+}}

@@ -1,0 +1,19 @@
+{{
+
+tag="products"
+display="auto"
+
+show_familylist="<h4><a href=__familytitlelink__>__familytitle__</a></h4>"
+
+before_show_productlist="<h3>__familytitle__</h3>"
+
+show_productlist="<h4><a href='__producttitlelink__'>__producttitle__</a></h4>"
+
+show_detail="<h2>__producttitle__</h2>"
+show_detail="<p>__productimage__</p>"
+show_detail="<p>Price: __productprice__</p>"
+show_detail="<p>__productdescription__</p>"
+show_detail="<p>Tags: __producttags__</p>"
+show_detail="<p>__buy label='Add to cart'__</p>"
+
+}}

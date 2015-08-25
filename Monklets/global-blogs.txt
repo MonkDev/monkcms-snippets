@@ -1,0 +1,34 @@
+{{
+
+tag="blog"
+display="auto" order="recent" howmany="5"
+
+show_bloglist="<div class='book'>"
+show_bloglist="<h4><a href='__blogtitlelink__'>__blogtitle__</a></h4>"
+show_bloglist="__blogdescription__"
+show_bloglist="</div>"
+
+before_show_postlist="<h3>__blogtitle__</h3>"
+before_show_postlist="<p class='subscribe'><a href='__blogrss__' target='_blank'>Subscribe</a></p>"
+show_postlist="<div class='post'>"
+show_postlist="<h5 class='blogposttitle'><a href='__blogtitlelink__'>__blogposttitle__</a></h5>"
+show_postlist="<p class='byline'>__blogauthor__ <span class='date'>__blogpostdate format='M d, Y'__</span></p>"
+show_postlist="<p>__preview limit='300'__</p>"
+show_postlist="<p><a href='__blogtitlelink__' class='contreading'>Continue Reading</a> <a href='__blogtitlelink__#comments' class='commentnum'>Comments (<span>__blogcommentNumberonly__</span>)</a></p>"
+show_postlist="</div>"
+
+show_detail="<h3>__blogposttitle__</h3>"
+show_detail="<p class='byline'>__blogauthor__ <span class='date'>__blogpostdate format='M d, Y'__</span></p>"
+show_detail="<div class='blog'>__blogtext__</div>"
+show_detail="<div id='comments'>"
+show_detail="<p class='comments'><span class='commentnum'>Comments(<span>__blogcommentNumberonly__</span>)</span>  __loginlink linktext='Login to Post Comments'__</p>"
+
+show_comments="<div class='comment'>"
+show_comments="<h5><span class='commenter'>__commentName__ </span>"
+show_comments=" on __commentDate format='M j, Y  g:ia'__</h5>"
+show_comments="<p>__commentText__</p>"
+show_comments="</div>"
+
+after_show_comments="</div>"
+
+}}

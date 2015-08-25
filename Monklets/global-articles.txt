@@ -1,0 +1,52 @@
+{{
+
+tag="article"
+display="auto"
+order="recent"
+
+group_show_list="<h3><span>Sorted By:</span> __titlelink__</h3>"
+
+before_show_list="__headerdescription__"
+
+show_list="<div class='articleblock'>"
+show_list="<ul>"
+show_list="<li class='sl_listen'>__audioplayer linktext='Listen'__</li>"
+show_list="<li class='sl_download'><a href='__audio__' title='Download __title__ Audio (MP3)'>Download</a></li>"
+show_list="<li class='sl_download-notes'><a href='__notes__' title='Download __title__ Notes'>Notes</a></li>"
+show_list="<li class='sl_watch-video'><a href='javascript:;' onClick='__videopopup__'>Watch Video</a></li>"
+show_list="</ul>"
+show_list="<div class='articleinfo'>"
+show_list="<h4>__date format='m/d/y'__</h4>"
+show_list="<h3>__titlelink__</h3>"
+show_list="<p>Author Single: __author__</p>"
+show_list="<p>Author Links: __authortitlelinks__</p>"
+show_list="<p>Author: __authorXlink__</p>"
+show_list="<p>Series: __seriestitlelink__</p>"
+show_list="<p>Categories: __categorylinks__</p>"
+show_list="<p>CategoryX: __categoryXlink__</p>"
+show_list="<p>Parent Category X: __parentcategoryXlink__</p>"
+show_list="<p>Child Category X: __parentcategoryXchildXlink__</p>"
+show_list="</div>"
+show_list="<p class='tags'><span>tags: </span>__taglinks__</p>"
+show_list="</div>"
+
+after_show_list="<p>__pagination__</p>"
+
+show_detail="__headerdescription__"
+show_detail="<ul id='mediabox'>"
+show_detail="<li id='mb_listen'>__audioplayer linktext='Listen'__</li>"
+show_detail="<li id='mb_download'><a href='__audio__' title='Download __title__ Audio (MP3)'>Download</a></li>"
+show_detail="<li id='mb_notes'><a href='__notes__' title='Download __title__ Notes'>Notes</a></li>"
+show_detail="<li id='mb_video'>__videoplayer linktext='Watch Video'__</a></li>"
+show_detail="</ul>"
+show_detail="<h3>__title__</h3>",
+show_detail="<ul id='byline'><li id='bl_preacher'>__author__</li>"
+show_detail="<ul id='byline'><li id='bl_preacher'>__authortitlelinks__</li>"
+show_detail="<li id='bl_date'>__date format='M j, Y'__</li>"
+show_detail="<li id='bl_series'>Series: __seriestitlelink__</li>"
+show_detail="<li id='bl_series'>Categories: __categorytitlelinks__</li>"
+show_detail="</ul>"
+
+show_detail="<div id='text'>__text__</div>"
+
+}}

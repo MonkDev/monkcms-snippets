@@ -210,9 +210,14 @@ class Content {
 		}
 		$gC_parts[] = $show_tag . ':' . $dL2;
 		$gC_str = self::buildGetContent($gC_parts, $easyEdit);
-		$gC = str_getcsv($gC_str, ',');
+		$gC = str_getcsv(trim($gC_str,','), ',');
+
+		// !debug: check getContent
+		// print_r($gC);
+
+		// !call getContent
 		$gC = call_user_func_array('getContent', $gC);
-		if(!$gC){ return NULL; } // nothing returned.
+		if(!$gC){ return NULL; }
 
 		// !get Easy Edit HTML
 		if($easyEdit){
@@ -238,19 +243,13 @@ class Content {
 				$gC_line_tag = self::explodeSelect(' ', $tag_matches[1], 0);
 				$gC_line_item = str_replace($tag_matches[0], '', $gC_line_item);
 
-				// booleans
-				if(preg_match('/^(custom|if|is)/', $gC_line_tag) && $gC_line_item==' '){
-					$gC_line_item = 1; // tag is boolean
+				// tag is a boolean
+				if(preg_match('/^(if|is|custom)/', $gC_line_tag) && $gC_line_item==' '){
+					$gC_line_item = 1;
 				}
 
 				// add to array
 				$gC_data[$key1][$gC_line_tag] = $gC_line_item;
-
-				// !process custom tags
-				// new window
-				if(preg_match('/newwindow/', $gC_line_tag)){
-					$target_attr = ($gC_line_item ? '_blank' : '');
-				}
 
 			}
 
@@ -450,22 +449,6 @@ class Content {
 	private static function explodeSelect($delimiter, $string, $index){
 		$array = explode($delimiter, $string);
 		return $array[$index];
-	}
-
-
-	/*
-	*  ==========================================================================
-	*
-	*  extractEmbedSrc() - get the source of an iframe in HTML
-	*
-	*  ==========================================================================
-	*
-	*/
-	private static function extractEmbedSrc($html){
-		$pattern = '/(<object>)?<\s?iframe.*?src\s?=\s?["\'](.*?)["\']/';
-		preg_match($pattern, $html, $matches);
-		$src = $matches[2];
-		return $src;
 	}
 
 

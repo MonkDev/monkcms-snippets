@@ -3,7 +3,7 @@
 
 	// Outputs all child categories from a parent.
 	
-	function child_categories($module,$parent_category,$include_parent){
+	function child_categories($module, $parent_category, $include_parent){
 		$categories =
 			getContent(
 			$module,
@@ -21,7 +21,7 @@
 		if($include_parent){
 			$categories = $parent_category . ',' . $categories;
 		}
-		return $categories;
+		return explode(",", $categories);
 	}
 	
 

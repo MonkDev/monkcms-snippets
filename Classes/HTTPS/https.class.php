@@ -18,125 +18,154 @@
 *  the head) those aren't gonna be avaiable unless you make them globals :(
 *
 */
-class Monk_HTTPS {
+class Monk_HTTPS
+{
 
-	/*
-	*  ==========================================================================
-	*
-	*  toHTTPS() - Rewrite a string with http:// to https//
-	*
-	*  ==========================================================================
-	*
+    /*
+    *  ==========================================================================
+    *
+    *  toHTTPS() - Rewrite a string with http:// to https//
+    *
+    *  ==========================================================================
+    *
     *
     * @param string - the string to do the operation on.
     * @param check - boolean - whether to check if currently on a secure page or not, defaults to true
     *
     * @return - a string with http replaced with https for all page content (but not link destinations)
- 	*/
+    */
 
-	public function toHTTPS($string, $check = true){
+    public function toHTTPS($string, $check = true)
+    {
 
-		$proceed = false;
+        $proceed = false;
 
-		if($check){
-			$proceed = ($_SERVER["HTTPS"] == "on") ? true : false;
-		}
-		else{
-		 	$proceed = true;
-		}
+        if ($check) {
+            $proceed = ($_SERVER["HTTPS"] == "on") ? true : false;
+        } else {
+            $proceed = true;
+        }
 
-		if($proceed){
-		 	preg_match_all('@(https?://([-\w\.]+)+(:\d+)?(/([\w-/_\.]*(\?\S+)?)?)?)@',$string,$matches);
-		 	foreach($matches[1] as $url){
-			 	$parse_url = parse_url($url);
-			 	if($parse_url['host']==$_SERVER['HTTP_HOST'] || preg_match('/rackcdn\.com$/',$parse_url['host'])){
-			 		$secure_url = str_replace('http://', 'https://', $url);
-			 		$secure_url = $this->secureRSCFile($secure_url);
-			 		$string = str_replace($url, $secure_url, $string);
-			 	}
-			}
-		}
+        if ($proceed) {
+            preg_match_all('@(http://([-\w\.]+)+(:\d+)?(/([\w-/_\.]*(\?\S+)?)?)?)@', $string, $matches);
+            foreach ($matches[1] as $url) {
+                $host = self::getDomain($_SERVER['HTTP_HOST']);
+                $domain = self::getDomain($url);
+                if (($domain == $host) || preg_match('/rackcdn\.com$/', $domain)) {
+                    $secure_url = $url;
+                    $secure_url = str_replace('http://', 'https://', $secure_url);
+                    $secure_url = $this->secureRSCFile($secure_url);
+                    $string = str_replace($url, $secure_url, $string);
+                }
+            }
+        }
 
-	 	return $string;
+        return $string;
 
-	}
+    }
 
-	/*
-	*  ==========================================================================
-	*
-	*  secureRSCFile() - Change a Rackspace Cloud File url to the SSL format.
-	*
-	*	 http://www.rackspace.com/blog/rackspace-cloud-files-cdn-launches-ssl-delivery/
-	*
-	*  ==========================================================================
-	*
+    /*
+    *  ==========================================================================
+    *
+    *  secureRSCFile() - Change a Rackspace Cloud File url to the SSL format.
+    *
+    *	 http://www.rackspace.com/blog/rackspace-cloud-files-cdn-launches-ssl-delivery/
+    *
+    *  ==========================================================================
+    *
     *
     * @param string - a Rackspace Cloud File url.
     *
     * @return - the secure Rackspace Cloud File url.
- 	*/
+    */
 
-	public function secureRSCFile($url){
+    public function secureRSCFile($url)
+    {
 
-		if(strpos($url,'rackcdn.com')!==false){
-			$url = str_replace('http://','https://',$url);
-			$url = preg_replace('/\.r\d{1,2}\./','.ssl.',$url);
-		}
+        if (strpos($url, 'rackcdn.com')!==false) {
+            $url = str_replace('http://', 'https://', $url);
+            $url = preg_replace('/\.r\d{1,2}\./', '.ssl.', $url);
+        }
 
-		return $url;
+        return $url;
 
-	}
+    }
 
-	/*
-	*  ==========================================================================
-	*
-	*  getSContent() - Get the secure version of values returned by a getContent call.
-	*
-	*  ==========================================================================
-	*
-	* The parameters are variable to match the same format as getContent
-	* Returns what getContent returns with http replaced with https for all
-	* page content (but not link destinations)
-	*
-	*/
-	public function getSContent(){
+    /*
+    *  ==========================================================================
+    *
+    *  getSContent() - Get the secure version of values returned by a getContent call.
+    *
+    *  ==========================================================================
+    *
+    * The parameters are variable to match the same format as getContent
+    * Returns what getContent returns with http replaced with https for all
+    * page content (but not link destinations)
+    *
+    */
+    public function getSContent()
+    {
 
-	 	$args = func_get_args();
-	 	$noecho = false;
-	 	if(in_array('noecho', $args)){
-		 	$noecho = true;
-		} else {
-			$args[] = 'noecho';
-		}
-	 	$ret = call_user_func_array("getContent", $args);
-	 	if($ret){
-	 		$output = $this->toHTTPS($ret, true);
-	   	if($output && $noecho==false){
-	    	print($output);
-	    }
-	 	}
-    return $ret;
+        $args = func_get_args();
+        $noecho = false;
+        if (in_array('noecho', $args)) {
+            $noecho = true;
+        } else {
+            $args[] = 'noecho';
+        }
+        $ret = call_user_func_array("getContent", $args);
+        if ($ret) {
+            $output = $this->toHTTPS($ret, true);
+            if ($output && $noecho==false) {
+                print($output);
+            }
+        }
+        return $ret;
 
-	}
+    }
 
 
-	/*
-	*  ==========================================================================
-	*
-	*  Sinclude() - includes a file but re-writes source calls to http to https
-	*
-	*  ==========================================================================
-	*
-	* returns what include would return, otherwise, it prints what include would print
-	* but with http replaced with https for all page content (but not link destinations)
-	*/
-	public function Sinclude($file){
-		ob_start();
-		$ret = include($file);
-		$output = $this->toHTTPS(ob_get_contents(), true);
-		ob_end_clean();
-		print($output);
-		return $ret;
-	}
+    /*
+    *  ==========================================================================
+    *
+    *  Sinclude() - includes a file but re-writes source calls to http to https
+    *
+    *  ==========================================================================
+    *
+    * returns what include would return, otherwise, it prints what include would print
+    * but with http replaced with https for all page content (but not link destinations)
+    */
+    public function Sinclude($file)
+    {
+        ob_start();
+        $ret = include $file;
+        $output = $this->toHTTPS(ob_get_contents(), true);
+        ob_end_clean();
+        print($output);
+        return $ret;
+    }
+
+
+    /*
+    *  ==========================================================================
+    *
+    *  getDomain() - get the domain of a URL
+    *
+    *  ==========================================================================
+    */
+    private function getDomain($url)
+    {
+
+        $parse_url = parse_url($url);
+        $host = $parse_url['host'];
+        if (!$host) {
+          $host = $parse_url['path'];
+        }
+        $host_names = explode(".", $host);
+        $domain = $host_names[count($host_names)-2] . "." . $host_names[count($host_names)-1];
+        return $domain;
+
+    }
+
 }
 ?>

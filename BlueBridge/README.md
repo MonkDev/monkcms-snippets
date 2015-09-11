@@ -9,3 +9,4 @@ json_sermons.php
 
 ### Events
 json_events.php
+json_events_custom.php

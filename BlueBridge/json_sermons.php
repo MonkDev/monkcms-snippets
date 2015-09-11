@@ -1,7 +1,5 @@
 <?php require($_SERVER["DOCUMENT_ROOT"]."/monkcms.php");
 
-header("Content-Type: application/json");
-
 $outarray;
 $nodes;
 $json;
@@ -222,7 +220,6 @@ $json = json_encode($output);
 $callback = $_REQUEST['callback'];
 
 if($callback){
-
 	header('Content-type: text/javascript');
 	//echo("jsonp");
 	echo $callback . '(' . $json . ');';

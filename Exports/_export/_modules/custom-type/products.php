@@ -12,7 +12,7 @@
 
 	require('../../_inc/config.php');
 
-	$filename = 'products' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
+	$filename = getSiteId() . '_' . 'products' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
 	$howmany = 100; // Set to number of products in the module
 
 	// Header

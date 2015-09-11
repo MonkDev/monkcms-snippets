@@ -11,7 +11,7 @@
 	*/
 
 
-	$filename = 'books' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
+	$filename = getSiteId() . '_' . 'books' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
 	$howmany = 5000; // Set to number of books in the module
 
 

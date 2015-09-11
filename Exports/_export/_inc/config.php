@@ -19,5 +19,6 @@
 	}
 
 	require($_SERVER["DOCUMENT_ROOT"] . "/monkcms.php");
+	require("functions.php");
 
 ?>

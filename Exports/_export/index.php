@@ -65,7 +65,9 @@
 	</head>
 	<body>
 
-		<h1>Exports</h1>
+		<h1>Exports: <em><?= $MCMS_SITENAME; ?> (<?= getSiteId() ?>)</em></h1>
+    <hr>
+		<div style="margin:30px 0;">
 		<?php
 
 			// Build link list
@@ -74,5 +76,6 @@
 			}
 
 		?>
+		</div>
 	</body>
 </html>

@@ -32,7 +32,7 @@ if(isset($_GET['filter']) && $_GET['filter']!=''){
 
 // headers
 if(!isset($_GET['test']) && !isset($_GET['select'])){
-	$filename = $module . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
+	$filename = getSiteId() . '_' . $module . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
 	header("Content-Disposition: attachment; filename=" . $filename . ".csv");
 	header("Content-type: text/csv");
 	header("Pragma: no-cache");

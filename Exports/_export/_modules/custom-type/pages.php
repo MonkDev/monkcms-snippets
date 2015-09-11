@@ -15,7 +15,7 @@
 
 	require('../../_inc/config.php');
 
-	$filename = 'pages' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
+	$filename = getSiteId() . '_' . 'pages' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
 
 	// Header
 	header("Content-type: text/csv");

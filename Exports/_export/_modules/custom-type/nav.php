@@ -12,7 +12,7 @@
 
 	require('../../_inc/config.php');
 
-	$filename = 'navigation' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
+	$filename = getSiteId() . '_' . 'navigation' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
 
 	// Header
 	header("Content-type: text/csv");

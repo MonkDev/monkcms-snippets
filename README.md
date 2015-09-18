@@ -1,4 +1,4 @@
-# MonkCMS API Snippets
+# MonkCMS Snippets
 
 Check here for snippets for building websites with the MonkCMS/ Ekklesia 360 content management systems.
 

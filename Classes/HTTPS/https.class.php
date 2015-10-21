@@ -1,171 +1,206 @@
 <?php
-/*
-*  ===========================================================================
-*
-*                            CLASS Monk_HTTPS
-*
-*  ===========================================================================
-*
-*  @public method toHTTPS()      		- Rewrite a string with http:// to https//
-*  @public method secureRSCFile()		- Change a Rackspace Cloud File url to the SSL format.
-*  @public method getSContent()  		- Get the secure version of values returned by a getContent call.
-*  @public method Sinclude()     		- Includes a file but re-writes source calls to http to https
-*  @description 										- This class provides methods to output CMS content in https
-*  @version 												- 1.1.0
-*  @authors													- Kenny Kaye, Ricky Ybarra, Chris Ullyott
-*
-*  WARNING - If you have variables set in your script that are used in included files (e.g. a page title in
-*  the head) those aren't gonna be avaiable unless you make them globals :(
-*
-*/
+/**
+ * CLASS Monk_HTTPS
+ *
+ * Provides methods to output CMS content in https.
+ *
+ * @public  method toHTTPS()          - Rewrite a string with http:// to https//
+ * @public  method secureRSCFile()    - Change a Rackspace Cloud File url to the SSL format.
+ * @public  method getSContent()      - Get the secure version of values returned by a getContent call.
+ * @public  method Sinclude()         - Includes a file but re-writes source calls to http to https
+ * @version - 1.3.0
+ * @authors - Chris Ullyott, Kenny Kaye, Ricky Ybarra
+ *
+ * WARNING:
+ * If you have variables set in your script that are used in included
+ * files (e.g. a page title in the head) those aren't gonna be available unless
+ * you make them globals :(
+ */
+
 class Monk_HTTPS
 {
+    /**
+     * The domain of the site with SSL installed (without "www")
+     */
+    const HOST_DOMAIN = 'mysite.com';
 
-    /*
-    *  ==========================================================================
-    *
-    *  toHTTPS() - Rewrite a string with http:// to https//
-    *
-    *  ==========================================================================
-    *
-    *
-    * @param string - the string to do the operation on.
-    * @param check - boolean - whether to check if currently on a secure page or not, defaults to true
-    *
-    * @return - a string with http replaced with https for all page content (but not link destinations)
-    */
 
-    public function toHTTPS($string, $check = true)
+    /**
+     * Whether to rewrite URLs without checking if the current scheme
+     * is HTTPS (useful when testing locally).
+     */
+    const TEST_MODE = false;
+
+
+    /**
+     * Rewrite URLs in a string from "http://" to "https://"
+     *
+     * @param  string  $string The string to do the operation on.
+     * @param  boolean $checkScheme  Whether to bypass if not currently on HTTPS.
+     * @return string
+     */
+    public function toHTTPS($string, $checkScheme = true)
     {
 
         $proceed = false;
 
-        if ($check) {
+        if ($checkScheme && self::TEST_MODE!=true) {
             $proceed = ($_SERVER["HTTPS"] == "on") ? true : false;
         } else {
             $proceed = true;
         }
 
         if ($proceed) {
-            preg_match_all('@(http://([-\w\.]+)+(:\d+)?(/([\w-/_\.]*(\?\S+)?)?)?)@', $string, $matches);
-            foreach ($matches[1] as $url) {
-                $host = self::getDomain($_SERVER['HTTP_HOST']);
-                $domain = self::getDomain($url);
-                if (($domain == $host) || preg_match('/rackcdn\.com$/', $domain)) {
-                    $secure_url = $url;
-                    $secure_url = str_replace('http://', 'https://', $secure_url);
-                    $secure_url = $this->secureRSCFile($secure_url);
-                    $string = str_replace($url, $secure_url, $string);
+            $urls = self::getAbsoluteUrls($string);
+            if (count($urls) > 0) {
+                foreach ($urls as $url) {
+                    $urlDomain = self::getDomain($url);
+                    $secureUrl = $url;
+                    if ($urlDomain == self::HOST_DOMAIN) {
+                        $secureUrl = preg_replace('/^http:/', 'https:', $secureUrl);
+                    } else if (preg_match('/rackcdn\.com$/', $urlDomain)) {
+                        $secureUrl = self::secureRSCFile($secureUrl);
+                    }
+                    if ($secureUrl != $url) {
+                        $string = str_replace($url, $secureUrl, $string);
+                    }
                 }
             }
         }
 
         return $string;
-
     }
 
-    /*
-    *  ==========================================================================
-    *
-    *  secureRSCFile() - Change a Rackspace Cloud File url to the SSL format.
-    *
-    *	 http://www.rackspace.com/blog/rackspace-cloud-files-cdn-launches-ssl-delivery/
-    *
-    *  ==========================================================================
-    *
-    *
-    * @param string - a Rackspace Cloud File url.
-    *
-    * @return - the secure Rackspace Cloud File url.
-    */
 
+    /**
+     * Change a Rackspace Cloud File url to the SSL format.
+     * http://www.rackspace.com/blog/rackspace-cloud-files-cdn-launches-ssl-delivery/
+     *
+     * @param  string $url A Rackspace Cloud File url.
+     * @return string The secure file URL.
+     */
     public function secureRSCFile($url)
     {
-
         if (strpos($url, 'rackcdn.com')!==false) {
-            $url = str_replace('http://', 'https://', $url);
+            $url = preg_replace('/^http:\/\//', 'https://', $url);
             $url = preg_replace('/\.r\d{1,2}\./', '.ssl.', $url);
         }
 
         return $url;
-
     }
 
-    /*
-    *  ==========================================================================
-    *
-    *  getSContent() - Get the secure version of values returned by a getContent call.
-    *
-    *  ==========================================================================
-    *
-    * The parameters are variable to match the same format as getContent
-    * Returns what getContent returns with http replaced with https for all
-    * page content (but not link destinations)
-    *
-    */
+
+    /**
+     * Get the secure version of values returned by a getContent call.
+     *
+     * @return mixed The getContent.
+     */
     public function getSContent()
     {
-
         $args = func_get_args();
         $noecho = false;
+
         if (in_array('noecho', $args)) {
             $noecho = true;
         } else {
             $args[] = 'noecho';
         }
+
         $ret = call_user_func_array("getContent", $args);
         if ($ret) {
-            $output = $this->toHTTPS($ret, true);
-            if ($output && $noecho==false) {
-                print($output);
+            $ret = self::toHTTPS($ret);
+            if ($noecho==false) {
+                echo $ret;
             }
         }
-        return $ret;
 
+        return $ret;
     }
 
 
-    /*
-    *  ==========================================================================
-    *
-    *  Sinclude() - includes a file but re-writes source calls to http to https
-    *
-    *  ==========================================================================
-    *
-    * returns what include would return, otherwise, it prints what include would print
-    * but with http replaced with https for all page content (but not link destinations)
-    */
+    /**
+     * Include a file, with URLs rewritten with "https://"
+     *
+     * Returns what PHP include() would return, otherwise, prints what include
+     * would print but with http replaced with https for all page content
+     *
+     * @param  string $file The path to the file
+     * @return mixed The file content.
+     */
     public function Sinclude($file)
     {
         ob_start();
+
         $ret = include $file;
-        $output = $this->toHTTPS(ob_get_contents(), true);
+        $output = self::toHTTPS(ob_get_contents());
         ob_end_clean();
-        print($output);
+        echo $output;
+
         return $ret;
     }
 
 
-    /*
-    *  ==========================================================================
-    *
-    *  getDomain() - get the domain of a URL
-    *
-    *  ==========================================================================
-    */
-    private function getDomain($url)
+    /**
+     * Extract all absolute URLs possible from a string of HTML.
+     *
+     * @param  string $string The HTML content.
+     * @return array An array of URLs.
+     */
+    private static function getAbsoluteUrls($string)
     {
+        $urls = array();
 
-        $parse_url = parse_url($url);
-        $host = $parse_url['host'];
-        if (!$host) {
-          $host = $parse_url['path'];
+        // Arbitrary URLs
+        preg_match_all('@(https?://([-\w\.]+)+(:\d+)?(/([\w-/_\.]*(\?\S+)?)?)?)@', $string, $matches);
+        $urls = array_merge($urls, $matches[1]);
+        foreach ($urls as $key => $url) {
+            $urls[$key] = trim($url, "'\";#>.)");
         }
-        $host_names = explode(".", $host);
-        $domain = $host_names[count($host_names)-2] . "." . $host_names[count($host_names)-1];
-        return $domain;
 
+        // CSS URLs
+        preg_match_all('/url\(\s*["\']?(.*?)["\']?\s*\)/i', $string, $matches);
+        $urls = array_merge($urls, $matches[1]);
+
+        // From HTML attributes
+        preg_match_all('/(href|src)\s*=\s*["\'](.*?)["\']/si', $string, $matches);
+        $urls = array_merge($urls, $matches[2]);
+
+        // Unique URLs only
+        $urls = array_unique($urls);
+
+        // Discard if not absolute (begins with "http:")
+        foreach ($urls as $key => $url) {
+            if (substr($url, 0, 5) != 'http:') {
+                unset($urls[$key]);
+            }
+        }
+
+        // Filter and reset
+        $urls = array_filter($urls);
+        $urls = array_values($urls);
+
+        return $urls;
+    }
+
+
+    /**
+     * Parse the domain from a full URL, optionally removing "www".
+     *
+     * @param  string  $url The URL to parse.
+     * @param  boolean $www Whether to include "www" in the resulting domain.
+     * @return string
+     */
+    private static function getDomain($url, $www = false)
+    {
+        $urlHost = parse_url($url, PHP_URL_HOST);
+
+        if (!$www) {
+            $urlHost = preg_replace('/www\./', '', $urlHost);
+        }
+
+        return $urlHost;
     }
 
 }
+
 ?>

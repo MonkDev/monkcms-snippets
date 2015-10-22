@@ -20,46 +20,50 @@
 class Monk_HTTPS
 {
     /**
-     * The domain of the site with SSL installed (without "www")
+     * Setup object.
+     *
+     * @param string  $hostDomain The domain with SSL installed (without "www").
+     * @param boolean $testMode   Whether to rewrite URLs even when not on HTTPS.
      */
-    const HOST_DOMAIN = 'mysite.com';
+    public function __construct($hostDomain = null, $testMode = false)
+    {
+        if ($hostDomain) {
+            $this->hostDomain = $hostDomain;
+        } else {
+            $this->hostDomain = $_SERVER['SERVER_NAME'];
+        }
 
-
-    /**
-     * Whether to rewrite URLs without checking if the current scheme
-     * is HTTPS (useful when testing locally).
-     */
-    const TEST_MODE = false;
+        $this->testMode = $testMode;
+    }
 
 
     /**
      * Rewrite URLs in a string from "http://" to "https://"
      *
-     * @param  string  $string The string to do the operation on.
-     * @param  boolean $checkScheme  Whether to bypass if not currently on HTTPS.
+     * @param  string  $string      The string to do the operation on.
+     * @param  boolean $checkScheme Whether to bypass if not currently on HTTPS.
      * @return string
      */
     public function toHTTPS($string, $checkScheme = true)
     {
-
         $proceed = false;
 
-        if ($checkScheme && self::TEST_MODE!=true) {
+        if ($checkScheme && !$this->testMode) {
             $proceed = ($_SERVER["HTTPS"] == "on") ? true : false;
         } else {
             $proceed = true;
         }
 
         if ($proceed) {
-            $urls = self::getAbsoluteUrls($string);
+            $urls = $this->getAbsoluteUrls($string);
             if (count($urls) > 0) {
                 foreach ($urls as $url) {
-                    $urlDomain = self::getDomain($url);
+                    $urlDomain = $this->getDomain($url);
                     $secureUrl = $url;
-                    if ($urlDomain == self::HOST_DOMAIN) {
+                    if ($urlDomain == $this->hostDomain) {
                         $secureUrl = preg_replace('/^http:/', 'https:', $secureUrl);
                     } else if (preg_match('/rackcdn\.com$/', $urlDomain)) {
-                        $secureUrl = self::secureRSCFile($secureUrl);
+                        $secureUrl = $this->secureRSCFile($secureUrl);
                     }
                     if ($secureUrl != $url) {
                         $string = str_replace($url, $secureUrl, $string);
@@ -108,7 +112,7 @@ class Monk_HTTPS
 
         $ret = call_user_func_array("getContent", $args);
         if ($ret) {
-            $ret = self::toHTTPS($ret);
+            $ret = $this->toHTTPS($ret);
             if ($noecho==false) {
                 echo $ret;
             }
@@ -132,7 +136,7 @@ class Monk_HTTPS
         ob_start();
 
         $ret = include $file;
-        $output = self::toHTTPS(ob_get_contents());
+        $output = $this->toHTTPS(ob_get_contents());
         ob_end_clean();
         echo $output;
 
@@ -146,7 +150,7 @@ class Monk_HTTPS
      * @param  string $string The HTML content.
      * @return array An array of URLs.
      */
-    private static function getAbsoluteUrls($string)
+    private function getAbsoluteUrls($string)
     {
         $urls = array();
 
@@ -190,7 +194,7 @@ class Monk_HTTPS
      * @param  boolean $www Whether to include "www" in the resulting domain.
      * @return string
      */
-    private static function getDomain($url, $www = false)
+    private function getDomain($url, $www = false)
     {
         $urlHost = parse_url($url, PHP_URL_HOST);
 

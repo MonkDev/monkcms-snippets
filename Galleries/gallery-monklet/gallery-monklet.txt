@@ -77,3 +77,14 @@ function galleryMonklet(){
 */
 
 <div>{{the-monklet-name|find_gallery="the-gallery-name-slug"}}</div>
+
+
+
+
+
+#cboxContent button {
+  padding: 0!important;
+  line-height: normal!important;
+  box-shadow: none !important;
+  border: 0 !important;
+}

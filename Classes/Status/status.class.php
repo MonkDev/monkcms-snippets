@@ -6,46 +6,46 @@
  *
  *  ===========================================================================
  *
- *  Provides site launch status booleans.
+ *  Provides site launch status booleans and helpers.
  *
- *  Pass easyEditOn() via monkcms.php when creating object.
+ *  Pass easyEditOn() via monkcms.php when creating object. Example:
  *
- *  Example:
  *  $site_status = new Monk_Site_Status(array(
  *      'easy_edit' => isEasyEditOn()
  *  ));
- *  if($site_status->is_live){
+ *  if ($site_status->isLive){
  *      echo 'This site live!';
  *  }
  *
  *  @author       Chris Ullyott <chris@monkdevelopment.com>
+ *  @version      1.2
  *  @dependencies monkcms.php
  */
 
 class Monk_Site_Status
 {
-    public $is_live;
-    public $is_demo;
-    public $easy_edit;
-    public $wardrobe_show;
-    public $wardrobe_enable;
+    public $isLive;
+    public $isDemo;
+    public $easyEdit;
+    public $wardrobeShow;
+    public $wardrobeEnable;
 
     public function __construct($params)
     {
-        $siteStatus            = self::getSiteStatus();
+        $siteStatus           = self::getSiteStatus();
 
-        $this->is_live         = $siteStatus['is_live'];
-        $this->is_demo         = $siteStatus['is_demo'];
+        $this->isLive         = $siteStatus['is_live'];
+        $this->isDemo         = $siteStatus['is_demo'];
 
-        $this->easy_edit       = $params['easy_edit'];
-        $this->wardrobe_show   = 0;
-        $this->wardrobe_enable = 0;
+        $this->easyEdit       = $params['easy_edit'];
+        $this->wardrobeShow   = 0;
+        $this->wardrobeEnable = 0;
 
         // show/enable wardrobe (color picker)
-        if ($this->easy_edit || $this->is_demo) {
-            $this->wardrobe_show = 1;
-            if (!$this->is_demo) {
-                $this->wardrobe_enable = 1;
+        if ($this->easyEdit || $this->isDemo) {
+            $this->wardrobeShow = 1;
+            if (!$this->isDemo) {
+                $this->wardrobeEnable = 1;
             }
         }
     }
@@ -91,9 +91,9 @@ class Monk_Site_Status
      *
      * @return null
      */
-    public function robots_meta_tag()
+    public function robotsMetaTag()
     {
-        if(!$this->is_live && !$this->is_demo) {
+        if (!$this->isLive && !$this->isDemo) {
             echo "<meta name=\"robots\" content=\"noindex, nofollow\" />\n";
         }
     }
@@ -103,18 +103,18 @@ class Monk_Site_Status
      *
      * @return null
      */
-    public function wardrobe_class()
+    public function wardrobeClass()
     {
-        $wardrobe_class = '';
+        $wardrobeClass = '';
 
-        if($this->wardrobe_show) {
-            $wardrobe_class .= ' wardrobe-show';
+        if ($this->wardrobeShow) {
+            $wardrobeClass .= ' wardrobe-show';
         }
-        if($this->wardrobe_enable) {
-            $wardrobe_class .= ' wardrobe-enable';
+        if ($this->wardrobeEnable) {
+            $wardrobeClass .= ' wardrobe-enable';
         }
 
-        return $wardrobe_class;
+        return $wardrobeClass;
     }
 
     /**
@@ -122,9 +122,9 @@ class Monk_Site_Status
      *
      * @return null
      */
-    public function setupguide_class()
+    public function setupguideClass()
     {
-        if(!$this->is_live && $this->wardrobe_show && !$this->is_demo) {
+        if (!$this->isLive && !$this->isDemo && $this->wardrobeShow) {
             return ' setup-guide-notice';
         }
     }

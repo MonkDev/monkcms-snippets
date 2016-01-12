@@ -7,7 +7,7 @@ $json;
 $category = "";
 $series = "";
 $group = "";
-$howmany = "";
+$howmany = ""; // if left blank the API will return 50
 $offset = "";
 $order = "recent";
 $hideseries="";

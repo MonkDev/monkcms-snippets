@@ -1,8 +1,12 @@
 <?php
 
   /*
+    EVENT DATE REDIRECT
+    Chris Ullyott <chris@monkdevelopment.com>
 
-    REDIRECT RECURRING EVENT TO LATEST OCCURRENCE
+    For recurring events. Redirects passed event pages to the latest (most quickly
+    approaching) event. If the given event is in the future (has not passed), no
+    redirect will be run.
 
     To use:
     Include at the top of the event detail page (most likely ekk_eventpage.php),
@@ -10,31 +14,36 @@
     being sent by an earlier script including blank space, etc.
 
     Note:
-    Only works on event URLs including an ID: [EVENT-ID]-YYYY-MM-DD-slug
-
+    The expected $eventSlug should include the event ID and date, such as:
+    "780666-2016-02-04-financial-peace-university"
   */
 
-  function updatedEventRedirect($event_slug)
+  function updatedEventRedirect($eventSlug)
   {
-      $event_id = preg_replace('/^(\d{1,10})-(\d{4}-\d{2}-\d{2})-([a-z0-9\-]+)$/', '$1', $event_slug);
+    preg_match_all('/^(\d{1,10})-(\d{4}-\d{2}-\d{2})-([a-z0-9\-]+)$/', $eventSlug, $matches);
 
-      // query for upcoming event
-      $event_slug_new = getContent(
-          'event',
-          'display:detail',
-          'find_id:' . $event_id,
-          'show:__url__',
-          'noecho',
-          'noedit'
+    $eventId   = $matches[1][0];
+    $eventDate = $matches[2][0];
+    $eventTime = strtotime($eventDate);
+    $todayTime = strtotime(date('Y-m-d'));
+
+    if (is_numeric($eventTime) && ($eventTime < $todayTime)) {
+      $latestEventUrl = getContent(
+        'event',
+        'display:detail',
+        'find_id:' . $eventId,
+        'show:__url__',
+        'noecho',
+        'noedit'
       );
 
-      $event_slug_new = preg_replace('/^event\//', '', trim($event_slug_new, '/'));
+      $latestEventSlug = preg_replace('/^event\//', '', trim($latestEventUrl, '/'));
 
-      // if new event is different, redirect to new URL
-      if (($event_id && $event_slug && $event_slug_new) && ($event_slug != $event_slug_new)) {
-          $redirect_url = 'http://'.$_SERVER['HTTP_HOST'].'/event/'.$event_slug_new.'/';
-          header('Location:' . $redirect_url);
+      if ($eventSlug != $latestEventSlug) {
+        $redirectUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/event/' . $latestEventSlug . '/';
+        header('Location:' . $redirectUrl);
       }
+    }
   }
 
   updatedEventRedirect($_GET['slug']);

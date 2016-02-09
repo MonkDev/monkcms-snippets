@@ -1,0 +1,12 @@
+{
+  "require": {
+    "symfony/console": "~2.0",
+    "rackspace/php-opencloud": "^1.15",
+    "vlucas/phpdotenv": "~2.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "monk\\": "src"
+    }
+  }
+}

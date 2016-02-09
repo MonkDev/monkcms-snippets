@@ -1,0 +1,17 @@
+#! /usr/bin/env php
+
+<?php
+
+use monk\commands\exportContainerCommand;
+use Symfony\Component\Console\Application;
+
+require 'vendor/autoload.php';
+$dotenv = new Dotenv\Dotenv(__DIR__);
+$dotenv->load();
+$dotenv->required(['RACKSPACE_USERNAME','RACKSPACE_API_KEY'])->notEmpty();
+
+$app = new Application('Monk CLI', '1.0');
+
+$app->add(new exportContainerCommand);
+
+$app->run();

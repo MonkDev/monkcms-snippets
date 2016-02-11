@@ -7,8 +7,8 @@ Currently Monk CLI includes just one command `exportContainer`.
 ##### exportContainer
 This command will export all content located in the specified rackspace cloudfiles container and put everything in a .zip
 
-```php
-php monk exportContainer cloudfilescontainername
+```
+$ php monk exportContainer cloudfilescontainername
 ```
 Future goals are to automatically upload the archive to a web server that the user can download from.
 Currently it will loop through all of the files in their container and only download the original of whatever they uploaded in Ekklesia.
@@ -19,5 +19,5 @@ After the archive is created, the original files are deleted from your system.
 ##### Setting up the CLI
 Once you download the repo, you will need to run `composer update` to install all of the dependencies for the CLI.
 
-Sensitive credentials are stored in a .env file that will need to be created the first time you clone the project.  This file is to be kept out of version control.
+Sensitive credentials are stored in a .env file in the root of the project folder that will need to be created the first time you clone the project.  This file is to be kept out of version control.
 check the .env.example file for required items.

@@ -56,7 +56,13 @@ $(document).ready(function(){
 
 function galleryMonklet(){
 	if( $('.galleryMonklet').length && $(window).width()>960) {
-		$.getScript("/_js/vendor/jquery.colorbox-min.js",function(){
+		// Load the galleryMonklet CSS file.  you can delete this portion if you are including the css elsewhere
+		$('<link/>', {
+		   rel: 'stylesheet',
+		   type: 'text/css',
+		   href: '/_css/galleryMonklet.css' // Be sure to update this file path to where the css is located!
+		}).appendTo('head');
+		$.getScript("/_js/vendor/jquery.colorbox-min.js",function(){ // you can remove this line if you are sure that colorbox has already been loaded
         $('.slideshow').colorbox({
 	        	maxWidth: '85%',
 	        	maxHeight: '85%',
@@ -66,7 +72,7 @@ function galleryMonklet(){
 						slideshowSpeed: 5000,
 						slideshowAuto: false
 				});
-    });
+    }); // you can remove this line if you are sure that colorbox has already been loaded
 	}
 }
 

@@ -1,16 +1,19 @@
 <?php
-	
+
 	/*
-	
+
 	EVENT PAGE REDIRECT
-	
-	If the user enters an internal site link into the
-	"website" field of an event, the event detail page 
-	will redirect to the user-defined page instead of
-	the default event detail. 
-	
+
+	Redirects the event page to a link entered
+	in the "Website" field in the CMS.
+
+	This script must be run before any content
+	is output on the page.
+
+	http://php.net/manual/en/function.header.php
+
 	*/
-	
+
 	$website = trim(getContent(
 	    'event',
 	    'display:detail',
@@ -19,11 +22,12 @@
 	    'noecho',
 	    'noedit'
 	  ));
-	  
-	if(strpos($website,'chicagotabernacle.org')!==false) {
-		
-		header('Location: ' . $website);
-		
+
+	if ($website) {
+  	if (stripos($website,'http')===false) {
+    	$website = 'http://' . $website;
+  	}
+		header('Location:' . $website);
 	}
 
 ?>

@@ -25,7 +25,7 @@
         )
     );
 
-    if ($website) {
+    if (isset($_GET['slug']) && $website) {
         if (stripos($website, 'http')===false) {
             $website = 'http://' . $website;
         }

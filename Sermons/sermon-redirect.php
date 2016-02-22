@@ -2,8 +2,11 @@
 <?php
 
   /*
-    For ekk_eventpage.php
+    For ekk_sermonpage.php
     Redirects the default sermon detail URL to the custom detail page
+
+    To implement, add this script to a file called "ekk_sermonpage.php".
+    The CMS uses an htaccess rule linking "/sermon/the-sermon-slug" to this file.
   */
 
 

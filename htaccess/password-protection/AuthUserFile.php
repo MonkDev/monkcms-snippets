@@ -7,6 +7,10 @@
 		
 		Then, delete the file immediately from the server.
 		
+		The path returned will replace "/content" with "/auth",
+		but if your own path to the ".htpasswd" file is different,
+		it will need to be changed manually.
+		
 	*/
 	
 	header("Content-Type:text/plain");

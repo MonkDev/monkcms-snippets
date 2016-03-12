@@ -51,7 +51,7 @@ An array of normal MonkCMS API parameters and their values, such as "find", "how
 
 1. `array('find:featured-links', 'howmany:10')`
 
-2. `array('find' => featured-links, 'howmany' => 10)`
+2. `array('find' => 'featured-links', 'howmany' => 10)`
 
 3. `"find:featured-links, howmany:10"`
 

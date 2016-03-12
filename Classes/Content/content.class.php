@@ -291,5 +291,3 @@ class Content
     return $array[$index];
   }
 }
-
-?>

@@ -87,17 +87,20 @@ class exportContainerCommand extends Command
         while ($object = $files->Next()) {
             $cloudFile_name = $object->getName();
             $fileArr = explode('/', $cloudFile_name);
-            $saveFile_name = array_pop($fileArr);
+            $saveFile_Rackspace_name = array_pop($fileArr);
+            $saveFile_name = array_pop(explode('_', $saveFile_Rackspace_name));
             $this->progressOne($progress, $output);
             $output->writeln('<info>Reading File - </info><comment>' . $saveFile_name . '</comment>');
             $fileType = array_pop(explode('.',$saveFile_name));
-            // @todo eventually make this "only mp3" an opptional parameter to the Command
-            // //We only want mp3 files, everything else can be skipped.
-            // continue;
-            // if ($fileType !== 'mp3') {
-            //     $this->message('File is not an mp3, skip it and move on to the next - <comment>'. $saveFile_name . '</comment>', $output);
-            //     continue;
-            // }
+            
+            /*REMOVE THIS LINE IF YOU ONLY WANT MP3 Files
+                //We only want mp3 files, everything else can be skipped.
+                // @todo eventually make this "only mp3" an opptional parameter to the Command
+                if ($fileType !== 'mp3') {
+                    $this->message('File is not an mp3, skip it and move on to the next - <comment>'. $saveFile_name . '</comment>', $output);
+                    continue;
+                }
+            */ // REMOVE THIS LINE IF YOU ONLY WANT MP3 FILES
             
             //We only want files in the "uploaded" folder, everything else can be skipped
             if ($fileArr[0] !== 'uploaded') {

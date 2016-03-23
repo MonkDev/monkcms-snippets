@@ -1,14 +1,15 @@
-# getContentArray()
+# class Content
 
-A wrapper for getContent(), useful for getting array output from the CMS.
+Provides `getContentArray()`, a wrapper for getContent(). Useful for requesting content from the CMS in array format.
 
-@author - Chris Ullyott <chris@monkdevelopment.com>
+##### Author
+Chris Ullyott <chris@monkdevelopment.com>
 
-@url - https://github.com/MonkDev/monkcms-snippets/
+##### Demo
+http://files.monkdev.com/chris/getContentArray-Demo-Small.mp4
 
-@demo - http://files.monkdev.com/chris/getContentArray-Demo-Small.mp4
+## Example
 
-##Example
 ```
 $array = Content::getContentArray(array(
 	'module' => 'linklist',
@@ -37,16 +38,15 @@ Array
 )
 ```
 
+## Options
 
-##Options
-
-####Module
+#### Module
 The MonkCMS module to be queried.
 
-####Display
+#### Display
 The display mode. Default is `detail`.
 
-####Params
+#### Params
 An array of normal MonkCMS API parameters and their values, such as "find", "howmany". Can be written in any of the following three formats:
 
 1. `array('find:featured-links', 'howmany:10')`
@@ -55,18 +55,17 @@ An array of normal MonkCMS API parameters and their values, such as "find", "how
 
 3. `"find:featured-links, howmany:10"`
 
-####Show
+#### Show
 The default and only show tag used is `show`, so you will need to use `'show' => 'show_postlist'` or etc. for various modules. There are no "before_show" or "after_show" capabilities.
 
-####Tags
+#### Tags
 An array of API tags to include in the query, without the double underscores. Pass either as an array or as a comma-separated list.
 
-####Keys
+#### Keys
 Sets the keys of the array with the value of one of the specified TAGS. Ideal with unique 'id' or 'slug' values (this does not work with `'display' => 'detail'`). For numerical keys, use `'keys' => false`.
 
 #### Output
 Set to `json` for JSON output.
-
 
 ## Tips
 
@@ -78,15 +77,15 @@ Some tags that respond by outputting a single space are considered to be a boole
 
 `__custom(.*?)__`  `__if(.*?)__`  `__is(.*?)__`
 
-####Howmany
+#### Howmany
 `"howmany" => <INTEGER>` will limit the number of items returned even where the API does not do this.
 
-####Easy Edit
+#### Easy Edit
 Add the HTML for the Easy Edit links to your query by adding `'easyEdit' => true`
 
 ## More examples
 
-####Page
+#### Page
 	
 ```
 $array = Content::getContentArray(array(
@@ -96,8 +95,7 @@ $array = Content::getContentArray(array(
 ));
 ```
 
-
-####Media
+#### Media
 
 ```
 $array = Content::getContentArray(array(
@@ -112,8 +110,7 @@ $array = Content::getContentArray(array(
 ));
 ```
 	
-	
-####Blog Posts
+#### Blog Posts
 
 ```
 $array = Content::getContentArray(array(

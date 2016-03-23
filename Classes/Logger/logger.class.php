@@ -3,7 +3,7 @@
 /**
   * Logger
   *
-  * Methods for keeping logs of site data.
+  * Provides methods for keeping logs of site data.
   *
   * @author Chris Ullyott <chris@monkdevelopment.com>
   */

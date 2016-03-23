@@ -25,6 +25,28 @@ Array
 
 Other methods are available for getting and setting the _current campus_ via cookie:
 
+### getCampuses()
+
+Requests the data for all campuses using `getContent()`. To avoid making multiple API calls for this data, we'll only use this method once (inside the class itself) and make its contents accessible with the property `campuses`.
+
+It'll now be easy to build a campus selector, using the query `?setCampus` in our links:
+
+```
+<?php
+
+  foreach ($Church->campuses as $c) {
+    $output  = '<li class="campus">';
+    $output .= '<a href="?setCampus=' . $c['slug'] . '">';
+    $output .= '<span class="icon-pin"></span>';
+    $output .= $c['name'];
+    $output .= '</a>';
+    $output .= '</li>';
+    echo $output;
+  }
+
+?>
+```
+
 ### getCampus()
 
 Get the current campus from the cookie. If `$default == true`, the default campus will be returned if no cookie is set.

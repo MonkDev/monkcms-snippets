@@ -49,7 +49,7 @@ class Church
    * The custom field "customhomepageid" is required if the campuses have
    * home pages.
    */
-  public function getCampuses()
+  private function getCampuses()
   {
     $campuses = Content::getContentArray(
       array(

@@ -1,11 +1,11 @@
 <?php
 /**
- * Monk_Site_Status
+ * Status
  *
  * Provides site launch status booleans and helpers. To take advantage of Easy Edit
  * helpers, pass easyEditOn() from monkcms.php when creating an object. Example:
  *
- * $siteStatus = new Monk_Site_Status(array(
+ * $siteStatus = new Status(array(
  *   'easy_edit' => isEasyEditOn()
  * ));
  * if ($siteStatus->isLive) {
@@ -17,7 +17,7 @@
  * @dependencies monkcms.php
  */
 
-class Monk_Site_Status
+class Status
 {
     public $isLive;
     public $isDemo;

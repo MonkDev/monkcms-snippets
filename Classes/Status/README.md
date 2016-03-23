@@ -3,7 +3,7 @@
 Provides site launch status booleans and helpers. Useful for the switching of functionalities that must be different in each stage of the site's _status_.
 
 ```
-$siteStatus = new Monk_Site_Status(array(
+$siteStatus = new Status(array(
   'easy_edit' => isEasyEditOn()
 ));
 

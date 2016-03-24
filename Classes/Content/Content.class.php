@@ -10,7 +10,7 @@
  * https://github.com/MonkDev/monkcms-snippets/tree/master/Classes/Content
  *
  * @author Chris Ullyott <chris@monkdevelopment.com>
- * @version 1.2
+ * @version 1.3
  */
 
 class Content
@@ -80,13 +80,19 @@ class Content
       if (preg_match('/^howmany:(\d{1,})$/', $p_str_item, $h_matches)) {
         $h = $h_matches[1];
       }
-      $gC_parts[] = $p_str_item;
+      if ($p_str_item) {
+        $gC_parts[] = $p_str_item;
+      }
     }
 
-    // !show tag
-    $show_tag = 'show';
+    // !show tags
     if (isset($options['show'])) {
-      $show_tag = trim($options['show']);
+      $showTags = $options['show'];
+      if (!is_array($showTags)) {
+        $showTags = array($showTags);
+      }
+    } else {
+      $showTags = array('show');
     }
 
     // !easy edit
@@ -104,18 +110,22 @@ class Content
     if (!is_array($t)) {
       $t = explode(',', trim(trim($t), ','));
     }
-    foreach ($t as $key => $tag) {
-      $tag = trim(trim($tag), '_');
-      $api_tag = '__' . "$tag nokill='yes'" . '__';
-      if (preg_match('/ /', $tag)) {
-        $tag = self::explodeSelect(' ', $tag, 0);
+
+    // !build lines
+    foreach ($showTags as $showTag) {
+      foreach ($t as $key => $tag) {
+        $tag = trim(trim($tag), '_');
+        $api_tag = '__' . "$tag nokill='yes'" . '__';
+        if (preg_match('/ /', $tag)) {
+          $tag = self::explodeSelect(' ', $tag, 0);
+        }
+        if ($easyEdit && $key==0) {
+          $gC_parts[] = $showTag . ':'. $dL5;
+        }
+        $gC_parts[] = $showTag . ':'. $dL3 . $tag . $dL4 . $api_tag . $dL1;
       }
-      if ($easyEdit && $key==0) {
-        $gC_parts[] = $show_tag . ':'. $dL5;
-      }
-      $gC_parts[] = $show_tag . ':'. $dL3 . $tag . $dL4 . $api_tag . $dL1;
+      $gC_parts[] = $showTag . ':' . $dL2;
     }
-    $gC_parts[] = $show_tag . ':' . $dL2;
 
     if (!$easyEdit) {
       $gC_parts[] = 'noedit';
@@ -141,7 +151,7 @@ class Content
     $gC_data = array();
 
     foreach ($gC_array as $key1 => $gC_line) {
-      if (isset($h) && (($key1 + 1)>$h)) {
+      if (isset($h) && (($key1 + 1) > $h)) {
         break;
       }
 
@@ -153,7 +163,7 @@ class Content
         $gC_line_item = str_replace($tag_matches[0], '', $gC_line_item);
 
         // tag is a boolean
-        if (preg_match('/^(if|is|custom)/', $gC_line_tag) && $gC_line_item==' ') {
+        if (preg_match('/^(if|is|custom)/', $gC_line_tag) && $gC_line_item == ' ') {
           $gC_line_item = 1;
         }
 

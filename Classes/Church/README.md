@@ -59,6 +59,16 @@ Set the desired campus in a cookie.
 
 Set the campus with `setCampus()` and also redirect to the campus homepage.
 
-### getCampusButton() 
+## Working with Javascript
+It's recommended to include some of the campus information as meta tags for the site, such as:
 
-Build an HTML button which can set the campus when clicked.
+```
+<meta name="campus-cookie" content="<?= Church::CAMPUS_COOKIE ?>" />
+<meta name="campus" content="<?= $Church->getCampus()['slug'] ?>" />
+```
+
+This will allow you to access these values with Javascript/jQuery, like:
+```
+var campus_cookie = $('meta[name=campus-cookie]').attr('content');
+var campus = $('meta[name=campus]').attr('content');
+```

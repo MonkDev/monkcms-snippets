@@ -8,7 +8,6 @@
  * Dependencies:
  * - class Content
  * - class Site
- * - class Helper
  *
  * @author Chris Ullyott <chris@monkdevelopment.com>
  */
@@ -16,10 +15,10 @@ class Church
 {
 
   // The cookie name for the campus
-  const CAMPUS_COOKIE = 'site_campus';
+  const CAMPUS_COOKIE = 'church_campus';
 
-  // The slug of the default campus, if any
-  const DEFAULT_CAMPUS = '';
+  // The path to the default CSS override file
+  const CSS_OVERRIDE_PATH = '/_css/override.css';
 
   // Data for all campuses
   public $campuses;
@@ -27,13 +26,21 @@ class Church
   // Data for the current (or default) campus
   public $campus;
 
+  // The slug of the default campus, if any
+  public $defaultCampus;
+
 
   /**
    * Construct the Site object by setting the campus,
    * using the default campus if none is set.
    */
-  public function __construct()
+  public function __construct($defaultCampus)
   {
+    // Set default campus
+    if ($defaultCampus) {
+      $this->defaultCampus = $defaultCampus;
+    }
+
     // Request campus data
     $this->campuses = self::getCampuses();
     $this->campus = $this->getCampus(1);
@@ -69,12 +76,11 @@ class Church
           'street2',
           'city',
           'state',
+          'stateAB',
           'zip',
           'latitude',
           'longitude',
-          'customhidelocation',
-          'customhomepageid',
-          'customadditionaldescription'
+          'customhomepageid'
         )
       )
     );
@@ -94,7 +100,7 @@ class Church
     if ($campusExists) {
       return $this->campuses[$cookieValue];
     } else if (!$campusExists && $default) {
-      return $this->campuses[self::DEFAULT_CAMPUS];
+      return $this->campuses[$this->defaultCampus];
     } else {
       return false;
     }
@@ -133,34 +139,45 @@ class Church
 
     if ($cookieSet) {
       if ($url = Site::getPageURL($this->campuses[$campus]['customhomepageid'])) {
-        Helper::redirect($url);
+        $redirectTo = $url;
       } else {
-        Helper::redirect('/');
+        $redirectTo = '/';
       }
+
+      $redirectUri = parse_url($redirectTo, PHP_URL_PATH);
+      header('Location:' . 'http://' . $_SERVER['HTTP_HOST'] . $redirectUri);
+      exit;
     } else {
       return false;
     }
   }
 
   /**
-   * Create a button that can be used to set the campus. If the campus does not
-   * have a landing page, you'll be redirected back home.
+   * Get the current campus override CSS file based on cookie
+   * If for any reason the campus-specific override file does not exist,
+   * create one from a fresh copy of "override.css", using permissions "775"
    */
-  public function getCampusButton($campus, $class = '')
+  public function getCampusCSS()
   {
-    $campusButton = '';
+    $r = $_SERVER['DOCUMENT_ROOT'];
 
-    if (isset($this->campuses[$campus])) {
-      $url = $_SERVER['REQUEST_URI'] . '?setCampus=' . $this->campuses[$campus]['slug'];
-      $campusButton .= '<a';
-      $campusButton .= ' class="' . $class . '"';
-      $campusButton .= ' href="' . $url . '"';
-      $campusButton .= '>';
-      $campusButton .= 'Set as my campus';
-      $campusButton .= '</a>';
+    if ($this->getCampus()) {
+      $pathInfo    = pathinfo(self::CSS_OVERRIDE_PATH);
+      $campusFile  = $pathInfo['dirname'];
+      $campusFile .= '/' . $pathInfo['filename'];
+      $campusFile .= '-' . $this->getCampus()['slug'];
+      $campusFile .= '.' . $pathInfo['extension'];
+
+      if (!file_exists($r . $campusFile)) {
+        $sourceCSS = file_get_contents($r . self::CSS_OVERRIDE_PATH);
+        file_put_contents($r . $campusFile, $sourceCSS);
+        chmod($r . $campusFile, 0775);
+      }
+
+      return $campusFile;
+    } else {
+      return self::CSS_OVERRIDE_PATH;
     }
-
-    return $campusButton;
   }
 
 }

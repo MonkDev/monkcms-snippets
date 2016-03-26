@@ -57,7 +57,7 @@ Set the desired campus in a cookie.
 
 ### setCampusAndRedirect()
 
-Set the campus with `setCampus()` and also redirect to the campus homepage.
+Set the campus with `setCampus()` and also redirect to the campus homepage. Gets the campus homepage URL based on the Page ID of the campus landing page (custom field needed in Ekklesia).
 
 ### getCampusCSS()
 

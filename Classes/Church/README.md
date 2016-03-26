@@ -59,7 +59,7 @@ Set the desired campus in a cookie.
 
 Set the campus with `setCampus()` and also redirect to the campus homepage.
 
-## getCampusCSS()
+### getCampusCSS()
 
 Get the path to the "override" CSS file for the current campus. If for any reason the campus-specific override file does not exist, a new one will be created from a fresh copy of "override.css", using permissions "775". Helpful when implementing Color Picker functionality for each campus.
 

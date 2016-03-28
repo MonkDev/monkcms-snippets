@@ -7,7 +7,7 @@ $Church = new Church();
 $campuses = $Church->getCampuses;
 ```
 
-The contents of `$campuses` looks like...
+The contents of `$campuses` look like...
 
 ```
 Array

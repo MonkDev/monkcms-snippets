@@ -1,6 +1,13 @@
 # class Church
 
-Provides data and methods for implementing a multi-campus site. Using the _Churches_ module in Ekklesia 360 and  the current _Content_ class, we build a data model of a `Church` which contains multiple campuses:
+Provides data and methods for implementing a multi-campus site. Using the _Churches_ module in Ekklesia 360 and  the current _Content_ class, we build a data model of a `Church` which contains multiple campuses. After instantiating a `Church` object, we can access its data.
+
+```
+$Church = new Church();
+$campuses = $Church->getCampuses;
+```
+
+The contents of `$campuses` looks like...
 
 ```
 Array

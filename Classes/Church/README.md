@@ -4,7 +4,7 @@ Provides data and methods for implementing a multi-campus site. Using the _Churc
 
 ```
 $Church = new Church();
-$campuses = $Church->getCampuses;
+$campuses = $Church->getCampuses();
 ```
 
 The contents of `$campuses` look like...

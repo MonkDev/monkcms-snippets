@@ -48,15 +48,12 @@ Array
 
 To avoid necessitating multiple API calls for the campus data throughout a page, both the `campus` and `campuses` properties are filled with data from the API call only once - when the `$Church` object is created. Therefore, it's usually not necessary to use `getCampus()` or `getCampuses()` in a site template.
 
-Here are all available methods for getting and setting the current campus via cookie:
+## Building a campus selector
 
-### getCampuses()
-
-Requests the data for all campuses using `getContent()`.
-
-It'll now be easy to build a campus selector, using the query `?setCampus` in our links:
+The query string parameter `setCampus` is checked when the `Church` object is created. If the provided campus exists, we'll set the cookie and redirect to the campus homepage.
 
 ```
+<ul class="campus-selector">
 <?php
 
   foreach ($Church->campuses as $c) {
@@ -65,39 +62,44 @@ It'll now be easy to build a campus selector, using the query `?setCampus` in ou
     $output .= '<span class="icon-pin"></span>';
     $output .= $c['name'];
     $output .= '</a>';
-    $output .= '</li>';
+    $output .= '</li>' . "\n";
     echo $output;
   }
 
 ?>
+</ul>
 ```
+
+## Methods
+
+### getCampuses()
+
+_Private._ Makes an API request for all campuses using `getContent()`. 
 
 ### getCampus()
 
-Get the current campus from the cookie. If `$default == true`, the default campus will be returned if no cookie is set.
+_Public._ Get the current campus from the cookie. If `$default == true`, the default campus will be returned if no cookie is set.
 
 ### setCampus()
 
-Set the desired campus in a cookie.
+_Public._ Set the desired campus in a cookie.
 
 ### setCampusAndRedirect()
 
-Set the campus with `setCampus()` and also redirect to the campus homepage. Gets the campus homepage URL based on the Page ID of the campus landing page (custom field needed in Ekklesia).
+_Public._ Set the campus with `setCampus()` and also redirect to the campus homepage. Gets the campus homepage URL based on the Page ID of the campus landing page (custom field needed in Ekklesia).
 
 ### getCampusCSS()
 
-Get the path to the "override" CSS file for the current campus. If for any reason the campus-specific override file does not exist, a new one will be created from a fresh copy of "override.css", using permissions "775". Helpful when implementing Color Picker functionality for each campus.
+_Public._ Get the path to the "override" CSS file for the current campus. If for any reason the campus-specific override file does not exist, a new one will be created from a fresh copy of "override.css", using permissions "775". Helpful when implementing Color Picker functionality for each campus.
 
 ## Working with Javascript
 It's recommended to include some of the campus information as meta tags for the site, such as:
 
 ```
-<meta name="campus-cookie" content="<?= Church::CAMPUS_COOKIE ?>" />
-<meta name="campus" content="<?= $Church->getCampus()['slug'] ?>" />
+<meta name="campus" content="<?= $Church->campus ?>" />
 ```
 
 This will allow you to access these values with Javascript/jQuery, like:
 ```
-var campus_cookie = $('meta[name=campus-cookie]').attr('content');
 var campus = $('meta[name=campus]').attr('content');
 ```

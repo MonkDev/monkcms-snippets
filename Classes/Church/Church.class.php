@@ -45,7 +45,7 @@ class Church
     $this->campuses = self::getCampuses();
     $this->campus = $this->getCampus(1);
 
-    // Set a campus
+    // Set the campus from a query string
     if (isset($_GET['setCampus'])) {
       $this->setCampusAndRedirect($_GET['setCampus']);
     }
@@ -179,5 +179,4 @@ class Church
       return self::CSS_OVERRIDE_PATH;
     }
   }
-
 }

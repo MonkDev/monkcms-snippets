@@ -1,13 +1,24 @@
 # class Church
 
-Provides data and methods for implementing a multi-campus site. Using the _Churches_ module in Ekklesia 360 and  the current _Content_ class, we build a data model of a `Church` which contains multiple campuses. After instantiating a `Church` object, we can access its data.
+Provides data and methods for implementing a multi-campus site. Using the _Churches_ module in Ekklesia 360 and the _Content_ class, we build a data model of a `Church` which contains multiple campuses. After instantiating a `Church` object, we can access its data.
 
 ```
 $Church = new Church();
-$campuses = $Church->getCampuses();
 ```
 
-The contents of `$campuses` look like...
+The slug of the current campus can be accessed with:
+
+```
+$Church->campus['slug'];
+```
+
+An array containing all campuses can be accessed with:
+
+```
+$Church->campuses;
+```
+
+This array looks like:
 
 ```
 Array
@@ -27,14 +38,15 @@ Array
             [customhomepageid] => 465712
         )
 )
-
 ```
 
-Other methods are available for getting and setting the _current campus_ via cookie:
+To avoid necessitating multiple API calls for the campus data throughout a page, both the `campus` and `campuses` properties are filled with data from the API call only once - when the `$Church` object is created. Therefore, it's usually not necessary to use `getCampus()` or `getCampuses()` in a site template.
+
+Here are all available methods for getting and setting the current campus via cookie:
 
 ### getCampuses()
 
-Requests the data for all campuses using `getContent()`. To avoid making multiple API calls for this data, we'll only use this method once (inside the class itself) and make its contents accessible with the property `campuses`.
+Requests the data for all campuses using `getContent()`.
 
 It'll now be easy to build a campus selector, using the query `?setCampus` in our links:
 

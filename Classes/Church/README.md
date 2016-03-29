@@ -6,6 +6,12 @@ Provides data and methods for implementing a multi-campus site. Using the _Churc
 $Church = new Church();
 ```
 
+Optionally, we can pass in the slug of a default campus, which would be considered the "current" campus when the cookie is not set.
+
+```
+$Church = new Church('north-campus');
+```
+
 The slug of the current campus can be accessed with:
 
 ```

@@ -50,7 +50,7 @@ To avoid necessitating multiple API calls for the campus data throughout a page,
 
 ## Building a campus selector
 
-The query string parameter `setCampus` is checked when the `Church` object is created. If the provided campus exists, we'll set the cookie and redirect to the campus homepage.
+The query string parameter `setCampus` is checked when the `Church` object is created. If the provided campus exists, we'll set the cookie and redirect to the campus homepage. Implementing a working campus selector then, involves creating a list of links using `href="?setCampus=the-campus-slug"`.
 
 ```
 <ul class="campus-selector">

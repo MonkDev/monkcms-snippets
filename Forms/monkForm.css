@@ -333,6 +333,16 @@
 	margin-top: 0;
 }
 
+/* !Dividers */
+#content .monkForm .divider
+{
+    border-bottom:1px solid;
+}
+#content .monkForm .divider .heading
+{
+    font-size: 18px;
+}
+
 /* !Sections */
 #content .monkForm .section
 {

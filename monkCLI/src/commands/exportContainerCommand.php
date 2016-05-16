@@ -88,11 +88,13 @@ class exportContainerCommand extends Command
             $cloudFile_name = $object->getName();
             $fileArr = explode('/', $cloudFile_name);
             $saveFile_Rackspace_name = array_pop($fileArr);
-            $saveFile_name = array_pop(explode('_', $saveFile_Rackspace_name));
+            $saveFile_nameArray = explode('_', $saveFile_Rackspace_name);
+            $saveFile_name = array_pop($saveFile_nameArray);
             $this->progressOne($progress, $output);
             $output->writeln('<info>Reading File - </info><comment>' . $saveFile_name . '</comment>');
-            $fileType = array_pop(explode('.',$saveFile_name));
-            
+            $fileTypeArray = explode('.',$saveFile_name);
+            $fileType = array_pop($fileTypeArray);
+
             /*REMOVE THIS LINE IF YOU ONLY WANT MP3 Files
                 //We only want mp3 files, everything else can be skipped.
                 // @todo eventually make this "only mp3" an opptional parameter to the Command
@@ -101,7 +103,7 @@ class exportContainerCommand extends Command
                     continue;
                 }
             */ // REMOVE THIS LINE IF YOU ONLY WANT MP3 FILES
-            
+
             //We only want files in the "uploaded" folder, everything else can be skipped
             if ($fileArr[0] !== 'uploaded') {
                 $this->message('File is not an original, skip it and move on to the next - <comment>' . $fileArr[0] . '</comment>',
@@ -211,7 +213,7 @@ class exportContainerCommand extends Command
 
        $this->message('<info>Upload Complete', $output);
 
-       
+
        $cdn = $container->getCdn();
        $url = $cdn->getCdnSslUri() . '/exportOfMedia.zip';
        $this->message('<info>You can download the archive by going to the following link:</info>', $output);

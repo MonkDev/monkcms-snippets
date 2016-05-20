@@ -57,7 +57,7 @@ if($filters != null){
 		case 'passage':
 			$passage = $value;
 			break;
-		case 'start':
+		case 'offset':
 			$offset = $value;
 			break;
 
@@ -216,10 +216,14 @@ $totalpossible = getContent(
 );
 
 
+
 $output = array(
 	items => $nodes,
-	total => intval($totalpossible)
+	sermonsReturned => $i,
+	totalSermons => intval($totalpossible),
+	currentOffset => $offset ? $offset : 0
 );
+
 
 //$output = array("items" => $nodes);
 

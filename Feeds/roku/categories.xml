@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<categories>
+	  
+	<category title="FEED_TITLE" description="FEED_SUBTITLE" sd_img="FEED_IMAGE_URL" hd_img="FEED_IMAGE_URL">
+		<categoryLeaf title="FEED_CATEGORY_TITLE" description="FEED_CATEGORY_SUBTITLE" feed="URL_OF_THIS_FILE"/>
+	</category>
+
+ </categories>

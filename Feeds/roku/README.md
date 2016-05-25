@@ -20,7 +20,8 @@ To make this file available at a ".xml" URL, add this line to the site's _htacce
 RewriteRule ^mediafiles/roku-sermons-feed.xml/?$ /mediafiles/roku-sermons-feed.php [L]
 ```
 
-### Roku documentation
+Roku documentation
+------------------
 
 https://sdkdocs.roku.com/display/sdkdoc/
 

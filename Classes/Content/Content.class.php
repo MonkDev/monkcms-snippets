@@ -245,8 +245,8 @@ class Content
         $array[$k] = $trueMatch;
       }
 
-      // replace false params
-      if (preg_match('/^(.+):(|0|false)$/i', $i)) {
+      // remove false/empty params (leave "no_show")
+      if (preg_match('/^(.+):(|0|false)$/i', $i) && !preg_match('/no_show:/', $i)) {
         unset($array[$k]);
       }
     }

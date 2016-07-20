@@ -22,8 +22,9 @@ $modifiedsince = "";
 $enablepast = "";
 
 $filters = $_GET;
+
 if ($filters != null) {
-    foreach($filters as $key=>$value){
+    foreach($filters as $key=>$value) {
         switch ($key)
         {
         case 'category':
@@ -120,7 +121,7 @@ $tags = array(
 $getContent = array(
     "event",
     "display:list",
-    "repeatevent:yes", // include all occurrences of a recurring event
+    "repeatevent:yes",
     "order:".$order,
     "offset:".$offset,
     "howmany:".$howmany,
@@ -134,8 +135,8 @@ $getContent = array(
     "hide_group:".$hidegroup
 );
 
-foreach ($tags as $key => $tag){
-    if ($key!==0){
+foreach ($tags as $key => $tag) {
+    if ($key!==0) {
         $getContent[] = "show:||";
     }
 
@@ -164,7 +165,7 @@ $i = 0;
 foreach ($outarray as $key1 => $value) {
     $data_arr = array();
 
-    foreach($outarray[$i] as $key2 => $item){
+    foreach($outarray[$i] as $key2 => $item) {
         $tag_name = preg_replace('/^([^ ]*).*/', '$1', $tags[$key2]);
         $data_arr[$tag_name] = $item;
     }
@@ -174,27 +175,28 @@ foreach ($outarray as $key1 => $value) {
     $i++;
 }
 
-// add timezone to [eventstart] and [eventend]
-$timeZone = getContent('site', 'display:detail', 'show:__timezone__', 'noecho');
-function appendTimeZoneOffsetToDate($date, $timezoneName) {
-    $DateTime = new DateTime($date, new DateTimeZone($timezoneName));
-    $offset = $DateTime->format('O');
-    return $date . ' ' . $offset;
+
+// append timezone offset to 'eventstart' and 'eventend'
+
+function appendTimeZoneOffsetToDate($date, $timeZoneName) {
+    $DateTime = new DateTime($date, new DateTimeZone($timeZoneName));
+    return $date . ' ' . $DateTime->format('O');
 }
+
+$timeZone = getContent('site', 'display:detail', 'show:__timezone__', 'noecho');
 
 foreach ($nodes as $k => $i) {
-    $eventstart = appendTimeZoneOffsetToDate($i['eventstart'], $timeZone);
-    $nodes[$k]['eventstart'] = $eventstart;
-
-    $eventend = appendTimeZoneOffsetToDate($i['eventend'], $timeZone);
-    $nodes[$k]['eventend'] = $eventend;
+    $nodes[$k]['eventstart'] = appendTimeZoneOffsetToDate($i['eventstart'], $timeZone);
+    $nodes[$k]['eventend']   = appendTimeZoneOffsetToDate($i['eventend'], $timeZone);
 }
 
-// find total number of events in the system (for pagination)
+
+// get total number of events in the system (for pagination)
+
 $totalpossible = getContent(
     "event",
     "display:list",
-    "repeatevent:yes", // include all occurrences of a recurring event
+    "repeatevent:yes",
     "order:".$order,
     "offset:".$offset,
     "howmany:".$howmany,
@@ -211,6 +213,8 @@ $totalpossible = getContent(
 );
 
 
+// output
+
 $output = array(
     items => $nodes,
     total => intval($totalpossible)
@@ -220,7 +224,7 @@ $json = json_encode($output);
 
 $callback = $_REQUEST['callback'];
 
-if ($callback){
+if ($callback) {
     header('Content-type: text/javascript');
     //echo("jsonp");
     echo $callback . '(' . $json . ');';

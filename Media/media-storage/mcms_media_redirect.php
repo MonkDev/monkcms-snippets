@@ -3,13 +3,13 @@
 /*
 
 MCMS MEDIA REDIRECT
-Find + redirect media URLs from 404
+Find and redirect media URLs from 404
 
 Add to top of htaccess file to invoke this script:
 
 # Redirect media links
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^mediafiles/(.+)/?$ mcms_media_redirect.php?file=$1 [NC,L]
+RewriteRule ^mediafiles/(.+)$ mcms_media_redirect.php?file=$1 [L]
 
 */
 

@@ -9,7 +9,7 @@
 
     The default template files for these URLs, set in htaccess, are
     "ekk_articlepage.php" and "ekk_eventpage.php", respectively. So how do you use
-    custom templates for different types of Articles or Events?
+    custom templates for different types of items?
 
     Use a snippet like this one to redirect traffic to the default
     "ekk_articlepage.php" or "ekk_eventpage.php" based on the item's Category or

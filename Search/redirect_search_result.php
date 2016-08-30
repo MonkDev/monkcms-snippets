@@ -12,7 +12,7 @@
     custom templates for different types of items?
 
     Use a snippet like this one to redirect traffic to the default
-    "ekk_articlepage.php" or "ekk_eventpage.php" based on the item's Category or
+    "ekk_articlepage.php" or "ekk_eventpage.php", based on the item's Category or
     Group. Here's an example using Events.
 
     */

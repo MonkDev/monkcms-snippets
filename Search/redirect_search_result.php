@@ -14,6 +14,10 @@
     Use a snippet like this one to redirect traffic to the default
     "ekk_articlepage.php" or "ekk_eventpage.php", based on the item's Category or
     Group. Here's an example using Events.
+    
+    After adding this code to the top of the default detail page template, you'll
+    also need to add the following htaccess rules to the site, pointing the new
+    URLs to your custom template.
 
     */
 

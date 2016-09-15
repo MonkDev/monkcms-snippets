@@ -21,8 +21,11 @@ The following filters and query parameters can be used to manipulate the sermons
 - `?passage=passage-slug`
 - `?offset=12` (used to paginate through results)
 
-Query parameters can be changed by by replacing subsequent ? with &.
-For example `json_sermons.php?offset=12&limit=12&order=oldest`
+Query parameters can be chained by replacing subsequent ? with &.
+For example:
+```
+json_sermons.php?offset=12&limit=12&order=oldest
+```
 
 If no parameters are added, we will default to show the most recent 50 sermons.
 

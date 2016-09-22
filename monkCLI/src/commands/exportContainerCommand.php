@@ -42,7 +42,7 @@ class exportContainerCommand extends Command
         $container = $this->downloadMedia($client, $containerName, $savePath, $output);
         $archiveName = $this->generateArchive($containerName, $output);
         //   @todo Fix the file upload feature
-        // $this->uploadArchive($container, $archiveName, $output);
+         $this->uploadArchive($container, $archiveName, $output);
 
         $this->message('Operation Complete.  You may close this window.', $output, true);
     }
@@ -84,6 +84,7 @@ class exportContainerCommand extends Command
         $progress = new ProgressBar($output, $numberOfFiles);
         $progress->start();
         ini_set('memory_limit', -1);
+
         while ($object = $files->Next()) {
             $cloudFile_name = $object->getName();
             $fileArr = explode('/', $cloudFile_name);
@@ -105,11 +106,16 @@ class exportContainerCommand extends Command
             */ // REMOVE THIS LINE IF YOU ONLY WANT MP3 FILES
 
             //We only want files in the "uploaded" folder, everything else can be skipped
-            if ($fileArr[0] !== 'uploaded') {
-                $this->message('File is not an original, skip it and move on to the next - <comment>' . $fileArr[0] . '</comment>',
-                    $output);
-                continue;
+            if (!$fileArr) {
+              $this->message('File is not an original, skip it and move on to the next - <comment>' . $cloudFile_name . '</comment>',
+                  $output);
+              continue;
             }
+           if ($fileArr[0] !== 'uploaded') {
+             $this->message('File is not an original, skip it and move on to the next - <comment>' . $fileArr[0] . '</comment>',
+                 $output);
+             continue;
+           }
 
             if (file_exists($savePath . '/' . $saveFile_name)) {
                 $this->message('<comment>The file has already been downloaded.  On to the next!</comment>', $output);
@@ -119,7 +125,7 @@ class exportContainerCommand extends Command
             try {
                 $file = $container->getObject($cloudFile_name);
             } catch (Exception $e) {
-                $this->message('The file failed to download. On to the next :(', $output);
+                $this->message('The file failed to download. On to the next ¯\_(ツ)_/¯', $output);
                 continue;
             }
 
@@ -200,11 +206,11 @@ class exportContainerCommand extends Command
 
        // 4. Configure
        $objectTransfer = $container->setupObjectTransfer(array(
-           'name'        => 'exportOfMedia.zip',
+           'name'        => $archiveName,
            'path'        => $archiveName,
            'metadata'    => array('Author' => 'Monk Development'),
            'concurrency' => 5,
-           'partSize'    => 1 * Size::GB
+           'partSize'    => 100 * Size::MB
        ));
 
        // 5. Initiate transfer
@@ -215,7 +221,7 @@ class exportContainerCommand extends Command
 
 
        $cdn = $container->getCdn();
-       $url = $cdn->getCdnSslUri() . '/exportOfMedia.zip';
+       $url = $cdn->getCdnSslUri() . '/' . $archiveName;
        $this->message('<info>You can download the archive by going to the following link:</info>', $output);
        $this->message('<comment>' . $url . '</comment>', $output);
 

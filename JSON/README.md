@@ -15,6 +15,8 @@ Supports all getContent parameters via query string, such as:
 
 If no parameters are added, we will default to show the most recent 50 sermons.
 
+For full documentation on the API, see http://developers.monkcms.com/article/sermons-api/
+
 Events
 ------
 

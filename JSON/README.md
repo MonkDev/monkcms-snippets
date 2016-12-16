@@ -1,8 +1,8 @@
-# [Bluebridge](http://gobluebridge.com) app integrations
+JSON feeds for content
+======================
 
----
-
-### Sermons
+Sermons
+-------
 
 *json_sermons.php*
 
@@ -35,7 +35,8 @@ If no parameters are added, we will default to show the most recent 50 sermons.
 
 *json\_events\_custom.php*
 
----
 
-### Questions?
+Questions?
+----------
+
 contact [support@monkdevelopment.com](mailto:support@monkdevelopment.com)

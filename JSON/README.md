@@ -22,7 +22,7 @@ Events
 
 *json_events.php*
 
-*json/_events/_custom.php*
+*json\_events\_custom.php*
 
 
 Questions?

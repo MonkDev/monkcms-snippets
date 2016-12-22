@@ -39,7 +39,7 @@
 
       $latestEventSlug = preg_replace('/^event\//', '', trim($latestEventUrl, '/'));
 
-      if ($eventSlug != $latestEventSlug) {
+      if (($eventSlug != $latestEventSlug) && ($latestEventSlug != '')) {
         $redirectUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/event/' . $latestEventSlug . '/';
         header('Location:' . $redirectUrl);
       }

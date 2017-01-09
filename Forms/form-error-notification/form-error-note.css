@@ -6,27 +6,14 @@
 	position:fixed;
 	top:0;
 	z-index:9999;
-	padding:12px 50px 12px 22px;
+	padding:15px 30px;
 	font-size:13px;
-	color:#111;
+	color:#fff;
 	background:#f96a6a;
-	border:1px solid #e46868;
 	-webkit-border-radius:0 0 12px 12px;
 	border-radius:0 0 12px 12px;
-	text-shadow:0 1px 2px #fc8b8b;
+	text-shadow:0 1px 2px #777;
 	filter:dropshadow(color=#fc8b8b,offx=0,offy=1);
 	-webkit-box-shadow:0 1px 3px 1px rgba(0,0,0,.12);
 	box-shadow:0 1px 3px 2px rgba(0,0,0,.12);
-}
-
-#formErrorNotice a {
-	display:block;
-	position:absolute;
-	top:12px;
-	right:20px;
-	width:15px;
-	height:15px;
-	font-size:14px;
-	text-indent:-9999px;
-	background:url(/_img/close-x-light.png) no-repeat 0 0;
 }

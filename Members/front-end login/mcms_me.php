@@ -1,13 +1,6 @@
-<?php
+<h2>Your account</h2>
 
-	getContent(
-	  'member',
-	  'display:summary',
-	  'findid:' . $MCMS_MID,
-	  'restrict:yes',
-	  'show:<h2>Your account</h2>',
-	  'nocache'
-	);
+<?php
 
 	// Order history link
 	if ($_GET['view'] == 'orders') {

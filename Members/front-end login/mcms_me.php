@@ -12,7 +12,7 @@
 	// display a relevant message depending on whether the user is viewing a transaction receipt
 	// or if they are viewing the confirmation page after completing an order.
 	if ($_GET['view'] == 'orders') {
-	  $backLink = '<a href="/me/">&#8249; Back to order history</a> | ';
+	  $backLink = '<a href="/me/">Order history</a> | ';
 	}
 
 	// displays a links to edit the user's account or logo out

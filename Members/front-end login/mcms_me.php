@@ -5,7 +5,7 @@
 	  'display:summary',
 	  'findid:' . $MCMS_MID,
 	  'restrict:yes',
-	  'show:<h1>__fullname__&#8217;s Account</h1>',
+	  'show:<h2>Your account</h2>',
 	  'nocache'
 	);
 

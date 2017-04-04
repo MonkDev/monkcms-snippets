@@ -1,164 +1,163 @@
 <?php
 
-/*
+/**
+ * MCMS MEDIA REDIRECT
+ *
+ * Looks up media records with the MCMS API and performs a redirect.
+ * This is useful for adding shortcuts, redirecting local media URLs like:
+ *
+ * http://site.com/mediafiles/document.pdf
+ * to
+ * http://site.com/mediafiles/uploaded/d/document.pdf (or the CDN URL...)
+ *
+ * Add this to the top of the site htaccess file. The rewrite condition checks if
+ * the referenced filename is not a path of an existing file on the server.
+ *
+ // Redirect media links
+ RewriteCond %{REQUEST_FILENAME} !-f
+ RewriteRule ^mediafiles/(.+)$ mcms_media_redirect.php?file=$1 [L]
+ *
+ */
 
-MCMS MEDIA REDIRECT
-Find and redirect media URLs from 404
+require $_SERVER['DOCUMENT_ROOT'] . '/monkcms.php';
 
-Add to top of htaccess file to invoke this script:
+class MediaRedirect
+{
+    private static $encodedFormats = array(
+    	'mov',
+    	'mp4',
+    	'mkv',
+    	'm4v',
+    	'flv'
+    );
 
-# Redirect media links
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^mediafiles/(.+)$ mcms_media_redirect.php?file=$1 [L]
+    public static function findAndRedirect($file)
+    {
+        $find = self::findAndMatch($file);
 
-*/
+        // Make sure we won't get stuck in a redirect loop.
+        $findPath = parse_url($file, PHP_URL_PATH);
+        $filePath = parse_url($find, PHP_URL_PATH);
+        $pathsDiffer = $findPath != $filePath;
 
-	require($_SERVER["DOCUMENT_ROOT"] . "/monkcms.php");
-	header("Content-Type: text/plain");
+        // Redirect.
+        if ($find && $pathsDiffer) {
+            header('Location:' . $find);
+        } else {
+            header('HTTP/1.0 404 Not Found');
+        }
 
-	/* ---------------------------------- */
+        exit();
+    }
 
-	$old_media_dir = '/mediafiles/';
+    public static function findAndMatch($file)
+    {
+        $isEncodedFormat = self::isEncodedFormat($file);
+        $originalBasename = self::getOriginalBasename($file);
+        $originalFilename = self::getFilename($originalBasename);
 
-	/* ---------------------------------- */
+        // Search the API for this filename.
+        if ($isEncodedFormat) {
+            $find = self::find($originalFilename);
+        } else {
+            $find = self::find($originalBasename);
+        }
 
-	if(isset($_GET['debug'])){
-		$debug = true;
-		$debug_text = '';
-	} else {
-		$debug = false;
-	}
+        // Check if found file matches the filename we'd expect.
+        $isMatch = self::isMatch($file, $find, $isEncodedFormat);
 
-	$file = $_GET['file'];
-	$file_redirect = false;
-	$file_found = false;
+        return $isMatch ? $find : null;
+    }
 
-	$debug_text .= '$_GET["file"] = ' . "\n" . $file . "\n\n";
+    private static function isMatch($file1, $file2, $ignoreExtension = false)
+    {
+        $basename1 = self::getOriginalBasename($file1);
+        $basename2 = self::getOriginalBasename($file2);
 
-	// get filename
-	$filename_full = basename($file);
-	$filename_arr = explode('.',$filename_full);
-	$filename = $filename_arr[0];
-	$fileext = $filename_arr[1];
-	if(strpos($filename,'_')!==false) {
-		$filename_arr = explode('_',$filename);
-		$filename = $filename_arr[count(explode('_',$filename))-1];
-	}
+        if (!$ignoreExtension) {
+            return $basename1 == $basename2;
+        } else {
+            return self::getFilename($basename1) == self::getFilename($basename2);
+        }
+    }
 
-	$debug_text .= '$filename_full = ' . "\n" . $filename_full . "\n\n";
-	$debug_text .= '$filename = ' . "\n" . $filename . "\n\n";
+    private static function find($file)
+    {
+        $find = self::findViaMediaApi($file);
 
-	// define other encoded formats
-	$filename_to_match = $filename_full;
-	$encoded_formats = array('mov', 'mp4', 'mkv', 'm4v', 'flv');
-	if(in_array($fileext,$encoded_formats)){
-		$debug_text .= 'File is an encoded format; query will match other filetypes: mov, mp4, mkv, m4v, flv.' . "\n\n";
-		$encoded = true;
-		$filename_to_match = $filename;
-	} else {
-		$encoded = false;
-	}
+        if (!$find) {
+            $find = self::findViaSearchApi($file);
+        }
 
-	// find media by filename
-	$get_file = trim(getContent(
-		"media",
-		"display:detail",
-		"find:" . $filename,
-		"show:__url__",
-		"noecho"
-	));
+        return $find;
+    }
 
-	$debug_text .= 'Media API pinged for slug "' . $filename . '"' . "\n\n";
+    private static function findViaMediaApi($file)
+    {
+        $response = getContent(
+            'media',
+            'display:detail',
+            'find:' . $file,
+            'howmany:1',
+            'show:__url__',
+            'noecho'
+        );
 
-	if($get_file!=''){
+        return trim($response);
+    }
 
-		$debug_text .= 'Media API returned: ' . "\n" . $get_file . "\n\n";
-		$file_found = $get_file;
+    private static function findViaSearchApi($file)
+    {
+        $response = getContent(
+            'search',
+            'display:results',
+            'find_module:media',
+            'keywords:' . $file,
+            'howmany:1',
+            'show:__url__',
+            'no_show: ',
+            'noecho'
+        );
 
-	// find media by search
-	} else {
+        return trim($response);
+    }
 
-		$search_file = trim(getContent(
-			"search",
-			"display:results",
-			"find_module:media",
-			"keywords:" . $filename_to_match,
-			"howmany:1",
-			"show:__url__",
-			"no_show: ",
-			"noecho"
-		));
+    private static function isEncodedFormat($file)
+    {
+        $extension = strtolower(self::getExtension($file));
 
-		$debug_text .= 'No media record found' . "\n\n";
-		$debug_text .= 'Search attempted for string "' . $filename_to_match . '"' . "\n\n";
-		if($search_file){
-			$debug_text .= 'Search found file: ' . "\n" . $search_file . "\n\n";
-		} else {
-			$debug_text .= 'No search result for string "' . $filename_to_match . '"' . "\n\n";
-		}
+        return in_array($extension, self::$encodedFormats);
+    }
 
-		$file_found = $search_file;
+    private static function getOriginalBasename($path)
+    {
+        $basename = self::getBasename($path);
 
-	}
+        // Remove all prefixes denoted with underscores.
+        if (strpos($basename, '_') !== false) {
+            $basename = array_pop(explode('_', $basename));
+        }
 
-	if($file_found){
+        return $basename;
+    }
 
-		// ignore if filename does not match request (allow encoded formats)
-		if(strpos($file_found,$filename_to_match)===false){
-			$file_matched = false;
-		} else {
-			$file_matched = true;
-			if(strpos($file_found,'_')!==false) {
-				$file_found_arr = explode('_',$file_found);
-				$file_found_name_full = $file_found_arr[count(explode('_',$file_found))-1];
-				$file_found_name_full_arr = explode('.',$file_found_name_full);
-				$file_found_name = $file_found_name_full_arr[0];
-				if($encoded){
-					if($file_found_name !== $filename_to_match){
-						$file_matched = false;
-					}
-				} else {
-					if($file_found_name_full !== $filename_to_match){
-						$file_matched = false;
-					}
-				}
-			}
-		}
+    private static function getBasename($path)
+    {
+        return pathinfo($path, PATHINFO_BASENAME);
+    }
 
-		if($file_matched){
-			$debug_text .= 'Name of file found matches "' . $filename_full . '"' . "\n\n";
-		} else {
-			$debug_text .= 'Name of file found does not match "' . $filename_full . '"' . "\n\n";
-			$file_found = false;
-		}
+    private static function getFilename($path)
+    {
+        return pathinfo($path, PATHINFO_FILENAME);
+    }
 
-		// ignore if redirect loop
-		$file_found_arr = explode('/',$file_found);
-		$file_found_dir = $file_found_arr[count(explode('/',$file_found))-2];
-		if(trim($file_found_dir,'/') == trim($old_media_dir,'/')){
-			$debug_text .= 'Redirect loop detected' . "\n\n";
-			$file_found = false;
-		}
+    private static function getExtension($path)
+    {
+        return pathinfo($path, PATHINFO_EXTENSION);
+    }
 
-		$debug_text .= 'REDIRECT TO:' . "\n" . $file_found . "\n\n";
+}
 
-	} else {
+// Find the file set in the query string redirect to it.
+MediaRedirect::findAndRedirect($_GET['file']);
 
-		// no file found
-		$debug_text .= 'NO REDIRECT ATTEMPTED' . "\n\n";
-
-	}
-
-	// redirect to file, or 404
-	if(!$debug){
-		if($file_found){
-			header('Location: ' . $file_found);
-		} else {
-			header("HTTP/1.0 404 Not Found");
-			exit();
-		}
-	} else {
-		echo $debug_text;
-	}
-
-?>

@@ -13,10 +13,11 @@
  * Add this to the top of the site htaccess file. The rewrite condition checks if
  * the referenced filename is not a path of an existing file on the server.
  *
- // Redirect media links
- RewriteCond %{REQUEST_FILENAME} !-f
- RewriteRule ^mediafiles/(.+)$ mcms_media_redirect.php?file=$1 [L]
+ * # Redirect media links
+ * RewriteCond %{REQUEST_FILENAME} !-f
+ * RewriteRule ^mediafiles/(.+)$ mcms_media_redirect.php?file=$1 [L]
  *
+ * @author Chris Ullyott <chris@monkdevelopment.com>
  */
 
 require $_SERVER['DOCUMENT_ROOT'] . '/monkcms.php';

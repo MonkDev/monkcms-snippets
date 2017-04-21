@@ -14,10 +14,10 @@
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
 
-  <link rel="stylesheet" href="_css/styles.css" />
+  <link rel="stylesheet" href="assets/styles.css" />
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="_js/site.js"></script>
+  <script src="assets/page.js"></script>
 </head>
 <body>
 

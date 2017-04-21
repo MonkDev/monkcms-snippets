@@ -1,5 +1,5 @@
 Maintenance Splash Page
------------------------
+=======================
 
 Redirect with htaccess like:
 
@@ -30,6 +30,6 @@ RewriteRule ^(.*)$ /maintenance/? [R=307,L]
 ```
 
 Note
-====
+----
 
 The htaccess used in this example hasn't worked well on Monk One-Click servers.

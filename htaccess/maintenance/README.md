@@ -28,3 +28,8 @@ RewriteCond %{REQUEST_URI} !\.(jpg|png|css|js)$
 RewriteCond %{REQUEST_URI} !^/maintenance\/?$
 RewriteRule ^(.*)$ /maintenance/? [R=307,L]
 ```
+
+Note
+====
+
+The htaccess used in this example hasn't worked well on Monk One-Click servers.

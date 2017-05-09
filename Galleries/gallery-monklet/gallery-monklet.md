@@ -2,7 +2,6 @@
 
 ```
 {{
-	
 	tag="gallery"
 	display="list"
 	find_gallery=""
@@ -12,7 +11,6 @@
 	show_gallery="<li class='gM-photo'><a class='slideshow' rel='gallery___galleryslug__' href='__imageurl maxWidth='850' maxHeight='850'__'><img src='__imageurl2 width='250' height='170'__' alt='__title__'/></a></li>"
 	after_show_gallery="</ul>"
 	after_show_gallery="</div><!-- .galleryMonklet -->"
-	
 }}
 ```
 

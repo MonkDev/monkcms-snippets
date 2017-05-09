@@ -30,7 +30,9 @@ $(document).ready(function(){
 		photo: true,
 		preloading: true,
 		slideshowSpeed: 5000,
-		slideshowAuto: false
+		slideshowAuto: false,
+		maxWidth: '90%',
+		maxHeight: '90%',
 	});
 
 });
@@ -56,23 +58,23 @@ $(document).ready(function(){
 
 function galleryMonklet(){
 	if( $('.galleryMonklet').length && $(window).width()>960) {
-		// Load the galleryMonklet CSS file.  you can delete this portion if you are including the css elsewhere
+	// Load the galleryMonklet CSS file.  you can delete this portion if you are including the css elsewhere
 		$('<link/>', {
-		   rel: 'stylesheet',
-		   type: 'text/css',
-		   href: '/_css/galleryMonklet.css' // Be sure to update this file path to where the css is located!
+			rel: 'stylesheet',
+			type: 'text/css',
+			href: '/_css/galleryMonklet.css' // Be sure to update this file path to where the css is located!
 		}).appendTo('head');
 		$.getScript("/_js/vendor/jquery.colorbox-min.js",function(){ // you can remove this line if you are sure that colorbox has already been loaded
-        $('.slideshow').colorbox({
-	        	maxWidth: '85%',
-	        	maxHeight: '85%',
-						slideshow: true,
-						photo: true,
-						preloading: true,
-						slideshowSpeed: 5000,
-						slideshowAuto: false
-				});
-    }); // you can remove this line if you are sure that colorbox has already been loaded
+			$('.slideshow').colorbox({
+				maxWidth: '90%',
+				maxHeight: '90%',
+				slideshow: true,
+				photo: true,
+				preloading: true,
+				slideshowSpeed: 5000,
+				slideshowAuto: false
+			});
+		}); // you can remove this line if you are sure that colorbox has already been loaded
 	}
 }
 
@@ -83,14 +85,3 @@ function galleryMonklet(){
 */
 
 <div>{{the-monklet-name|find_gallery="the-gallery-name-slug"}}</div>
-
-
-
-
-
-#cboxContent button {
-  padding: 0!important;
-  line-height: normal!important;
-  box-shadow: none !important;
-  border: 0 !important;
-}

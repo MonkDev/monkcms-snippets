@@ -1,0 +1,4 @@
+# For the Job board
+rewriteRule ^job-category/([a-z0-9_\-]+)/?$ /mcms_page_job_category.php?catslug=$1 [L,NC,QSA]
+rewriteRule ^([a-z0-9_\-]+)/([0-9]+)-([0-9]+)-?([0-9]+)-([a-z0-9_\-]+)?/?$ /mcms_page_job.php?org=$1&job=$5&year=$2&month=$3&day=$4 [NC,L,QSA]
+

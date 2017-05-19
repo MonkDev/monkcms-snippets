@@ -1,0 +1,10 @@
+{{
+    tag="forms"
+    display="box"
+    find="job-post"
+    title="Job Post"
+    width="472"
+    height="650"
+    style="http://www.site.edu/css/job.css"
+    success="http://www.site.edu/job-added/"
+}}

@@ -3,7 +3,7 @@
 Use case: Redirect _cool-domain.com_ to _church-site.com/cool-thing_
 
 ```ApacheConf
-#Domain Alias Redirecs
+# Domain Alias Redirecs
 # Redirects a domain to a specific page. Alias domain "A" recordssss
 # must be pointed to the same IP address as target domain.
 RewriteEngine On

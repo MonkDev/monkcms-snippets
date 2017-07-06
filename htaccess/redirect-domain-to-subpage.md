@@ -1,6 +1,6 @@
 # Redirect a main domain to a subpage
 
-Use case: Redirect _cool-domain.com_ to _church-site.com/cool-thing_
+**Use case:** Redirect _cool-domain.com_ to _church-site.com/cool-thing_
 
 ```ApacheConf
 # Domain Alias Redirecs

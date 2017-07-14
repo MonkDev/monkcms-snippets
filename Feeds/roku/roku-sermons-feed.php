@@ -1,64 +1,64 @@
-<?php 
-    
-    // MonkCMS
-    require_once($_SERVER["DOCUMENT_ROOT"] . "/monkcms.php");
-    
-    // class Content
-    require_once($_SERVER["DOCUMENT_ROOT"] . "/_lib/monk/content.class.php");
-    
-    // Plain text 
-    header("Content-type: text/xml");
-    
-    // Get array of sermon data
-    $sermons = Content::getContentArray(array(
-        'module' => 'sermon',
-        'display' => 'list',
-        'params' => array(
-            'howmany' => 50
-        ),
-        'tags' => array(
-            'id',
-            'title',
-            "date format='r'",
-            'imageurl',
-            'preview',
-            'audiourl',
-            'videourl',
-            'videoplayer'
-        )
-    ));
-    
-    // Add custom array nodes
+<?php
+
+    /**
+     * MCMS ROKU VIDEO FEED
+     *
+     * @author Chris Ullyott <chris@monkdevelopment.com>
+     */
+
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/monkcms.php');
+
+    $sermons = getContent(
+        'sermon',
+        'display:list',
+        "show:__date format='j M Y'__",
+        'json'
+    );
+
+    $sermons = $sermons['show'];
+
+    // Remove items which don't have video.
+    foreach ($sermons as $k => $i) {
+        if (!trim($i['videourl'])) {
+            unset($sermons[$k]);
+        }
+    }
+
+    // Add custom nodes.
     foreach ($sermons as $k => $i) {
         $sermons[$k]['videourlExt'] = pathinfo($i['videourl'], PATHINFO_EXTENSION);
     }
-    
-    // Build feed
-    $xml_lines = array();
-    $xml_lines[] = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-    $xml_lines[] = "<feed>";
-    $xml_lines[] = "<resultLength>" . count($sermons) . "</resultLength>";
-    $xml_lines[] = "<endIndex>" . count($sermons) . "</endIndex>";
+
+    // Build feed.
+    $xml = array();
+    $xml[] = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    $xml[] = "<feed>";
+    $xml[] = "\t<resultLength>" . count($sermons) . "</resultLength>";
+    $xml[] = "\t<endIndex>" . count($sermons) . "</endIndex>";
+
     foreach ($sermons as $k => $s) {
-        $xml_lines[] = "<item sdImg=\"{$s['imageurl']}\" hdImg=\"{$s['imageurl']}\">";
-        $xml_lines[] = "<title>{$s['title']}</title>";
-        $xml_lines[] = "<contentId>{$s['id']}</contentId>";
-        $xml_lines[] = "<contentType>Talk</contentType>";
-        $xml_lines[] = "<contentQuality>HD</contentQuality>";
-        $xml_lines[] = "<media>";
-        $xml_lines[] = "<streamFormat>{$s['videourlExt']}</streamFormat>";
-        $xml_lines[] = "<streamQuality>HD</streamQuality>";
-        $xml_lines[] = "<streamBitrate>1500</streamBitrate>";
-        $xml_lines[] = "<streamUrl>{$s['videourl']}</streamUrl>";
-        $xml_lines[] = "<audioUrl>{$s['audiourl']}</audioUrl>";
-        $xml_lines[] = "</media>";
-        $xml_lines[] = "<synopsis>";
-        $xml_lines[] = "<![CDATA[{$s['preview']}]]>";
-        $xml_lines[] = "</synopsis>";
-        $xml_lines[] = "<genres>Clip</genres>";
-        $xml_lines[] = "</item>";
+        $xml[] = "\t<item sdImg=\"{$s['imageurl']}\" hdImg=\"{$s['imageurl']}\">";
+        $xml[] = "\t\t<title>{$s['title']}</title>";
+        $xml[] = "\t\t<releaseDate>{$s['date']}</releaseDate>";
+        $xml[] = "\t\t<contentId>{$s['id']}</contentId>";
+        $xml[] = "\t\t<contentType>Talk</contentType>";
+        $xml[] = "\t\t<contentQuality>HD</contentQuality>";
+        $xml[] = "\t\t<media>";
+        $xml[] = "\t\t\t<streamFormat>{$s['videourlExt']}</streamFormat>";
+        $xml[] = "\t\t\t<streamQuality>HD</streamQuality>";
+        $xml[] = "\t\t\t<streamBitrate>1500</streamBitrate>";
+        $xml[] = "\t\t\t<streamUrl>{$s['videourl']}</streamUrl>";
+        $xml[] = "\t\t\t<audioUrl>{$s['audiourl']}</audioUrl>";
+        $xml[] = "\t\t</media>";
+        $xml[] = "\t\t<synopsis>";
+        $xml[] = "\t\t<![CDATA[{$s['preview']}]]>";
+        $xml[] = "\t\t</synopsis>";
+        $xml[] = "\t\t<genres>Clip</genres>";
+        $xml[] = "\t</item>";
     }
-    $xml_lines[] = "</feed>";
+
+    $xml[] = "</feed>";
 
     // Print feed
-    echo implode("\n", $xml_lines);
+    header('Content-type: text/xml');
+    echo implode("\n", $xml);

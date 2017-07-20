@@ -57,6 +57,12 @@
     line-height: 1.1;
   }
   
+  a {
+    color: black;
+    text-decoration: none;
+    cursor: text;
+    pointer-events: none;
+}
   </style>
 </head>
 <body>
@@ -67,6 +73,7 @@
       "numberOfMonths:12",
       "recurring:yes",
       "eventTitles:inDay",
+      "event_title_show_time:yes",
       "enablepast:yes",
       "nextPrev:&raquo;,&laquo;",
       "headingletters:4"  

@@ -24,6 +24,15 @@ Events
 
 *json\_events\_custom.php*
 
+Blogs
+------
+
+*json_blog.php*
+
+Supports all getContent parameters via query string for the `show_postlist` api results.
+
+the name of the blog slug must be included in the query string for any results to be returned.
+
 
 Questions?
 ----------

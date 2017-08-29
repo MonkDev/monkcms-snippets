@@ -34,6 +34,7 @@ class SpanishTranslator
         'submit'     => 'enviar',
 
         // Sorting
+        'all'        => 'todos',
         'sort'       => 'ordenar',
         'preacher'   => 'predicador',
         'speaker'    => 'orador',

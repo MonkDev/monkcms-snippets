@@ -70,7 +70,8 @@ for($i=1; $i<=$batch_count; $i++){
 				'howmany' => $this_howmany,
 				'offset' => $this_offset,
 				'find_booklist' => 'all', //books
-				'name' => 'all' // blogs
+				'name' => 'all', // blogs
+                'enablepast' => 'yes' // events
 			),
 			'tags' => $module_tags
 	));

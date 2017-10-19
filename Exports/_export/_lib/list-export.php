@@ -68,6 +68,7 @@ for($i=1; $i<=$batch_count; $i++){
 			'params' => array(
 				$filter[0] => $filter[1],
 				'howmany' => $this_howmany,
+                 		'enablepast' => 'yes', // events
 				'offset' => $this_offset,
 				'find_booklist' => 'all', //books
 				'name' => 'all' // blogs

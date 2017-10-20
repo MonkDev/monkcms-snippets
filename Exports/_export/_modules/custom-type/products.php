@@ -4,15 +4,17 @@
 
 	OUTPUT PRODUCTS AS CSV
 
-	How to use:
-	Upload this file to your site root, and use this URL to download a CSV:
-	http://www.site.com/export-products.php
-
 	*/
 
 	require('../../_inc/config.php');
 
 	set_time_limit(0);
+
+    // Header
+	header("Content-type: text/csv");
+	header("Content-Disposition: attachment; filename=" . $filename . ".csv");
+	header("Pragma: no-cache");
+	header("Expires: 0");
 	
 	// Functions
 	function processItem($in)
@@ -27,12 +29,6 @@
 
 	$filename = getSiteId() . '_' . 'products' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
 	$howmany = 10000; // Set to number of products in the module
-
-	// Header
-	header("Content-type: text/csv");
-	header("Content-Disposition: attachment; filename=" . $filename . ".csv");
-	header("Pragma: no-cache");
-	header("Expires: 0");
 
 	// Headers
 	$headers = '';

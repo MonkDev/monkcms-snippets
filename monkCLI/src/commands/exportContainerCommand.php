@@ -33,16 +33,19 @@ class exportContainerCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
 
-        $savePath = 'files/';
+        
         $containerName = $input->getArgument('containerName');
-
+        
+        mkdir($containerName);
+        $savePath = "{$containerName}/";
+        
         $this->message('<info>Starting...</info>', $output);
 
         $client = $this->startRackspaceConnection();
         $container = $this->downloadMedia($client, $containerName, $savePath, $output);
         $archiveName = $this->generateArchive($containerName, $output);
         //   @todo Fix the file upload feature
-         $this->uploadArchive($container, $archiveName, $output);
+        //  $this->uploadArchive($container, $archiveName, $output);
 
         $this->message('Operation Complete.  You may close this window.', $output, true);
     }
@@ -84,7 +87,7 @@ class exportContainerCommand extends Command
         $progress = new ProgressBar($output, $numberOfFiles);
         $progress->start();
         ini_set('memory_limit', -1);
-
+        
         while ($object = $files->Next()) {
             $cloudFile_name = $object->getName();
             $fileArr = explode('/', $cloudFile_name);

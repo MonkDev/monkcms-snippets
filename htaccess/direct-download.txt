@@ -1,4 +1,0 @@
-<FilesMatch "my-soul-sings-out\.mp3$">
-  ForceType application/octet-stream
-  Header set Content-Disposition attachment
-</FilesMatch>

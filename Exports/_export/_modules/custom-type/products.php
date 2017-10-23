@@ -10,6 +10,8 @@
 
 	set_time_limit(0);
 
+    $filename = getSiteId() . '_' . 'products' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
+
     // Header
 	header("Content-type: text/csv");
 	header("Content-Disposition: attachment; filename=" . $filename . ".csv");
@@ -27,7 +29,6 @@
 		return $out;
 	}
 
-	$filename = getSiteId() . '_' . 'products' . 'Export' . date('M') . '_' . date('d') . '_' . date('Y');
 	$howmany = 10000; // Set to number of products in the module
 
 	// Headers

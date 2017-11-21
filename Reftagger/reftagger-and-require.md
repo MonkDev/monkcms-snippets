@@ -7,7 +7,7 @@ _We are bascially re-creating the reftagger implemenation since our old implemen
 <script>
 function runReftagger() {
     window.refTagger = {
-	settings: { bibleVersion: "NIV", noSearchTagNames: ["h1","h2","h3"] }
+	settings: { bibleVersion: "NIV", noSearchTagNames: ["h1","h2","h3"], tagChapters: true }
     };
     (function(d, t) {
 	var g = d.createElement(t),

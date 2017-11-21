@@ -5,7 +5,8 @@
 <script>
   var refTagger = {
     settings: {
-      bibleVersion: "ESV"
+      bibleVersion: "ESV",
+      tagChapters: true
     }
   };
   (function(d, t) {

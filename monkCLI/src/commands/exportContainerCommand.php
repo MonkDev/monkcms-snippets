@@ -12,16 +12,19 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use ZipArchive;
+use monk\commands\monkCommand;
 
-class exportContainerCommand extends Command
+class exportContainerCommand extends monkCommand
 {
-
     public function configure()
     {
         $this->setName('exportContainer')
             ->setDescription('Prepare an archive of a clients CloudFiles.')
-            ->addArgument('containerName', InputArgument::REQUIRED,
-                'The name of the rackspace container you are trying to export');
+            ->addArgument(
+                'containerName',
+                InputArgument::REQUIRED,
+                'The name of the rackspace container you are trying to export'
+            );
     }
 
     /**
@@ -32,8 +35,6 @@ class exportContainerCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-
-        
         $containerName = $input->getArgument('containerName');
         
         mkdir($containerName);
@@ -49,24 +50,7 @@ class exportContainerCommand extends Command
 
         $this->message('Operation Complete.  You may close this window.', $output, true);
     }
-
-    private function message($string, OutputInterface $output, $addLineOnTop = false)
-    {
-        if ($addLineOnTop) {
-            $output->writeln('');
-        }
-        $output->writeln($string);
-        $output->writeln('');
-    }
-
-    private function startRackspaceConnection()
-    {
-        return new Rackspace(Rackspace::US_IDENTITY_ENDPOINT, array(
-            'username' => getenv('RACKSPACE_USERNAME'),
-            'apiKey'   => getenv('RACKSPACE_API_KEY')
-        ));
-    }
-
+    
     private function downloadMedia($client, $containerName, $savePath, OutputInterface $output)
     {
         try {
@@ -83,7 +67,7 @@ class exportContainerCommand extends Command
 
         $files = $container->ObjectList();
         $numberOfFiles = $container->getObjectCount();
-        $this->message('Number of Files - '. $numberOfFiles .'.',$output);
+        $this->message('Number of Files - '. $numberOfFiles .'.', $output);
         $progress = new ProgressBar($output, $numberOfFiles);
         $progress->start();
         ini_set('memory_limit', -1);
@@ -94,9 +78,9 @@ class exportContainerCommand extends Command
             $saveFile_Rackspace_name = array_pop($fileArr);
             $saveFile_nameArray = explode('_', $saveFile_Rackspace_name);
             $saveFile_name = array_pop($saveFile_nameArray);
-            $this->progressOne($progress, $output);
+            $this->progressOne($progress, $output, true);
             $output->writeln('<info>Reading File - </info><comment>' . $saveFile_name . '</comment>');
-            $fileTypeArray = explode('.',$saveFile_name);
+            $fileTypeArray = explode('.', $saveFile_name);
             $fileType = array_pop($fileTypeArray);
 
             /*REMOVE THIS LINE IF YOU ONLY WANT MP3 Files
@@ -110,15 +94,19 @@ class exportContainerCommand extends Command
 
             //We only want files in the "uploaded" folder, everything else can be skipped
             if (!$fileArr) {
-              $this->message('File is not an original, skip it and move on to the next - <comment>' . $cloudFile_name . '</comment>',
-                  $output);
-              continue;
+                $this->message(
+                  'File is not an original, skip it and move on to the next - <comment>' . $cloudFile_name . '</comment>',
+                  $output
+              );
+                continue;
             }
-           if ($fileArr[0] !== 'uploaded') {
-             $this->message('File is not an original, skip it and move on to the next - <comment>' . $fileArr[0] . '</comment>',
-                 $output);
-             continue;
-           }
+            if ($fileArr[0] !== 'uploaded') {
+                $this->message(
+                 'File is not an original, skip it and move on to the next - <comment>' . $fileArr[0] . '</comment>',
+                 $output
+             );
+                continue;
+            }
 
             if (file_exists($savePath . '/' . $saveFile_name)) {
                 $this->message('<comment>The file has already been downloaded.  On to the next!</comment>', $output);
@@ -135,13 +123,15 @@ class exportContainerCommand extends Command
 
             // Try to open file stream
             if (!$fp = @fopen($savePath . $saveFile_name, "wb")) {
-                $this->message('<error>Could not open File: '. $savePath . $saveFile_name . 'for writing.</error>',$output);
+                $this->message('<error>Could not open File: '. $savePath . $saveFile_name . 'for writing.</error>', $output);
 //                throw new IOError('Could not open file: ' . $savePath . $saveFile_name . 'for writing.');
             }
             // Try to write the file to the directory
             if (fwrite($fp, $file->getContent()) === false) {
-                $this->message('<error>Cannot write to file - ' . $savePath . $saveFile_name . '). Skipping File...</error>',
-                    $output);
+                $this->message(
+                    '<error>Cannot write to file - ' . $savePath . $saveFile_name . '). Skipping File...</error>',
+                    $output
+                );
             } else {
                 // File has been saved
                 $this->message('<info>File successfully saved!</info>', $output);
@@ -152,12 +142,6 @@ class exportContainerCommand extends Command
         $this->message('<info>Finished Downloading Files.</info>', $output, true);
 
         return $container;
-    }
-
-    private function progressOne(ProgressBar $progress, OutputInterface $output)
-    {
-        $progress->advance();
-        $output->writeln('');
     }
 
     private function generateArchive($bucketName, OutputInterface $output)
@@ -194,21 +178,21 @@ class exportContainerCommand extends Command
         // Zip archive will be created only after closing object
         $zip->close();
 
-       // Delete all files from "delete list"
-       foreach ($filesToDelete as $file) {
-           unlink($file);
-       }
+        // Delete all files from "delete list"
+        foreach ($filesToDelete as $file) {
+            unlink($file);
+        }
         $this->message('<info>Archive Finished - ' . $archiveName . '</info>', $output);
 
         return $archiveName;
     }
 
-   private function uploadArchive($container, $archiveName, OutputInterface $output)
-   {
-       $this->message('<info>Uploading Archive - Please Do Not Close The Window!</info>', $output, true);
+    private function uploadArchive($container, $archiveName, OutputInterface $output)
+    {
+        $this->message('<info>Uploading Archive - Please Do Not Close The Window!</info>', $output, true);
 
-       // 4. Configure
-       $objectTransfer = $container->setupObjectTransfer(array(
+        // 4. Configure
+        $objectTransfer = $container->setupObjectTransfer(array(
            'name'        => $archiveName,
            'path'        => $archiveName,
            'metadata'    => array('Author' => 'Monk Development'),
@@ -216,19 +200,19 @@ class exportContainerCommand extends Command
            'partSize'    => 100 * Size::MB
        ));
 
-       // 5. Initiate transfer
-       $objectTransfer->upload();
+        // 5. Initiate transfer
+        $objectTransfer->upload();
 
 
-       $this->message('<info>Upload Complete', $output);
+        $this->message('<info>Upload Complete', $output);
 
 
-       $cdn = $container->getCdn();
-       $url = $cdn->getCdnSslUri() . '/' . $archiveName;
-       $this->message('<info>You can download the archive by going to the following link:</info>', $output);
-       $this->message('<comment>' . $url . '</comment>', $output);
+        $cdn = $container->getCdn();
+        $url = $cdn->getCdnSslUri() . '/' . $archiveName;
+        $this->message('<info>You can download the archive by going to the following link:</info>', $output);
+        $this->message('<comment>' . $url . '</comment>', $output);
 
 
-       return $this;
-   }
+        return $this;
+    }
 }

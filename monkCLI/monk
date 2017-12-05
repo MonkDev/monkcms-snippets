@@ -4,14 +4,16 @@
 
 use monk\commands\exportContainerCommand;
 use Symfony\Component\Console\Application;
+use monk\commands\checkContainerSizeCommand;
 
 require 'vendor/autoload.php';
 $dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
 $dotenv->required(['RACKSPACE_USERNAME','RACKSPACE_API_KEY'])->notEmpty();
 
-$app = new Application('Monk CLI', '1.0');
+$app = new Application('Monk CLI', '1.1');
 
 $app->add(new exportContainerCommand);
+$app->add(new checkContainerSizeCommand);
 
 $app->run();

@@ -1,8 +1,14 @@
 # Monk Command Line Interface
 created by Skyler Katz - skyler@monkdevelopment.com
 
-### Version 1.0
-Currently Monk CLI includes just one command `exportContainer`.  
+### Version 1.1
+Monk CLI is used to manipulate a sites Cloud Files Account  
+
+##### checkSize
+This command will check the expected file size of an export from a specified rackspace cloudfiles container.
+```
+$ php monk checkSize cloudfilescontainername
+```
 
 ##### exportContainer
 This command will export all content located in the specified rackspace cloudfiles container and put everything in a .zip

@@ -82,16 +82,25 @@ class exportContainerCommand extends monkCommand
             $output->writeln('<info>Reading File - </info><comment>' . $saveFile_name . '</comment>');
             $fileTypeArray = explode('.', $saveFile_name);
             $fileType = array_pop($fileTypeArray);
-
-            /*REMOVE THIS LINE IF YOU ONLY WANT MP3 Files
-                //We only want mp3 files, everything else can be skipped.
-                // @todo eventually make this "only mp3" an opptional parameter to the Command
-                if ($fileType !== 'mp3') {
-                    $this->message('File is not an mp3, skip it and move on to the next - <comment>'. $saveFile_name . '</comment>', $output);
-                    continue;
-                }
-            */ // REMOVE THIS LINE IF YOU ONLY WANT MP3 FILES
-
+            
+            /*REMOVE THIS LINE IF YOU ONLY WANT specific Files
+            
+            // Define different filetypes and their various extensions
+            $document = ['pdf','txt','rtf','doc','docx','odt'];
+            $image = ['jpg','jpeg','png','gif','bmp','tiff','svg'];
+            $audio = ['mp3','m4a','mpa','pcm','wav','aiff','aac','ogg','oga','wma','flac','alac'];
+            $video = ['mp4','m4p','m4v','mov','wmv','avi','flv','qt','swf','avchd','asf','webm','mpg','mp2','mpeg','mpe','mpv'];
+            $audioAndVideo = array_merge($audio, $video);
+            $imageAndAudio = array_merge($image, $audio);
+            $imageAndVideo = array_merge($image, $video);
+            
+            //We only want specific filetypes, everything else can be skipped.
+            if (!in_array($fileType, $audioAndVideo)) { // Change the second parameter in in_array to the filetype you need
+            	$this->message('File is not what we are looking for, skip it and move on to the next - <comment>'. $saveFile_name . '</comment>', $output);
+                continue;
+            }
+            // REMOVE THIS LINE IF YOU ONLY WANT specific FILES */
+            
             //We only want files in the "uploaded" folder, everything else can be skipped
             if (!$fileArr) {
                 $this->message(

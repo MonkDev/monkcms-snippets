@@ -67,12 +67,11 @@ class exportContainerCommand extends monkCommand
 
         $files = $container->ObjectList();
         $numberOfFiles = $container->getObjectCount();
+        $filesDownloaded = 0;
         $this->message('Number of Files - '. $numberOfFiles .'.', $output);
         $progress = new ProgressBar($output, $numberOfFiles);
         $progress->start();
         ini_set('memory_limit', -1);
-
-        $filesDownloaded = 0;
         
         while ($object = $files->Next()) {
             $cloudFile_name = $object->getName();

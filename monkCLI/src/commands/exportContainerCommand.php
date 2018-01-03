@@ -67,6 +67,7 @@ class exportContainerCommand extends monkCommand
 
         $files = $container->ObjectList();
         $numberOfFiles = $container->getObjectCount();
+        $filesDownloaded = 0;
         $this->message('Number of Files - '. $numberOfFiles .'.', $output);
         $progress = new ProgressBar($output, $numberOfFiles);
         $progress->start();
@@ -144,11 +145,12 @@ class exportContainerCommand extends monkCommand
             } else {
                 // File has been saved
                 $this->message('<info>File successfully saved!</info>', $output);
+                $filesDownloaded++;
             }
         }
 
         $progress->finish();
-        $this->message('<info>Finished Downloading Files.</info>', $output, true);
+        $this->message('<info>Finished Downloading ' . $filesDownloaded . ' Files.</info>', $output, true);
 
         return $container;
     }

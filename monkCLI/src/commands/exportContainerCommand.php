@@ -71,6 +71,8 @@ class exportContainerCommand extends monkCommand
         $progress = new ProgressBar($output, $numberOfFiles);
         $progress->start();
         ini_set('memory_limit', -1);
+
+        $filesDownloaded = 0;
         
         while ($object = $files->Next()) {
             $cloudFile_name = $object->getName();
@@ -144,11 +146,12 @@ class exportContainerCommand extends monkCommand
             } else {
                 // File has been saved
                 $this->message('<info>File successfully saved!</info>', $output);
+                $filesDownloaded++;
             }
         }
 
         $progress->finish();
-        $this->message('<info>Finished Downloading Files.</info>', $output, true);
+        $this->message('<info>Finished Downloading ' . $filesDownloaded . ' Files.</info>', $output, true);
 
         return $container;
     }

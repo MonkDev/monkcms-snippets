@@ -87,7 +87,7 @@ $showAlert = trim(getContent(
 	"show:__customshowalertmessage__true",
 	"noecho"
 ));
-if ($showAlert == true){
+if ($showAlert == "true"){
 	getContent(
 		"section",
 		"display:detail",

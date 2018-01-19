@@ -35,9 +35,6 @@ Add this to the end of the file:
 
 ```
 /* ALERT MESSAGE BOX */
-	body.hasAlert {
-		padding-top: 42px; /* set to the height of #alert */
-	}
 	#alert {
 	    padding: 10px;
 		text-align: center;

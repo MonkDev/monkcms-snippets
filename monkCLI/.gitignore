@@ -2,3 +2,4 @@
 /vendor
 *.zip
 composer.lock
+monkdev.*

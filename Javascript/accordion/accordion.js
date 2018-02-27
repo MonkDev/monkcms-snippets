@@ -29,6 +29,7 @@ function accordion(triggerClass, contentClass, linked) {
 			var $this = $(this);
 			var $target = $this.next('.accordionbellow');
 			var $all = $('.accordionbellow');
+			$(triggerClass).removeClass('active');
 			$(this).toggleClass('active');
 			if (!$target.hasClass('active')) {
 				if (linked) {

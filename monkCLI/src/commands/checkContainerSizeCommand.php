@@ -73,6 +73,9 @@ class checkContainerSizeCommand extends monkCommand
             $saveFile_name = array_pop($saveFile_nameArray);
             $this->progressOne($progress, $output);
             $progress->setMessage("Checking for {$saveFile_name}");
+            $fileTypeArray = explode('.', $saveFile_name);
+            $fileType = array_pop($fileTypeArray);
+
 
             //We only want files in the "uploaded" folder, everything else can be skipped
             if (!$fileArr) {
@@ -81,15 +84,66 @@ class checkContainerSizeCommand extends monkCommand
             if ($fileArr[0] !== 'uploaded') {
                 continue;
             }
+            
+            // Define different filetypes and their various extensions
+            $document = ['pdf','txt','rtf','doc','docx','odt'];
+            $image = ['jpg','jpeg','png','gif','bmp','tiff','svg'];
+            $audio = ['mp3','m4a','mpa','pcm','wav','aiff','aac','ogg','oga','wma','flac','alac'];
+            $video = ['mp4','m4p','m4v','mov','wmv','avi','flv','qt','swf','avchd','asf','webm','mpg','mp2','mpeg','mpe','mpv'];
+            $audioAndVideo = array_merge($audio, $video);
+            $imageAndAudio = array_merge($image, $audio);
+            $imageAndVideo = array_merge($image, $video);
 
-            // Get Specific File
+
+            $fileSize = $object->getContentLength();
+
+            // Get document files size total
+            if (in_array($fileType, $document)) {
+                $documentSizes[] = $fileSize;
+            }
+
+            // Get image files size total
+            if (in_array($fileType, $image)) {
+                $imageSizes[] = $fileSize;
+            }
+
+            // Get audio files size total
+            if (in_array($fileType, $audio)) {
+                $audioSizes[] = $fileSize;
+            }
+
+            // Get video files size total
+            if (in_array($fileType, $video)) {
+                $videoSizes[] = $fileSize;
+            }
+
+            // Get total file sizes
             try {
-                $file = $container->getObject($cloudFile_name);
-                $fileSize = $object->getContentLength();
                 $fileSizes[] = $fileSize;
             } catch (Exception $e) {
                 continue;
             }
+
+        }
+
+        $documentSize = $this->formatBytes(array_sum($documentSizes));
+        if ($documentSizes === 'NAN') {
+            $documentSizes = '0 MB';
+        }
+
+        $imageSize = $this->formatBytes(array_sum($imageSizes));
+        if ($imageSizes === 'NAN') {
+            $imageSizes = '0 MB';
+        }
+
+        $audioSize = $this->formatBytes(array_sum($audioSizes));
+        if ($audioSizes === 'NAN') {
+            $audioSizes = '0 MB';
+        }
+
+        $videoSize = $this->formatBytes(array_sum($videoSizes));
+        if ($videoSizes === 'NAN') {
+            $videoSizes = '0 MB';
         }
 
         $totalSize = $this->formatBytes(array_sum($fileSizes));
@@ -101,7 +155,12 @@ class checkContainerSizeCommand extends monkCommand
         $progress->finish();
 
         $output->writeln('');
-        $this->message("<info>Total file size is - {$totalSize}.</info>", $output, true);
+        $this->message("<info>
+ File size of documents - {$documentSize}.
+ File size of images - {$imageSize}.
+ File size of audio - {$audioSize}.
+ File size of video - {$videoSize}.
+ Total file size is - {$totalSize}.</info>", $output, true);
 
         return $container;
     }

@@ -155,12 +155,12 @@ class checkContainerSizeCommand extends monkCommand
         $progress->finish();
 
         $output->writeln('');
-        $this->message("<info>
- File size of documents - {$documentSize}.
- File size of images - {$imageSize}.
- File size of audio - {$audioSize}.
- File size of video - {$videoSize}.
- Total file size is - {$totalSize}.</info>", $output, true);
+        
+        $this->message("<info>File size of documents - {$documentSize}.</info>", $output);
+        $this->message("<info>File size of images - {$imageSize}.</info>", $output);
+        $this->message("<info>File size of audio - {$audioSize}.</info>", $output);
+        $this->message("<info>File size of video - {$videoSize}.</info>", $output);
+        $this->message("<info>Total file size is - {$totalSize}.</info>", $output);
 
         return $container;
     }

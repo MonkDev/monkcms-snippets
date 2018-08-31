@@ -2,6 +2,8 @@
 
 Provides `getContentArray()`, a wrapper for getContent(). Useful for requesting content from the CMS in array format.
 
+_This project is deprecated. Use the "json" option with getContent() instead._
+
 ##### Author
 Chris Ullyott <chris@monkdevelopment.com>
 

@@ -18,10 +18,20 @@ class monkCommand extends Command
 
     protected function startRackspaceConnection()
     {
-        return new Rackspace(Rackspace::US_IDENTITY_ENDPOINT, array(
-            'username' => getenv('RACKSPACE_USERNAME'),
-            'apiKey'   => getenv('RACKSPACE_API_KEY')
-        ));
+        return new Rackspace(
+            Rackspace::US_IDENTITY_ENDPOINT,
+            [
+                'username' => getenv('RACKSPACE_USERNAME'),
+                'apiKey'   => getenv('RACKSPACE_API_KEY')
+            ],
+            [
+                Rackspace::SSL_CERT_AUTHORITY => 'system',
+                Rackspace::CURL_OPTIONS => [
+                    CURLOPT_SSL_VERIFYPEER => true,
+                    CURLOPT_SSL_VERIFYHOST => 2,
+                ],
+            ]
+        );
     }
 
     protected function progressOne(ProgressBar $progress, OutputInterface $output, $addLineBreak = false)

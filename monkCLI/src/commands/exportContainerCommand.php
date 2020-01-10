@@ -37,8 +37,8 @@ class exportContainerCommand extends monkCommand
     {
         $containerName = $input->getArgument('containerName');
         
-        mkdir($containerName);
-        $savePath = "{$containerName}/";
+        mkdir("files/{$containerName}");
+        $savePath = "files/{$containerName}/";
         
         $this->message('<info>Starting...</info>', $output);
 

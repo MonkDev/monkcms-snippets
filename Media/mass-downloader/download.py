@@ -13,6 +13,8 @@ class DownloadJob(workerpool.Job):
         filename = os.path.basename(self.url)
         filename = re.sub('^(([A-Za-z]|[0-9]|_)+_)', '', filename)
         filepath = self.path + filename
+        if not os.path.isdir(self.path):
+            os.makedirs(self.path)
         if not os.path.isfile(filepath):
             save_to = filepath
             urllib.urlretrieve(self.url, save_to)

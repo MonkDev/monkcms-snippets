@@ -4,8 +4,8 @@ import re
 import urllib
 import workerpool
 
+# Job for downloading a given URL.
 class DownloadJob(workerpool.Job):
-	"Job for downloading a given URL."
 	def __init__(self, url):
 		self.path = 'files/'
 		self.url = url # The url we'll need to download when the job runs

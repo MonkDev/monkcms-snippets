@@ -24,15 +24,16 @@ def countLinesInFile(filepath):
         if (line.strip()): lines += 1
     return lines
 
-# Count the total number of files
-print 'Total files: ' + str(countLinesInFile('urls.txt'))
-
-# Initialize a pool, 5 threads in this case
+# Define vars
+file = 'urls.txt'
 pool = workerpool.WorkerPool(size=5)
+
+# Count the total number of files
+print 'Total files: ' + str(countLinesInFile(file))
 
 # Loop over urls.txt and create a job to download the URL on each line
 count = 0
-for url in open("urls.txt"):
+for url in open(file):
 	url = url.strip()
 	if url:
 		count = count + 1

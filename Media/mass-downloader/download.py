@@ -6,16 +6,16 @@ import workerpool
 
 # Job for downloading a given URL.
 class DownloadJob(workerpool.Job):
-	def __init__(self, url):
-		self.path = 'files/'
-		self.url = url
-	def run(self):
-		filename = os.path.basename(self.url)
-		filename = re.sub('^(([A-Za-z]|[0-9]|_)+_)', '', filename)
-		filepath = self.path + filename
-		if not os.path.isfile(filepath):
-			save_to = filepath
-			urllib.urlretrieve(self.url, save_to)
+    def __init__(self, url):
+        self.path = 'files/'
+        self.url = url
+    def run(self):
+        filename = os.path.basename(self.url)
+        filename = re.sub('^(([A-Za-z]|[0-9]|_)+_)', '', filename)
+        filepath = self.path + filename
+        if not os.path.isfile(filepath):
+            save_to = filepath
+            urllib.urlretrieve(self.url, save_to)
 
 # Count the number of lines in a file
 def countLinesInFile(filepath):

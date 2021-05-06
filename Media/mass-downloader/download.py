@@ -34,9 +34,9 @@ count = 0
 for url in open("urls.txt"):
 	url = url.strip()
 	if url:
-		count = count + 1  
+		count = count + 1
 		job = DownloadJob(url)
-		pool.put(job) 
+		pool.put(job)
 		filename = os.path.basename(url).strip()
 		filename = re.sub('^(([A-Za-z]|[0-9]|_)+_)', '', filename)
 		print('Downloading ' + str(count) + ' of ' + str(total) + ' ... ' + filename)

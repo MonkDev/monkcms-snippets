@@ -45,6 +45,8 @@ for url in open(file):
 		filename = re.sub('^(([A-Za-z]|[0-9]|_)+_)', '', filename)
 		print('Queued ' + str(count) + ' of ' + str(totalFiles) + ' ... ' + filename)
 
+print 'Working...'
+
 # Send shutdown jobs to all threads, and wait until all the jobs have been completed
 pool.shutdown()
 pool.wait()

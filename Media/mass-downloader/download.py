@@ -40,8 +40,7 @@ for url in open(file):
 	url = url.strip()
 	if url:
 		count += 1
-		job = DownloadJob(url)
-		pool.put(job)
+		pool.put(DownloadJob(url))
 		filename = os.path.basename(url).strip()
 		filename = re.sub('^(([A-Za-z]|[0-9]|_)+_)', '', filename)
 		print('Queued ' + str(count) + ' of ' + str(totalFiles) + ' ... ' + filename)

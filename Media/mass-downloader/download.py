@@ -17,17 +17,18 @@ class DownloadJob(workerpool.Job):
 			save_to = filepath
 			urllib.urlretrieve(self.url, save_to)
 
-# Initialize a pool, 5 threads in this case
-pool = workerpool.WorkerPool(size=5)
+# Count the number of lines in a file
+def countLinesInFile(filepath):
+    lines = 0
+    for line in open(filepath):
+        if (line.strip()): lines += 1
+    return lines
 
 # Count the total number of files
-total = 0
-for url in open("urls.txt"):
-	url = url.strip()
-	if(url):
-		total = total + 1
+print 'Total files: ' + str(countLinesInFile('urls.txt'))
 
-print 'Total files: ' + str(total)
+# Initialize a pool, 5 threads in this case
+pool = workerpool.WorkerPool(size=5)
 
 # Loop over urls.txt and create a job to download the URL on each line
 count = 0

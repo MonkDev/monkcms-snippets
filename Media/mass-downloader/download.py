@@ -31,7 +31,7 @@ file = 'urls.txt'
 totalFiles = countLinesInFile(file)
 pool = workerpool.WorkerPool(size=5)
 
-# Count the total number of files
+# Show the total number of files
 print 'Total files: ' + str(totalFiles)
 
 # Loop over urls.txt and create a job to download the URL on each line

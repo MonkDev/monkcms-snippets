@@ -8,7 +8,7 @@ import workerpool
 class DownloadJob(workerpool.Job):
 	def __init__(self, url):
 		self.path = 'files/'
-		self.url = url # The url we'll need to download when the job runs
+		self.url = url
 	def run(self):
 		filename = os.path.basename(self.url)
 		filename = re.sub('^(([A-Za-z]|[0-9]|_)+_)', '', filename)

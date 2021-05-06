@@ -26,10 +26,11 @@ def countLinesInFile(filepath):
 
 # Define vars
 file = 'urls.txt'
+totalFiles = countLinesInFile(file)
 pool = workerpool.WorkerPool(size=5)
 
 # Count the total number of files
-print 'Total files: ' + str(countLinesInFile(file))
+print 'Total files: ' + str(totalFiles)
 
 # Loop over urls.txt and create a job to download the URL on each line
 count = 0
@@ -41,7 +42,7 @@ for url in open(file):
 		pool.put(job)
 		filename = os.path.basename(url).strip()
 		filename = re.sub('^(([A-Za-z]|[0-9]|_)+_)', '', filename)
-		print('Downloading ' + str(count) + ' of ' + str(total) + ' ... ' + filename)
+		print('Downloading ' + str(count) + ' of ' + str(totalFiles) + ' ... ' + filename)
 
 # Send shutdown jobs to all threads, and wait until all the jobs have been completed
 pool.shutdown()

@@ -39,7 +39,7 @@ count = 0
 for url in open(file):
 	url = url.strip()
 	if url:
-		count = count + 1
+		count += 1
 		job = DownloadJob(url)
 		pool.put(job)
 		filename = os.path.basename(url).strip()
